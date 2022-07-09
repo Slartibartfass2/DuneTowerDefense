@@ -68,6 +68,19 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
     }
+
+    jar {
+        manifest {
+            attributes(
+                    'Main-Class': 'io.swapastack.dunetd.desktop.DesktopLauncher'
+            )
+        }
+
+        from {
+            setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+            configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+        }
+    }
 }
 
 project(":core") {
