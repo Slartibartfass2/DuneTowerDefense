@@ -68,10 +68,10 @@ public final class AssetLoader implements Disposable {
     public static final String DRAWABLE_SHAI_HULUD_NAME = "shaiHulud";
     private Drawable background;
     private Drawable selection;
-    private static final String GUARD_TOWER_TEXTURE_PATH = "guardTower.png";
-    private static final String BOMB_TOWER_TEXTURE_PATH = "bombTower.png";
-    private static final String SOUND_TOWER_TEXTURE_PATH = "soundTower.png";
-    private static final String SHAI_HULUD_TEXTURE_PATH = "shaiHulud.png";
+    private static final String GUARD_TOWER_TEXTURE_PATH = "icons/guardTower.png";
+    private static final String BOMB_TOWER_TEXTURE_PATH = "icons/bombTower.png";
+    private static final String SOUND_TOWER_TEXTURE_PATH = "icons/soundTower.png";
+    private static final String SHAI_HULUD_TEXTURE_PATH = "icons/shaiHulud.png";
     private static final float TOWER_RESIZE_FACTOR = 0.14f;
     
     @Getter

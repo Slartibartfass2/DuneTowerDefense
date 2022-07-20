@@ -14,7 +14,7 @@ public final class DesktopLauncher {
 		config.setTitle("Dune-TD - Sopra 2021 / 2022");
 		config.useVsync(false); // first disable vsync for loading screen, later turn it on
 		config.setResizable(true);
-		config.setWindowIcon("icon.png");
+		config.setWindowIcon("icons/icon.png");
 		
 		var displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
 		config.setFullscreenMode(displayMode);
