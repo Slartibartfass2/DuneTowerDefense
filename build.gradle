@@ -20,14 +20,14 @@ allprojects {
     version = '1.0'
     ext {
         appName = "DuneTD"
-        gdxVersion = '1.10.0'
+        gdxVersion = '1.11.0'
         gdxControllersVersion = '2.1.0'
         roboVMVersion = '2.3.12'
         box2DLightsVersion = '1.5'
         ashleyVersion = '1.7.3'
         aiVersion = '1.8.2'
         // gdx gltf
-        gltfVersion = 'master-SNAPSHOT'
+        gltfVersion = '-SNAPSHOT'
         // SpaiR/imgui-java related
         lwjglVersion = '3.2.3'
         imguiVersion = '1.84.1.4'
@@ -47,7 +47,7 @@ allprojects {
 
     dependencies {
         implementation 'junit:junit:4.13.2'
-        implementation 'org.jetbrains:annotations:22.0.0'
+        implementation 'org.jetbrains:annotations:23.0.0'
     }
 }
 
