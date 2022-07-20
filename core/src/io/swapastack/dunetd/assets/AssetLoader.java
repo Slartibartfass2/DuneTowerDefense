@@ -46,14 +46,15 @@ public final class AssetLoader implements Disposable {
     // Shai hulud
     private static final String SHAI_HULUD_MODEL_PATH = "donut/donut.glb";
     
-    // Towers
+    // Towers (from kenney tower defense kit)
     private static final String TOWER_BASE_PATH = "towerSquare_bottomB.glb";
     private static final String TOWER_DEBRIS_PATH = "detail_rocks.glb";
     private static final String GUARD_TOWER_PATH = "weapon_blaster.glb";
     private static final String BOMB_TOWER_PATH = "weapon_cannon.glb";
     private static final String SOUND_TOWER_PATH = "towerRound_crystals.glb";
-    
-    // Ground tiles
+    private static final String PORTAL_PATH = "towerRound_base.glb";
+
+    // Ground tiles (from kaykit Medieval Builder Pack)
     private static final String GROUND_TILE_PATH = "square_sand_detail.gltf.glb";
     private static final String PATH_TILE_STRAIGHT_PATH = "square_sand_roadB_detail.gltf.glb";
     private static final String PATH_TILE_CURVE_PATH = "square_sand_roadC_detail.gltf.glb";
@@ -203,7 +204,7 @@ public final class AssetLoader implements Disposable {
             throw new IllegalStateException(GAME_ASSETS_NOT_LOADED_MESSAGE);
         
         return new GameModelSingle(
-                new GameModelPart(sceneAssetHashMap.get("towerRound_base.glb").scene, new Vector3(1f, 1f, 1f),
+                new GameModelPart(sceneAssetHashMap.get(PORTAL_PATH).scene, new Vector3(1f, 1f, 1f),
                         0f, portal.getGridPosition3d())
         );
     }
