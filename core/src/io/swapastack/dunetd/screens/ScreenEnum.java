@@ -7,5 +7,6 @@ public enum ScreenEnum {
     LOAD_GAME,
     GAME,
     SETTINGS,
-    HIGHSCORE
+    HIGHSCORE,
+    CREDITS
 }

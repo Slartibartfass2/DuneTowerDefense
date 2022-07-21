@@ -159,7 +159,11 @@ public final class MainMenuScreen extends AbstractScreen {
         // Button to switch to HighscoreScreen
 //        var showHighscoresButton = new VisTextButton("Highscores");
 //        showHighscoresButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.HIGHSCORE));
-    
+
+        // Button to switch to CreditsScreen
+        var showCreditsButton = new VisTextButton("Credits");
+        showCreditsButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.CREDITS));
+
         // Button to exit game
         var exitButton = new VisTextButton("Leave game");
         exitButton.addListener(new ClickInputListener(() -> Gdx.app.exit()));
@@ -168,6 +172,7 @@ public final class MainMenuScreen extends AbstractScreen {
 //        table.add(loadGameMenuButton).padBottom(10).row();
         table.add(showSettingsButton).padBottom(10).row();
 //        table.add(showHighscoresButton).padBottom(10).row();
+        table.add(showCreditsButton).padBottom(10).row();
         table.add(exitButton);
     }
 }

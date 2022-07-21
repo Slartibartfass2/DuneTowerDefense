@@ -63,6 +63,7 @@ public final class DuneTD extends Game {
             case GAME -> setScreen(new GameScreen(this));
             case SETTINGS -> setScreen(new SettingsScreen(this));
             case HIGHSCORE -> setScreen(new HighscoreScreen(this));
+            case CREDITS -> setScreen(new CreditsScreen(this));
         }
     }
     
