@@ -224,7 +224,7 @@ public class HostileUnitTest {
     public HostileUnit getRandomHostileUnit() {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
-        float speed = new Random().nextFloat();
+        var speed = new Random().nextFloat();
         int health = new Random().nextInt();
         return getNewHostileUnit(new Vector2(x, y), speed, health);
     }
@@ -234,7 +234,7 @@ public class HostileUnitTest {
         return Path.calculatePath(grid, startPosition, new Vector2(width - 1, height - 1));
     }
 
-    public Entity[][] getEntityGrid(int width, int height, Vector2...towerPositions) {
+    public Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
             int x = (int) towerPosition.x;

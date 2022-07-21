@@ -12,18 +12,19 @@ import lombok.NonNull;
 
 @SuppressWarnings("squid:S110")
 public class GameEndWindow extends VisWindow {
+
     public GameEndWindow(@NonNull String title, @NonNull AbstractScreen screen, @NonNull Statistics statistics) {
         super(title + " - highscore:", true);
-    
+
         var scrollPane = new VisScrollPane(statistics.getStatisticsTable());
         scrollPane.setFlickScroll(false);
         scrollPane.setFadeScrollBars(false);
         add(scrollPane).spaceTop(8).growX().row();
-        
+
         var menuButton = new VisTextButton("Return back to main menu");
         menuButton.addListener(new ClickInputListener(() -> screen.getGame().changeScreen(ScreenEnum.MENU)));
         add(menuButton);
-        
+
         setSize(PixelsConverter.getX(0.5f), PixelsConverter.getY(0.9f));
         centerWindow();
     }

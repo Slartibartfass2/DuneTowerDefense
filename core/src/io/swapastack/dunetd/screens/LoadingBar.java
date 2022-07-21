@@ -9,6 +9,7 @@ import lombok.NonNull;
 /**
  * Source:
  * <a href="https://github.com/Matsemann/libgdx-loading-screen/blob/libgdx-1.9.9-LaurenceWarne/core/src/com/matsemann/libgdxloadingscreen/LoadingBar.java">https://github.com/Matsemann/libgdx-loading-screen/blob/libgdx-1.9.9-LaurenceWarne/core/src/com/matsemann/libgdxloadingscreen/LoadingBar.java</a>
+ *
  * @author Mats Svensson & Laurence Warne
  */
 public class LoadingBar extends Actor {
@@ -17,11 +18,11 @@ public class LoadingBar extends Actor {
     private TextureRegion reg;
     private float stateTime;
 
-    public LoadingBar (@NonNull Animation<? extends TextureRegion> animation) {
+    public LoadingBar(@NonNull Animation<? extends TextureRegion> animation) {
         this.animation = animation;
         reg = animation.getKeyFrame(0);
     }
-    
+
     /**
      * Updates the state of the LoadingBar.
      *
@@ -32,7 +33,7 @@ public class LoadingBar extends Actor {
         stateTime += delta;
         reg = animation.getKeyFrame(stateTime);
     }
-    
+
     /**
      * Draws the LoadingBar with the specified batch.
      *

@@ -2,38 +2,38 @@ package io.swapastack.dunetd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 import lombok.NonNull;
 
 public final class HighscoreScreen extends AbstractScreen {
-    
+
     public HighscoreScreen(@NonNull DuneTD game) {
         super(game);
     }
-    
+
     /**
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
     @Override
     public void show() {
-        Table table = new Table();
+        var table = new VisTable(true);
         table.setFillParent(true);
-    
-        VisTextButton backToMainMenuButton = new VisTextButton("Back");
-    
+
+        var backToMainMenuButton = new VisTextButton("Back");
+
         table.add(backToMainMenuButton);
-    
+
         stage.addActor(table);
-    
+
         Gdx.input.setInputProcessor(stage);
-    
+
         // Add Listeners
         backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
     }
-    
+
     /**
      * Called when the screen should render itself.
      *

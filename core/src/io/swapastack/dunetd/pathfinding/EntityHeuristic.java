@@ -9,7 +9,7 @@ import lombok.NonNull;
  * Inspired by <a href="https://happycoding.io/tutorials/libgdx/pathfinding">https://happycoding.io/tutorials/libgdx/pathfinding</a>
  */
 public final class EntityHeuristic implements Heuristic<EntityNode> {
-    
+
     /**
      * Calculates an estimated cost to reach the goal node from the given node.
      *
@@ -20,6 +20,6 @@ public final class EntityHeuristic implements Heuristic<EntityNode> {
     @Override
     public float estimate(@NonNull EntityNode node, @NonNull EntityNode endNode) {
         // Heuristic value is squared distance between nodes
-        return Vector2.dst2(node.getX(),node.getY(), endNode.getX(), endNode.getY());
+        return Vector2.dst2(node.getX(), node.getY(), endNode.getX(), endNode.getY());
     }
 }

@@ -10,14 +10,20 @@ import lombok.NonNull;
  * It is a fast but weak ground unit.
  */
 public final class Infantry extends HostileUnit {
-    
-    /** @see HostileUnit#speed */
+
+    /**
+     * @see HostileUnit#speed
+     */
     private static final float INFANTRY_SPEED = Configuration.getInstance().getFloatProperty("INFANTRY_SPEED");
-    
-    /** @see HostileUnit#health */
+
+    /**
+     * @see HostileUnit#health
+     */
     private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("INFANTRY_INITIAL_HEALTH");
-    
-    /** @see HostileUnit#getSpiceReward() */
+
+    /**
+     * @see HostileUnit#getSpiceReward()
+     */
     private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance().getIntProperty("INFANTRY_SPICE_REWARD");
 
     /**
@@ -32,18 +38,18 @@ public final class Infantry extends HostileUnit {
     /**
      * Creates a new infantry with a specified position.
      *
-     * @param position Position of this infantry
+     * @param position              Position of this infantry
      * @param hostileUnitController Controller for hostile units
      */
     public Infantry(@NonNull Vector2 position, @NonNull HostileUnitController hostileUnitController) {
         super(position, INFANTRY_SPEED, INFANTRY_INITIAL_HEALTH, hostileUnitController);
     }
-    
+
     /**
      * Slows down the infantry by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>. The effect
      * lasts as long as the specified <code>slowingEffectDurationInMs</code>.
      *
-     * @param slowingEffectMultiplier Value to multiply with speed to set the new speed
+     * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
      * @param slowingEffectDurationInMs Duration of slowing effect.
      */
     @Override
@@ -51,7 +57,7 @@ public final class Infantry extends HostileUnit {
         currentSpeed = speed * slowingEffectMultiplier;
         this.slowingEffectDurationInMs = slowingEffectDurationInMs;
     }
-    
+
     /**
      * @return Spice reward for killing the infantry
      */

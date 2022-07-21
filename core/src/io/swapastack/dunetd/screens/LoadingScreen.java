@@ -15,6 +15,7 @@ import lombok.NonNull;
 /**
  * Source:
  * <a href="https://github.com/Matsemann/libgdx-loading-screen/blob/libgdx-1.9.9-LaurenceWarne/core/src/com/matsemann/libgdxloadingscreen/screen/LoadingScreen.java">https://github.com/Matsemann/libgdx-loading-screen/blob/libgdx-1.9.9-LaurenceWarne/core/src/com/matsemann/libgdxloadingscreen/screen/LoadingScreen.java</a>
+ *
  * @author Mats Svensson & Laurence Warne
  */
 public final class LoadingScreen extends AbstractScreen {
@@ -30,7 +31,7 @@ public final class LoadingScreen extends AbstractScreen {
     private float percent;
 
     private Actor loadingBar;
-    
+
     private final AssetManager assetManager;
 
     public LoadingScreen(@NonNull DuneTD game) {
@@ -48,7 +49,7 @@ public final class LoadingScreen extends AbstractScreen {
         assetManager.finishLoading();
 
         // Get the texture atlas from the manager
-        TextureAtlas atlas = assetManager.get("loading_screen/loading.pack", TextureAtlas.class);
+        var atlas = assetManager.get("loading_screen/loading.pack", TextureAtlas.class);
 
         // Grab the regions from the atlas and create some images
         logo = new Image(atlas.findRegion("libgdx-logo"));
@@ -58,7 +59,7 @@ public final class LoadingScreen extends AbstractScreen {
         loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
 
         // Add the loading bar animation
-        Animation<TextureRegion> anim = new Animation<>(0.05f, atlas.findRegions("loading-bar-anim"));
+        var anim = new Animation<TextureRegion>(0.05f, atlas.findRegions("loading-bar-anim"));
         anim.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
         loadingBar = new LoadingBar(anim);
 
@@ -69,7 +70,7 @@ public final class LoadingScreen extends AbstractScreen {
         stage.addActor(loadingBarHidden);
         stage.addActor(loadingFrame);
         stage.addActor(logo);
-        
+
         // Load all game assets
         game.getAssetLoader().loadGameAssets();
     }
@@ -90,7 +91,7 @@ public final class LoadingScreen extends AbstractScreen {
             game.getAssetLoader().createSceneAssets();
             // Turn VSync on now that all assets are loaded
             Gdx.graphics.setVSync(settings.getVSync());
-                
+
             // Change to MainMenuScreen
             game.changeScreen(ScreenEnum.MENU);
         }
@@ -108,18 +109,18 @@ public final class LoadingScreen extends AbstractScreen {
         stage.act();
         stage.draw();
     }
-    
+
     /**
      * Called when the {@link DuneTD} is resized. This can happen at any point during a non-paused state but will never
      * happen before a call to {@link DuneTD#create()}.
      *
-     * @param width the new width in pixels
+     * @param width  the new width in pixels
      * @param height the new height in pixels
      */
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        
+
         // Make the background fill the screen
         screenBg.setSize(stage.getWidth(), stage.getHeight());
 
@@ -147,7 +148,7 @@ public final class LoadingScreen extends AbstractScreen {
         loadingBg.setX(loadingBarHidden.getX() + 30);
         loadingBg.setY(loadingBarHidden.getY() + 3);
     }
-    
+
     /**
      * Called when this screen should release all resources.
      */

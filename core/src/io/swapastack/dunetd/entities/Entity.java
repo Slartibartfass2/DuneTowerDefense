@@ -21,21 +21,20 @@ import static io.swapastack.dunetd.game.EntityController.CREATE_EVENT_NAME;
  * An entity consists of a position.
  */
 public abstract class Entity {
-    
-    /** Unique identifier for storing this tower in a map */
+
+    /**
+     * Unique identifier for storing this tower in a map
+     */
     private final UUID uuid;
-    
-    /** X coordinate of position */
     @Getter
     protected int x;
-    
-    /** Y coordinate of position */
     @Getter
     protected int y;
-    
-    /** Property change support to update game model of this entity */
+    /**
+     * Property change support to update game model of this entity
+     */
     protected final PropertyChangeSupport support;
-    
+
     /**
      * Creates a new entity with a specified position.
      *
@@ -48,7 +47,7 @@ public abstract class Entity {
         this.y = y;
         support = null;
     }
-    
+
     /**
      * Creates a new entity with a specified position.
      *
@@ -62,13 +61,12 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         support = new PropertyChangeSupport(this);
-        
+
         // Add entity controller as observer and call create event
         support.addPropertyChangeListener(entityController);
-        support.firePropertyChange(CREATE_EVENT_NAME, null,
-                new GameModelData(startRotation, new Vector2(x, y)));
+        support.firePropertyChange(CREATE_EVENT_NAME, null, new GameModelData(startRotation, new Vector2(x, y)));
     }
-    
+
     /**
      * Returns the entities position as <code>Vector3</code> object with the coordinates (x, 0, y).
      *
@@ -78,7 +76,7 @@ public abstract class Entity {
     public final Vector3 getGridPosition3d() {
         return new Vector3(x, 0f, y);
     }
-    
+
     /**
      * Returns the entities position as <code>Vector2</code> object with the coordinates (x, y).
      *
@@ -88,7 +86,7 @@ public abstract class Entity {
     public final Vector2 getGridPosition2d() {
         return new Vector2(x, y);
     }
-    
+
     /**
      * @param o The reference object with which to compare.
      * @return True if this object is the same as the obj argument; false otherwise.
@@ -96,11 +94,15 @@ public abstract class Entity {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == this) return true;
-        else if (!(o instanceof Entity other)) return false;
-        else return Objects.equals(this.uuid, other.uuid);
+        if (o == this) {
+            return true;
+        } else if (!(o instanceof Entity other)) {
+            return false;
+        } else {
+            return Objects.equals(this.uuid, other.uuid);
+        }
     }
-    
+
     /**
      * @return A hash code value for this object.
      * @see Object#hashCode()

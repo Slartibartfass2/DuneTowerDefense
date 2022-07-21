@@ -26,26 +26,26 @@ import lombok.NonNull;
  * Multiple buttons for interaction with the app.
  */
 public final class MainMenuScreen extends AbstractScreen {
-    
+
     private static final float VOLUME_MULTIPLIER = 0.6f;
-    
+
     private final FreeTypeFontGenerator bitmapFontGenerator;
     private final Music backgroundMusic;
-    
+
     public MainMenuScreen(@NonNull DuneTD game) {
         super(game);
-        
+
         var table = new VisTable(true);
         table.setFillParent(true);
         var stack = new Stack();
-        
+
         // Adding Image to the stack
         var backgroundImage = new Image(game.getAssetLoader().getMainMenuBackgroundImage());
         backgroundImage.setScaling(Scaling.fill);
         stack.add(backgroundImage);
-    
+
         var menuTable = new VisTable(true);
-        
+
         // Create string for BitmapFont and Label creation
         var duneTD = "Dune TD";
 
@@ -79,26 +79,26 @@ public final class MainMenuScreen extends AbstractScreen {
         duneTDLabel.setPosition(Gdx.graphics.getWidth() / 2f - duneTDLabel.getWidth() / 2f,
                 Gdx.graphics.getHeight() / 2f - duneTDLabel.getHeight() / 2f + 230
         );
-        
+
         // Add main menu title string Label to Stage
         menuTable.addActor(duneTDLabel);
-        
+
         createMenuButtons(menuTable);
-    
+
         stack.add(menuTable);
         table.add(stack);
         stage.addActor(table);
 
         // Load background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("piano/piano_loop.wav"));
-        float masterVolume = settings.getMasterVolume();
+        var masterVolume = settings.getMasterVolume();
         if (masterVolume > 0) {
             backgroundMusic.setVolume(masterVolume * VOLUME_MULTIPLIER);
             backgroundMusic.setLooping(true);
             backgroundMusic.play();
         }
     }
-    
+
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
      */
@@ -117,7 +117,6 @@ public final class MainMenuScreen extends AbstractScreen {
         // clear the client area (Screen) with the clear color (black)
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        
         stage.act(delta);
         stage.draw();
     }
@@ -139,7 +138,7 @@ public final class MainMenuScreen extends AbstractScreen {
         backgroundMusic.dispose();
         bitmapFontGenerator.dispose();
     }
-    
+
     /**
      * Creates Menu Buttons and adds InputListeners
      */
@@ -147,15 +146,15 @@ public final class MainMenuScreen extends AbstractScreen {
         // Button to switch to NewGameScreen
         var showNewGameConfigButton = new VisTextButton("New game");
         showNewGameConfigButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.NEW_GAME));
-        
+
         // Button to switch to LoadGameScreen
 //        var loadGameMenuButton = new VisTextButton("Load game");
 //        loadGameMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.LOAD_GAME));
-        
+
         // Button to switch to SettingsScreen
         var showSettingsButton = new VisTextButton("Settings");
         showSettingsButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.SETTINGS));
-        
+
         // Button to switch to HighscoreScreen
 //        var showHighscoresButton = new VisTextButton("Highscores");
 //        showHighscoresButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.HIGHSCORE));
@@ -167,7 +166,7 @@ public final class MainMenuScreen extends AbstractScreen {
         // Button to exit game
         var exitButton = new VisTextButton("Leave game");
         exitButton.addListener(new ClickInputListener(() -> Gdx.app.exit()));
-    
+
         table.add(showNewGameConfigButton).padBottom(10).row();
 //        table.add(loadGameMenuButton).padBottom(10).row();
         table.add(showSettingsButton).padBottom(10).row();

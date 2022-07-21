@@ -36,7 +36,7 @@ public class InfantryTest {
     public void testSlowDown() {
         for (int i = 1; i < 10; i++) {
             var infantry = new Infantry(Vector2.Zero);
-            float slowingEffectMultiplier = 0.1f * i;
+            var slowingEffectMultiplier = 0.1f * i;
             infantry.slowDown(slowingEffectMultiplier, 100);
             assertEquals(infantry.speed * slowingEffectMultiplier, infantry.currentSpeed, 0f);
             assertTrue(infantry.speed >= infantry.currentSpeed);

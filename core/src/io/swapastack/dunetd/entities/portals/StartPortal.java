@@ -7,7 +7,7 @@ import lombok.NonNull;
  * A start portal representing a part of the game grid.
  */
 public final class StartPortal extends Portal {
-    
+
     /**
      * Creates a new start portal with a specified position.
      *
@@ -17,7 +17,7 @@ public final class StartPortal extends Portal {
     public StartPortal(int x, int y) {
         super(x, y);
     }
-    
+
     /**
      * Creates a new start portal with a specified position.
      *

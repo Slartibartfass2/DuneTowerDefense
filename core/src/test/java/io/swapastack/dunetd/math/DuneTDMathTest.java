@@ -21,19 +21,19 @@ public class DuneTDMathTest {
 
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
-    
+
     @Test
     public void testGetAngleWithNullArguments() {
         assertThrows(IllegalArgumentException.class, () -> getAngle(null, null));
         assertThrows(IllegalArgumentException.class, () -> getAngle(Vector2.Zero, null));
         assertThrows(IllegalArgumentException.class, () -> getAngle(null, Vector2.Zero));
     }
-    
+
     @Test
     public void testGetAngleWithZeroVectors() {
         assertEquals(0f, getAngle(Vector2.Zero, Vector2.Zero), 0f);
     }
-    
+
     @Test
     public void testGetAngleWithSomeAngles() {
         assertEquals(0f, getAngle(Vector2.Zero, new Vector2(0f, 1f)), 0f);
@@ -46,38 +46,38 @@ public class DuneTDMathTest {
         assertEquals(315f, getAngle(Vector2.Zero, new Vector2(-1f, 1f)), 0f);
         assertEquals(315f, getAngle(Vector2.Zero, new Vector2(-1f, 1f)), 0f);
     }
-    
+
     @Test
     public void testSameAngleButMultipliedVectors() {
-        Vector2 from = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
-        Vector2 to = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
-        
-        float angle1 = getAngle(from.cpy(), to.cpy());
-        
-        float scalar = new Random().nextFloat();
-        
+        var from = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
+        var to = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
+
+        var angle1 = getAngle(from.cpy(), to.cpy());
+
+        var scalar = new Random().nextFloat();
+
         from.scl(scalar);
         to.scl(scalar);
-        
-        float angle2 = getAngle(from, to);
-        
+
+        var angle2 = getAngle(from, to);
+
         assertEquals(angle1, angle2, 0.001f);
     }
-    
+
     @Test
     public void testSameAngleButAddedVectors() {
-        Vector2 from = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
-        Vector2 to = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
-        
-        float angle1 = getAngle(from.cpy(), to.cpy());
-    
-        Vector2 addVector = new Vector2(new Random().nextFloat(), new Random().nextFloat());
-        
+        var from = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
+        var to = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
+
+        var angle1 = getAngle(from.cpy(), to.cpy());
+
+        var addVector = new Vector2(new Random().nextFloat(), new Random().nextFloat());
+
         from.add(addVector.cpy());
         to.add(addVector.cpy());
-        
-        float angle2 = getAngle(from, to);
-        
+
+        var angle2 = getAngle(from, to);
+
         assertEquals(angle1, angle2, 0.001f);
     }
 
@@ -152,7 +152,7 @@ public class DuneTDMathTest {
         }
     }
 
-    public Entity[][] getEntityGrid(int width, int height, Vector2...towerPositions) {
+    public Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
             int x = (int) towerPosition.x;

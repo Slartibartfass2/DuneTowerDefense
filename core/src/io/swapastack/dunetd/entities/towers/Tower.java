@@ -23,28 +23,40 @@ import static io.swapastack.dunetd.math.DuneTDMath.getAngle;
  */
 @SuppressWarnings("squid:S2160") // equals only takes uuid
 public abstract class Tower extends Entity {
-    
-    /** Range of this tower, in which it attacks hostile units */
+
+    /**
+     * Range of this tower, in which it attacks hostile units
+     */
     @Getter
     protected final float range;
-    
-    /** Range of this tower squared for faster calculation purposes */
+
+    /**
+     * Range of this tower squared for faster calculation purposes
+     */
     protected final float rangeSquared;
-    
-    /** Costs to build this tower */
+
+    /**
+     * Costs to build this tower
+     */
     @Getter
     protected final int buildCost;
-    
-    /** Time in milliseconds needed to reload */
+
+    /**
+     * Time in milliseconds needed to reload
+     */
     protected final int reloadTimeInMs;
-    
-    /** Current reload time in milliseconds */
+
+    /**
+     * Current reload time in milliseconds
+     */
     protected int currentReloadTimeInMs;
-    
-    /** True if this tower is a debris (if getting destroyed by the shai hulud) */
+
+    /**
+     * True if this tower is a debris (if getting destroyed by the shai hulud)
+     */
     @Getter
     protected boolean isDebris;
-    
+
     /**
      * Creates a new tower with a specified position, range, build cost and reload time.
      *
@@ -56,7 +68,7 @@ public abstract class Tower extends Entity {
      */
     protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMs) {
         super(x, y);
-        
+
         this.range = range;
         rangeSquared = range * range;
         this.buildCost = buildCost;
@@ -64,7 +76,7 @@ public abstract class Tower extends Entity {
         currentReloadTimeInMs = 0;
         isDebris = false;
     }
-    
+
     /**
      * Creates a new tower with a specified position, range, build cost and reload time.
      *
@@ -79,7 +91,7 @@ public abstract class Tower extends Entity {
     protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMs,
                     @NonNull EntityController entityController, float startRotation) {
         super(x, y, entityController, startRotation);
-        
+
         this.range = range;
         rangeSquared = range * range;
         this.buildCost = buildCost;
@@ -87,14 +99,16 @@ public abstract class Tower extends Entity {
         currentReloadTimeInMs = 0;
         isDebris = false;
     }
-    
+
     /**
      * Adds game model of this tower to the scene manager
      */
     public void show() {
-        if (support != null) support.firePropertyChange(SHOW_EVENT_NAME, null, null);
+        if (support != null) {
+            support.firePropertyChange(SHOW_EVENT_NAME, null, null);
+        }
     }
-    
+
     /**
      * Updates the logic of this tower (waiting for reload, attacking when reload finished, doing nothing when this
      * tower is a debris).
@@ -103,23 +117,27 @@ public abstract class Tower extends Entity {
      * @param deltaTime    The time in seconds since the last update
      */
     public final void update(@NonNull List<HostileUnit> hostileUnits, float deltaTime) {
-        if (isDebris) return;
-        
+        if (isDebris) {
+            return;
+        }
+
         // Subtract time passed from reload time
-        if (currentReloadTimeInMs > 0) currentReloadTimeInMs -= deltaTime * 1000;
-        
+        if (currentReloadTimeInMs > 0) {
+            currentReloadTimeInMs -= deltaTime * 1000;
+        }
+
         // Attack as long as current reload time is less than or equal to zero (if delta time > reload time)
-        boolean attacked = false;
+        var attacked = false;
         while (target(hostileUnits, currentReloadTimeInMs <= 0)) {
             currentReloadTimeInMs += reloadTimeInMs;
             attacked = true;
         }
-        
+
         // If the tower didn't attack anything just idle
 //        if (!attacked)
 //            idle(deltaTime);
     }
-    
+
     /**
      * Rotates to a hostile unit in range and attacks one or more hostile units in <code>hostileUnits</code> if possible
      * and allowed by <code>killOrder</code>.
@@ -129,14 +147,14 @@ public abstract class Tower extends Entity {
      * @return True if attack was successful (tower attacked at least one hostile unit)
      */
     protected abstract boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder);
-    
+
     /**
      * Randomly rotates to simulate searching for hostile units, when none are in range.
      *
      * @param deltaTime The time in seconds since the last update
      */
     protected abstract void idle(float deltaTime);
-    
+
     /**
      * Checks if there are hostile units in <code>hostileUnits</code>, which are in range of this tower and returns
      * them.
@@ -148,7 +166,7 @@ public abstract class Tower extends Entity {
     protected final ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull List<HostileUnit> hostileUnits) {
         return getHostileUnitsInRange(hostileUnits, new Vector2(x, y), rangeSquared);
     }
-    
+
     /**
      * Checks if there are hostile units in <code>hostileUnits</code>, which are in range of the specified position and
      * returns them.
@@ -162,21 +180,25 @@ public abstract class Tower extends Entity {
     protected static ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull List<HostileUnit> hostileUnits,
                                                                    @NonNull Vector2 position, float rangeSquared) {
         var hostileUnitsInRange = new ArrayList<HostileUnit>();
-        
+
         // Check if hostile unit is in range, if so add it to list
         for (var hostileUnit : hostileUnits) {
-            if (hostileUnit.isDead()) continue;
-            
+            if (hostileUnit.isDead()) {
+                continue;
+            }
+
             // Calculate distance squared
             var hostileUnitPosition = hostileUnit.getPosition();
-            float distanceSquared = position.dst2(hostileUnitPosition);
-            
-            if (distanceSquared <= rangeSquared) hostileUnitsInRange.add(hostileUnit);
+            var distanceSquared = position.dst2(hostileUnitPosition);
+
+            if (distanceSquared <= rangeSquared) {
+                hostileUnitsInRange.add(hostileUnit);
+            }
         }
-        
+
         return hostileUnitsInRange;
     }
-    
+
     /**
      * Changes position of this tower and updates its game model
      *
@@ -186,37 +208,42 @@ public abstract class Tower extends Entity {
     public final void rePosition(int x, int y) {
         this.x = x;
         this.y = y;
-        
-        if (support != null)
-            support.firePropertyChange(UPDATE_EVENT_NAME, null,
-                    new GameModelData(-1f, new Vector2(x, y)));
+
+        if (support != null) {
+            support.firePropertyChange(UPDATE_EVENT_NAME, null, new GameModelData(-1f, new Vector2(x, y)));
+        }
     }
-    
+
     /**
      * Rotates the game model of this tower to face <code>hostileUnit</code>.
      *
      * @param hostileUnit Hostile unit to rotate to
      */
     protected final void rotateToHostileUnit(@NonNull HostileUnit hostileUnit) {
-        if (support == null) return;
-        
+        if (support == null) {
+            return;
+        }
+
         float rotation = getAngle(hostileUnit.getPosition(), new Vector2(x, y));
-        support.firePropertyChange(UPDATE_EVENT_NAME, null,
-                new GameModelData(rotation, new Vector2(x, y)));
+        support.firePropertyChange(UPDATE_EVENT_NAME, null, new GameModelData(rotation, new Vector2(x, y)));
     }
-    
+
     /**
      * Turns this tower into a debris.
      */
     public final void setToDebris() {
         isDebris = true;
-        if (support != null) support.firePropertyChange(TO_DEBRIS_EVENT_NAME, null, true);
+        if (support != null) {
+            support.firePropertyChange(TO_DEBRIS_EVENT_NAME, null, true);
+        }
     }
-    
+
     /**
      * Removes game model of this tower from scene manager
      */
     public void destroy() {
-        if (support != null) support.firePropertyChange(DESTROY_EVENT_NAME, null, null);
+        if (support != null) {
+            support.firePropertyChange(DESTROY_EVENT_NAME, null, null);
+        }
     }
 }

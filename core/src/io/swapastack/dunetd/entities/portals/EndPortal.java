@@ -7,7 +7,7 @@ import lombok.NonNull;
  * An end portal representing a part of the game grid.
  */
 public final class EndPortal extends Portal {
-    
+
     /**
      * Creates a new end portal with a specified position.
      *
@@ -17,7 +17,7 @@ public final class EndPortal extends Portal {
     public EndPortal(int x, int y) {
         super(x, y);
     }
-    
+
     /**
      * Creates a new end portal with a specified position.
      *

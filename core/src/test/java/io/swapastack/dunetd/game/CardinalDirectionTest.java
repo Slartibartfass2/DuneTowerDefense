@@ -47,11 +47,8 @@ public class CardinalDirectionTest {
     @Test
     public void testGetDegrees() {
         assertEquals(0f, NORTH.getDegrees(), 0f);
-
         assertEquals(90f, EAST.getDegrees(), 0f);
-
         assertEquals(180f, SOUTH.getDegrees(), 0f);
-
         assertEquals(270f, WEST.getDegrees(), 0f);
     }
 }

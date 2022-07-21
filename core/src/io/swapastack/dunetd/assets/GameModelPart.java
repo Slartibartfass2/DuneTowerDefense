@@ -8,7 +8,7 @@ import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneModel;
 
 public final class GameModelPart {
-    
+
     @Getter
     private final Scene scene;
     @Getter
@@ -21,7 +21,7 @@ public final class GameModelPart {
     private Vector3 position;
     private final float offsetRotation;
     private final Vector3 offsetPosition;
-    
+
     public GameModelPart(@NonNull SceneModel sceneModel) {
         scene = new Scene(sceneModel);
         scale = new Vector3(1f, 1f, 1f);
@@ -29,10 +29,10 @@ public final class GameModelPart {
         position = Vector3.Zero;
         offsetRotation = 0f;
         offsetPosition = Vector3.Zero;
-        
+
         update();
     }
-    
+
     public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation, @NonNull Vector3 position) {
         scene = new Scene(sceneModel);
         this.scale = scale.cpy();
@@ -40,10 +40,10 @@ public final class GameModelPart {
         this.position = position.cpy();
         offsetRotation = 0f;
         offsetPosition = Vector3.Zero;
-        
+
         update();
     }
-    
+
     public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation, @NonNull Vector3 position,
                          float offsetRotation, @NonNull Vector3 offsetPosition) {
         scene = new Scene(sceneModel);
@@ -52,10 +52,10 @@ public final class GameModelPart {
         this.position = position.cpy();
         this.offsetRotation = offsetRotation;
         this.offsetPosition = offsetPosition.cpy();
-        
+
         update();
     }
-    
+
     /**
      * Updates the position, scale and rotation of this model.
      */
@@ -65,7 +65,7 @@ public final class GameModelPart {
                 .scale(scale.x, scale.y, scale.z)
                 .rotate(new Vector3(0f, 1f, 0f), (rotation + offsetRotation) % 360f);
     }
-    
+
     /**
      * Sets the animation of the model.
      *
@@ -76,16 +76,18 @@ public final class GameModelPart {
     public void setAnimation(@NonNull String animationName, int loopCount) {
         scene.animationController.setAnimation(animationName, loopCount);
     }
-    
+
     /**
      * Updates animation of this model.
      *
      * @param deltaTime The time in seconds since the last update
      */
     public void updateAnimation(float deltaTime) {
-        if (scene.animationController != null) scene.animationController.update(deltaTime);
+        if (scene.animationController != null) {
+            scene.animationController.update(deltaTime);
+        }
     }
-    
+
     /**
      * Sets the paused property of the animation controller to the specified boolean.
      *

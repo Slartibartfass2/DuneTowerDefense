@@ -10,14 +10,20 @@ import lombok.NonNull;
  * It is a strong but slow ground unit.
  */
 public final class BossUnit extends HostileUnit {
-    
-    /** @see HostileUnit#speed */
+
+    /**
+     * @see HostileUnit#speed
+     */
     private static final float BOSS_UNIT_SPEED = Configuration.getInstance().getFloatProperty("BOSS_UNIT_SPEED");
-    
-    /** @see HostileUnit#health */
+
+    /**
+     * @see HostileUnit#health
+     */
     private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
-    
-    /** @see HostileUnit#getSpiceReward() */
+
+    /**
+     * @see HostileUnit#getSpiceReward()
+     */
     private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance().getIntProperty("BOSS_UNIT_SPICE_REWARD");
 
     /**
@@ -32,18 +38,18 @@ public final class BossUnit extends HostileUnit {
     /**
      * Creates a new boss unit with a specified position.
      *
-     * @param position Position of this boss unit
+     * @param position              Position of this boss unit
      * @param hostileUnitController Controller for hostile units
      */
     public BossUnit(@NonNull Vector2 position, @NonNull HostileUnitController hostileUnitController) {
         super(position, BOSS_UNIT_SPEED, BOSS_UNIT_INITIAL_HEALTH, hostileUnitController);
     }
-    
+
     /**
      * Slows down the boss unit by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>.
      * The effect lasts as long as the specified <code>slowingEffectDurationInMs</code>.
      *
-     * @param slowingEffectMultiplier Value to multiply with speed to set the new speed
+     * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
      * @param slowingEffectDurationInMs Duration of slowing effect.
      */
     @Override

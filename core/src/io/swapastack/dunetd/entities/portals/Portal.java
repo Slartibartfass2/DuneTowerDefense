@@ -12,7 +12,7 @@ import static io.swapastack.dunetd.game.EntityController.SHOW_EVENT_NAME;
  * - an end portal: where hostile units disappear
  */
 public abstract class Portal extends Entity {
-    
+
     /**
      * Creates a new portal with a specified position.
      *
@@ -22,7 +22,7 @@ public abstract class Portal extends Entity {
     protected Portal(int x, int y) {
         super(x, y);
     }
-    
+
     /**
      * Creates a new entity with a specified position.
      *

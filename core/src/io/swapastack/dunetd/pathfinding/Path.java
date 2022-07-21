@@ -11,13 +11,14 @@ import org.jetbrains.annotations.Nullable;
  * Class to store and calculate paths on an entity grid. Waypoints are stored in an array. If path is blocked the
  * array will be empty.
  */
-@SuppressWarnings("ClassCanBeRecord")
 public final class Path {
-    
-    /** Waypoints which represent the path */
+
+    /**
+     * Waypoints which represent the path
+     */
     @Getter
     private final Vector2[] waypoints;
-    
+
     /**
      * Creates a new path with an array of waypoints.
      *
@@ -26,7 +27,7 @@ public final class Path {
     private Path(@NonNull Vector2[] waypoints) {
         this.waypoints = waypoints;
     }
-    
+
     /**
      * Calculates the path in the specified grid from start to end.
      *
@@ -37,23 +38,24 @@ public final class Path {
      * zero waypoints, which means that a path was found
      */
     public static @NotNull Path calculatePath(@NonNull Entity[][] grid, @NonNull Vector2 start, @NonNull Vector2 end) {
-        if (grid.length == 0 || grid[0].length == 0)
+        if (grid.length == 0 || grid[0].length == 0) {
             throw new IllegalArgumentException("grid must consist of at least one entity");
-        
+        }
+
         // Find path
         var entityGraph = new EntityGraph(grid);
         var graphPath = entityGraph.findPath(start, end);
-        
+
         // Convert path to waypoints
         var waypoints = new Vector2[graphPath.getCount()];
         for (int i = 0; i < graphPath.getCount(); i++) {
             var entityNode = graphPath.get(i);
             waypoints[i] = new Vector2(entityNode.getX(), entityNode.getY());
         }
-        
+
         return new Path(waypoints);
     }
-    
+
     /**
      * Searches for next waypoint on path after specified position.
      *
@@ -65,35 +67,38 @@ public final class Path {
         for (int i = 0; i < waypoints.length - 1; i++) {
             var firstPoint = waypoints[i];
             var secondPoint = waypoints[i + 1];
-            
+
             // Check if position is first waypoint and return the second waypoint if true
             // Otherwise check if position is second waypoint and return waypoint after that if there's one
             if (position.equals(firstPoint)) {
                 return secondPoint;
             } else if (position.equals(secondPoint)) {
-                if (i < waypoints.length - 2)
+                if (i < waypoints.length - 2) {
                     return waypoints[i + 2];  // just get 'third point' (point after secondPoint)
-                else return secondPoint; // reached end
+                } else {
+                    return secondPoint; // reached end
+                }
             }
-            
+
             if (firstPoint.x == secondPoint.x && firstPoint.x == position.x // Vertical connection
                     && isValueInBetween(firstPoint.y, secondPoint.y, position.y)) {
                 return secondPoint;
-                
+
             } else if (firstPoint.y == secondPoint.y && firstPoint.y == position.y // Horizontal connection
                     && isValueInBetween(firstPoint.x, secondPoint.x, position.x)) {
                 return secondPoint;
-                
-            } else if (firstPoint.x != secondPoint.x && firstPoint.y != secondPoint.y) // Diagonal connection
+
+            } else if (firstPoint.x != secondPoint.x && firstPoint.y != secondPoint.y) { // Diagonal connection
                 throw new IllegalStateException("Waypoints can't have a diagonal connection");
-            
+            }
+
             // The position is not on the connection between the two points -> check other connections
         }
-        
+
         // Couldn't find next waypoint -> position is not on the path
         return null;
     }
-    
+
     /**
      * Checks if testValue is in between the two limit values.
      *
@@ -105,7 +110,7 @@ public final class Path {
     private boolean isValueInBetween(float value1, float value2, float testValue) {
         return (value1 > testValue && testValue > value2) || (value1 < testValue && testValue < value2);
     }
-    
+
     /**
      * Returns true if the path is blocked.
      *
@@ -114,7 +119,7 @@ public final class Path {
     public boolean isBlocked() {
         return waypoints.length == 0;
     }
-    
+
     /**
      * Returns the amount of waypoints, start and end position excluded
      *
@@ -123,7 +128,7 @@ public final class Path {
     public int getLength() {
         return isBlocked() ? 0 : waypoints.length - 2;
     }
-    
+
     /**
      * Returns copy of waypoint at specified index.
      *
@@ -132,12 +137,13 @@ public final class Path {
      * @throws IndexOutOfBoundsException If specified index is out of bounds
      */
     public Vector2 getWaypoint(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= waypoints.length)
+        if (index < 0 || index >= waypoints.length) {
             throw new IndexOutOfBoundsException("Index " + index + " is out bounds of waypoints");
-        
+        }
+
         return waypoints[index].cpy();
     }
-    
+
     /**
      * Creates a new path with a copied array of the same waypoints. The copy will be equal to the original (original
      * .equals(copy) = true) but won't have the same reference (original != copy).
@@ -146,8 +152,9 @@ public final class Path {
      */
     public Path copy() {
         var newWaypoints = new Vector2[waypoints.length];
-        for (int i = 0; i < newWaypoints.length; i++)
+        for (int i = 0; i < newWaypoints.length; i++) {
             newWaypoints[i] = waypoints[i].cpy();
+        }
         return new Path(newWaypoints);
     }
 }

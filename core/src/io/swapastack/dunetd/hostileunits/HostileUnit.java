@@ -25,38 +25,54 @@ import static io.swapastack.dunetd.game.HostileUnitController.*;
  * A hostile unit consists of a position, speed, health, slowing effect variables and a cardinal direction.
  */
 public abstract class HostileUnit {
-    
-    /** Unique identifier for storing this hostile unit in a map */
+
+    /**
+     * Unique identifier for storing this hostile unit in a map
+     */
     private final UUID uuid;
 
-    /** Position of this hostile unit */
+    /**
+     * Position of this hostile unit
+     */
     protected Vector2 position;
 
-    /** Distance that this hostile unit can cover in one second */
+    /**
+     * Distance that this hostile unit can cover in one second
+     */
     protected final float speed;
 
-    /** Health of this hostile unit (if <= 0, the hostile unit is dead) */
+    /**
+     * Health of this hostile unit (if <= 0, the hostile unit is dead)
+     */
     @Getter
     protected int health;
 
-    /** Current speed of hostile unit (can be influenced by a sound tower) */
+    /**
+     * Current speed of hostile unit (can be influenced by a sound tower)
+     */
     protected float currentSpeed;
 
-    /** Duration how long the slowing effect will last */
+    /**
+     * Duration how long the slowing effect will last
+     */
     protected int slowingEffectDurationInMs;
 
-    /** Cardinal direction of this hostile unit */
+    /**
+     * Cardinal direction of this hostile unit
+     */
     private CardinalDirection cardinalDirection;
 
-    /** Property change support to update game model of this hostile unit */
+    /**
+     * Property change support to update game model of this hostile unit
+     */
     private final PropertyChangeSupport support;
 
     /**
      * Creates a new hostile unit with a specified position, speed and health.
      *
      * @param position Position of this hostile unit
-     * @param speed Distance that this hostile unit can cover in one second
-     * @param health Health of this hostile unit (if <= 0, the hostile unit is dead)
+     * @param speed    Distance that this hostile unit can cover in one second
+     * @param health   Health of this hostile unit (if <= 0, the hostile unit is dead)
      */
     protected HostileUnit(@NonNull Vector2 position, float speed, int health) {
         uuid = UUID.randomUUID();
@@ -72,9 +88,9 @@ public abstract class HostileUnit {
     /**
      * Creates a new hostile unit with a specified position, speed and health.
      *
-     * @param position Position of this hostile unit
-     * @param speed Distance that this hostile unit can cover in one second
-     * @param health Health of this hostile unit (if <= 0, the hostile unit is dead)
+     * @param position              Position of this hostile unit
+     * @param speed                 Distance that this hostile unit can cover in one second
+     * @param health                Health of this hostile unit (if <= 0, the hostile unit is dead)
      * @param hostileUnitController Controller for hostile units
      */
     protected HostileUnit(@NonNull Vector2 position, float speed, int health,
@@ -87,29 +103,31 @@ public abstract class HostileUnit {
         slowingEffectDurationInMs = 0;
         cardinalDirection = NORTH;
         support = new PropertyChangeSupport(this);
-        
+
         // Add hostile unit controller as observer and call create event
         support.addPropertyChangeListener(hostileUnitController);
         support.firePropertyChange(CREATE_EVENT_NAME, null,
                 new GameModelData(cardinalDirection.getDegrees(), position.cpy()));
     }
-    
+
     /**
      * Adds game model of this hostile unit to the scene manager.
      */
     public final void show() {
-        if (support != null)
+        if (support != null) {
             support.firePropertyChange(SHOW_EVENT_NAME, null, null);
+        }
     }
-    
+
     /**
-     * Moves this hostile unit on the grid along the specified path and updates its game model accordingly. Also updates the
-     * slowing effect, if there is one.
+     * Moves this hostile unit on the grid along the specified path and updates its game model accordingly. Also
+     * updates the slowing effect, if there is one.
      *
      * @param path      Path on which the hostile unit is moving
      * @param deltaTime The time in seconds since the last update
+     * @throws IllegalStateException If the hostile unit is not on the path
      */
-    public final void move(@NonNull Path path, float deltaTime) {
+    public final void move(@NonNull Path path, float deltaTime) throws IllegalStateException {
         // If hostile unit is already slowed down, decrease duration, otherwise reset speed to maximum
         if (slowingEffectDurationInMs > 0) {
             slowingEffectDurationInMs -= deltaTime * 1000;
@@ -117,20 +135,21 @@ public abstract class HostileUnit {
             slowingEffectDurationInMs = 0;
             currentSpeed = speed;
         }
-        
+
         var positionTmp = position.cpy();
-        
+
         // Distance which the hostile unit can go in this iteration
-        float maxMoveDistance = currentSpeed * deltaTime;
+        var maxMoveDistance = currentSpeed * deltaTime;
 
         // Move hostile unit as long as moveDistance > 0
         do {
             var nextWaypoint = path.getNextWaypoint(positionTmp);
 
             // If next waypoint is null, the position of the hostile unit is not on the path
-            if (nextWaypoint == null)
+            if (nextWaypoint == null) {
                 throw new IllegalStateException("Hostile unit must be on the path");
-            
+            }
+
             // If hostile unit reached the end of the path
             if (nextWaypoint.equals(positionTmp)) {
                 // Set new position and stop moving
@@ -138,45 +157,49 @@ public abstract class HostileUnit {
                 return;
             }
 
-            float distanceToNextWaypoint = positionTmp.dst(nextWaypoint);
-            
+            var distanceToNextWaypoint = positionTmp.dst(nextWaypoint);
+
             // Get normalized direction vector to set orientation of game model
             var direction = nextWaypoint.cpy().sub(positionTmp).nor();
             cardinalDirection = fromDirection(direction);
 
             // Move either to next waypoint or as long as possible
-            float moveDistance = Math.min(maxMoveDistance, distanceToNextWaypoint);
+            var moveDistance = Math.min(maxMoveDistance, distanceToNextWaypoint);
             positionTmp.add(direction.scl(moveDistance));
             maxMoveDistance -= moveDistance;
         } while (maxMoveDistance > 0f);
-        
+
         // Set new position
         position = positionTmp;
-        
+
         // Update game model if existing
         if (support != null) {
             support.firePropertyChange(UPDATE_EVENT_NAME, deltaTime,
                     new GameModelData(cardinalDirection.getDegrees(), positionTmp.cpy()));
         }
     }
-    
+
     /**
      * Decreases the <code>health</code> of this hostile unit by the specified <code>damage</code>.
      *
      * @param damage Amount of health to subtract from this hostile units <code>health</code>
+     * @throws IllegalArgumentException If the damage is less than or equal to zero
      */
-    public final void dealDamage(int damage) {
-        if (damage <= 0)
+    public final void dealDamage(int damage) throws IllegalArgumentException {
+        if (damage <= 0) {
             throw new IllegalArgumentException("Damage must be greater than zero");
-        if (isDead())
+        }
+        if (isDead()) {
             return;
-        
+        }
+
         health -= damage;
-        
-        if (health <= 0)
+
+        if (health <= 0) {
             kill();
+        }
     }
-    
+
     /**
      * Slows down this hostile unit by decreasing the speed to the value of speed * slowingEffectMultiplier. The effect
      * lasts as long as the specified slowingEffectDurationInMs.
@@ -185,17 +208,18 @@ public abstract class HostileUnit {
      * @param slowingEffectDurationInMs Duration of slowing effect.
      */
     public abstract void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs);
-    
+
     /**
      * Sets <code>health</code> of this hostile unit to zero and removes its game model.
      */
     public final void kill() {
         health = 0;
         // Remove HostileUnit from grid
-        if (support != null)
+        if (support != null) {
             support.firePropertyChange(DESTROY_EVENT_NAME, null, null);
+        }
     }
-    
+
     /**
      * Returns if this hostile unit is dead (<code>health</code> <= 0).
      *
@@ -213,14 +237,14 @@ public abstract class HostileUnit {
     public final Vector2 getPosition() {
         return position.cpy();
     }
-    
+
     /**
      * Returns the spice reward for killing this hostile unit.
      *
      * @return Spice reward for killing this hostile unit
      */
     public abstract int getSpiceReward();
-    
+
     /**
      * @param o The reference object with which to compare.
      * @return True if this object is the same as the obj argument; false otherwise.
@@ -228,14 +252,15 @@ public abstract class HostileUnit {
      */
     @Override
     public final boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        else if (!(o instanceof HostileUnit other))
+        } else if (!(o instanceof HostileUnit other)) {
             return false;
-        else
+        } else {
             return Objects.equals(this.uuid, other.uuid);
+        }
     }
-    
+
     /**
      * @return A hash code value for this object.
      * @see Object#hashCode()

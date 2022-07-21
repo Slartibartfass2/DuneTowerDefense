@@ -10,17 +10,17 @@ public enum TimeFactor {
     DOUBLE(2f),
     TRIPLE(3f),
     QUADRUPLE(4f);
-    
+
     /**
      * Factor to multiply with delta time in the render methods to speed up or slow down time
      */
     @Getter
     private final float factor;
-    
+
     TimeFactor(float factor) {
         this.factor = factor;
     }
-    
+
     public TimeFactor speedUp() {
         return switch (this) {
             case QUARTER -> THIRD;
@@ -31,7 +31,7 @@ public enum TimeFactor {
             default -> QUADRUPLE;
         };
     }
-    
+
     public TimeFactor slowDown() {
         return switch (this) {
             case QUADRUPLE -> TRIPLE;

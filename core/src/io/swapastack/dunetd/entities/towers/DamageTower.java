@@ -16,16 +16,22 @@ import static io.swapastack.dunetd.game.EntityController.UPDATE_EVENT_NAME;
  */
 @SuppressWarnings("squid:S2160") // equals only takes uuid
 public abstract class DamageTower extends Tower {
-    
-    /** Amount of health decreased when this tower attacks a hostile unit */
+
+    /**
+     * Amount of health decreased when this tower attacks a hostile unit
+     */
     protected final int damage;
-    
-    /** Rotation to rotate to while idling */
+
+    /**
+     * Rotation to rotate to while idling
+     */
     private float idleGoalRotation;
-    
-    /** Rotation speed for rotating while idling */
+
+    /**
+     * Rotation speed for rotating while idling
+     */
     private static final float IDLE_ANGULAR_VELOCITY = 20f;
-    
+
     /**
      * Creates a new damage tower with a specified position, range, build cost, damage and reload time.
      *
@@ -40,7 +46,7 @@ public abstract class DamageTower extends Tower {
         super(x, y, range, buildCost, reloadTimeInMs);
         this.damage = damage;
     }
-    
+
     /**
      * Creates a new damage tower with a specified position, range, build cost, damage and reload time.
      *
@@ -58,7 +64,7 @@ public abstract class DamageTower extends Tower {
         this.damage = damage;
         idleGoalRotation = MathUtils.random(0, 359);
     }
-    
+
     /**
      * Randomly rotates to simulate searching for hostile units, when none are in range.
      *
@@ -67,38 +73,43 @@ public abstract class DamageTower extends Tower {
     @Override
     protected void idle(float deltaTime) {
         if (support == null) return;
-        
+
         // Get rotation by calling tower controller
         var towerController = (EntityController) support.getPropertyChangeListeners()[0];
-        float rotation = towerController.getRotation(this);
-        
+        var rotation = towerController.getRotation(this);
+
         // TODO: wirkt noch bisschen seltsam, vllt mit delays dazwischen
-        
-        float rotationChange = IDLE_ANGULAR_VELOCITY * deltaTime;
-        
-        float oppositeGoal = (idleGoalRotation + 180) % 360;
-        
+
+        var rotationChange = IDLE_ANGULAR_VELOCITY * deltaTime;
+
+        var oppositeGoal = (idleGoalRotation + 180) % 360;
+
         if (oppositeGoal >= 180) {
-            if (rotation >= oppositeGoal || rotation < idleGoalRotation) rotationChange *= 1f;
-            else rotationChange *= -1f;
+            if (rotation >= oppositeGoal || rotation < idleGoalRotation) {
+                rotationChange *= 1f;
+            } else {
+                rotationChange *= -1f;
+            }
         } else {
-            if (rotation <= oppositeGoal || rotation > idleGoalRotation) rotationChange *= -1f;
-            else rotationChange *= 1f;
+            if (rotation <= oppositeGoal || rotation > idleGoalRotation) {
+                rotationChange *= -1f;
+            } else {
+                rotationChange *= 1f;
+            }
         }
-        
-        float newRotation = (rotationChange + rotation + 360) % 360;
-        
-        float difference = Math.abs(newRotation - idleGoalRotation);
-        
+
+        var newRotation = (rotationChange + rotation + 360) % 360;
+
+        var difference = Math.abs(newRotation - idleGoalRotation);
+
         if (difference <= 1f || difference >= 359f) {
             rotation = idleGoalRotation;
             idleGoalRotation = MathUtils.random(0, 359);
         } else {
             rotation = newRotation;
         }
-        
+
         // Update rotation
-        support.firePropertyChange(UPDATE_EVENT_NAME, null,
-                new GameModelData(rotation, new Vector2(x, y)));
+        support.firePropertyChange(UPDATE_EVENT_NAME, null, new GameModelData(rotation, new Vector2(x, y)));
     }
 }

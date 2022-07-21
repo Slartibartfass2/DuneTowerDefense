@@ -18,30 +18,30 @@ import static io.swapastack.dunetd.entities.towers.TowerEnum.*;
 
 @SuppressWarnings("squid:S110")
 public final class ToolBar extends VisTable {
-    
+
     // Tower constants
     private static final float GUARD_TOWER_RANGE = Configuration.getInstance().getFloatProperty("GUARD_TOWER_RANGE");
     private static final int GUARD_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("GUARD_TOWER_BUILD_COST");
     private static final int GUARD_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("GUARD_TOWER_DAMAGE");
     private static final int GUARD_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("GUARD_TOWER_RELOAD_TIME_IN_MS");
-    
+
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
     private static final int BOMB_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("BOMB_TOWER_BUILD_COST");
     private static final int BOMB_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("BOMB_TOWER_DAMAGE");
     private static final int BOMB_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MS");
-    
+
     private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
     private static final int SOUND_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("SOUND_TOWER_BUILD_COST");
     private static final int SOUND_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MS");
     private static final float SLOWING_EFFECT_MULTIPLIER = Configuration.getInstance().getFloatProperty("SOUND_TOWER_SLOWING_EFFECT_MULTIPLIER");
-    
+
     private static final float BORDER_WIDTH = 125f;
     private static final float BORDER_HEIGHT = 21.5f;
     private static final float BUTTON_PADDING_PERCENTAGE = 0.01f;
     private static final float TOOLBAR_Y_OFFSET_PERCENTAGE = 0.01f;
-    
+
     private final GameHandler gameHandler;
-    
+
     // Toolbar actors
     private final VisLabel spiceLabel;
     private final VisLabel healthLabel;
@@ -50,28 +50,28 @@ public final class ToolBar extends VisTable {
     private final TowerSelectButton soundTowerButton;
     @Getter
     private final ShaiHuludSelectButton shaiHuludButton;
-    
+
     @Getter
     private TowerEnum selectedTower;
     @Getter
     private boolean shaiHuludSelected;
     @Setter
     private boolean frozenInput;
-    
+
     public ToolBar(@NonNull GameHandler gameHandler, @NonNull Drawable background, @NonNull Drawable guardTowerDrawable,
                    @NonNull Drawable bombTowerDrawable, @NonNull Drawable soundTowerDrawable,
                    @NonNull Drawable shaiHuludDrawable) {
         this.gameHandler = gameHandler;
         selectedTower = null;
         frozenInput = false;
-        
+
         // Spice and health info
         spiceLabel = new VisLabel();
         healthLabel = new VisLabel();
         var playerInfoTable = new VisTable(true);
         playerInfoTable.add(spiceLabel).left().row();
         playerInfoTable.add(healthLabel).left();
-        
+
         // Tower selection
         guardTowerButton = new TowerSelectButton("Guard Tower", GUARD_TOWER_BUILD_COST, GUARD_TOWER_RANGE,
                 GUARD_TOWER_RELOAD_TIME_IN_MS, GUARD_TOWER_DAMAGE, guardTowerDrawable);
@@ -82,13 +82,13 @@ public final class ToolBar extends VisTable {
         soundTowerButton = new TowerSelectButton("Sound Tower", SOUND_TOWER_BUILD_COST, SOUND_TOWER_RANGE,
                 SOUND_TOWER_RELOAD_TIME_IN_MS, SLOWING_EFFECT_MULTIPLIER, soundTowerDrawable);
         soundTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(SOUND_TOWER)));
-        
+
         // Shai hulud selection
         shaiHuludButton = new ShaiHuludSelectButton(shaiHuludDrawable);
         shaiHuludButton.addListener(new ClickInputListener(this::selectShaiHulud));
-        
-        float padX = PixelsConverter.getX(BUTTON_PADDING_PERCENTAGE);
-        
+
+        var padX = PixelsConverter.getX(BUTTON_PADDING_PERCENTAGE);
+
         add(playerInfoTable).top().padRight(padX);
         add(guardTowerButton).top().padLeft(padX).padRight(padX);
         add(bombTowerButton).top().padLeft(padX).padRight(padX);
@@ -97,27 +97,29 @@ public final class ToolBar extends VisTable {
         pad(BORDER_HEIGHT, BORDER_WIDTH, BORDER_HEIGHT, BORDER_WIDTH);
         setBackground(background);
         pack();
-        
-        float yOffset = PixelsConverter.getY(TOOLBAR_Y_OFFSET_PERCENTAGE);
-        float xCenter = Gdx.graphics.getWidth() / 2f - getWidth() / 2f;
+
+        var yOffset = PixelsConverter.getY(TOOLBAR_Y_OFFSET_PERCENTAGE);
+        var xCenter = Gdx.graphics.getWidth() / 2f - getWidth() / 2f;
         setPosition(xCenter, yOffset);
     }
-    
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         spiceLabel.setText("Spice: " + gameHandler.getPlayerSpice());
         healthLabel.setText("Health: " + gameHandler.getPlayerHealth());
-        
+
         guardTowerButton.setDisabled(frozenInput);
         bombTowerButton.setDisabled(frozenInput);
         soundTowerButton.setDisabled(frozenInput);
         shaiHuludButton.setDisabled(frozenInput);
     }
-    
+
     public void setSelectedTower(TowerEnum towerEnum) {
-        if (frozenInput) return;
-        
+        if (frozenInput) {
+            return;
+        }
+
         if (selectedTower == towerEnum || towerEnum == null) {
             selectedTower = null;
             guardTowerButton.setChecked(false);
@@ -125,7 +127,7 @@ public final class ToolBar extends VisTable {
             soundTowerButton.setChecked(false);
             return;
         }
-        
+
         selectedTower = towerEnum;
         switch (towerEnum) {
             case GUARD_TOWER -> {
@@ -149,14 +151,16 @@ public final class ToolBar extends VisTable {
         }
         shaiHuludSelected = false;
     }
-    
+
     public void selectShaiHulud() {
-        if (frozenInput) return;
-        
+        if (frozenInput) {
+            return;
+        }
+
         shaiHuludSelected ^= true;
-        
+
         shaiHuludButton.setChecked(shaiHuludSelected);
-        
+
         if (shaiHuludSelected) {
             guardTowerButton.setChecked(false);
             bombTowerButton.setChecked(false);
@@ -164,7 +168,7 @@ public final class ToolBar extends VisTable {
             selectedTower = null;
         }
     }
-    
+
     public boolean isMouseOnToolBar() {
         int x = Gdx.graphics.getWidth() - Gdx.input.getX();
         int y = Gdx.graphics.getHeight() - Gdx.input.getY();

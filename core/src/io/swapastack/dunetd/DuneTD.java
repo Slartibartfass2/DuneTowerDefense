@@ -11,36 +11,36 @@ import lombok.Getter;
 import lombok.NonNull;
 
 public final class DuneTD extends Game {
-    
+
     @Getter
     private GameSettings settings;
     @Getter
     private AssetLoader assetLoader;
-    
+
     @Override
     public void create() {
         // Load settings
         settings = new GameSettings();
         assetLoader = new AssetLoader();
-        
+
         setPrimaryMonitor();
-        
+
         // First show loading screen while loading all assets
         changeScreen(ScreenEnum.LOADING_SCREEN);
     }
-    
+
     @Override
     public void dispose() {
         // If screen is not null dispose all resources from screen
         if (screen != null) screen.dispose();
-        
+
         // Free all resources allocated by the asset loader
         assetLoader.dispose();
-        
+
         // Dispose skin
         VisUI.dispose(true);
     }
-    
+
     /**
      * This function can be used to switch screens.
      *
@@ -52,8 +52,10 @@ public final class DuneTD extends Game {
         // set the screen to null
         setScreen(null);
         // If the current screen reference is not null, dispose all its resources
-        if (currentScreen != null) currentScreen.dispose();
-        
+        if (currentScreen != null) {
+            currentScreen.dispose();
+        }
+
         // Create new screen and set it as current
         switch (screen) {
             case LOADING_SCREEN -> setScreen(new LoadingScreen(this));
@@ -66,7 +68,7 @@ public final class DuneTD extends Game {
             case CREDITS -> setScreen(new CreditsScreen(this));
         }
     }
-    
+
     /**
      * Sets the primary monitor on which the game is displayed.
      */

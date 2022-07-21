@@ -11,13 +11,19 @@ import java.util.Properties;
  */
 public final class Configuration {
 
-    /** Name of configuration file in properties format */
+    /**
+     * Name of configuration file in properties format
+     */
     private static final String CONFIG_FILE_NAME = "config.properties";
 
-    /** Singleton reference (singleton pattern) */
+    /**
+     * Singleton reference (singleton pattern)
+     */
     private static Configuration singleton;
 
-    /** Properties, where all configuration values are stored */
+    /**
+     * Properties, where all configuration values are stored
+     */
     private static Properties properties;
 
     /**
@@ -26,8 +32,9 @@ public final class Configuration {
      */
     @SuppressWarnings("squid:S3010")
     private Configuration() {
-        if (properties != null)
+        if (properties != null) {
             return;
+        }
 
         // Load properties
         properties = new Properties();
@@ -44,7 +51,9 @@ public final class Configuration {
      * @return Returns configuration reference
      */
     public static Configuration getInstance() {
-        if (singleton == null) singleton = new Configuration();
+        if (singleton == null) {
+            singleton = new Configuration();
+        }
         return singleton;
     }
 
@@ -56,8 +65,10 @@ public final class Configuration {
      */
     public int getIntProperty(@NonNull String propertyName) {
         var value = properties.getProperty(propertyName);
-        if (value != null) return Integer.parseInt(value);
-        throw new IllegalArgumentException(propertyName + " not specified in the config.properties file.");
+        if (value != null) {
+            return Integer.parseInt(value);
+        }
+        throw new IllegalArgumentException("'" + propertyName + "' is not specified in the config file.");
     }
 
     /**
@@ -68,7 +79,9 @@ public final class Configuration {
      */
     public float getFloatProperty(@NonNull String propertyName) {
         var value = properties.getProperty(propertyName);
-        if (value != null) return Float.parseFloat(value);
-        throw new IllegalArgumentException(propertyName + " not specified in the config.properties file.");
+        if (value != null) {
+            return Float.parseFloat(value);
+        }
+        throw new IllegalArgumentException("'" + propertyName + "' is not specified in the config file.");
     }
 }

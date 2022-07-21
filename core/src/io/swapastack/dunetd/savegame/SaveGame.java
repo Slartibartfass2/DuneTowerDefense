@@ -8,10 +8,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public final class SaveGame {
-    
-    @Getter private final String name;
-    @Getter private final long timestamp;
-    
+
+    @Getter
+    private final String name;
+    @Getter
+    private final long timestamp;
+
     public SaveGame(@NonNull String name, long timestamp) {
         this.name = name;
         this.timestamp = timestamp;

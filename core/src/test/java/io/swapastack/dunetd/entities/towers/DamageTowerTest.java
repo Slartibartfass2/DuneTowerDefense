@@ -13,29 +13,29 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
 public class DamageTowerTest {
-    
+
     static {
         TestHelper.readConfigFile();
     }
-    
+
     @Test
     public void testConstructor1WithValidArguments() {
         assertNotNull(getNewRandomDamageTower());
     }
-    
+
     @Test
     public void testConstructor2WithInvalidArguments() {
         var random = new Random();
         int x = random.nextInt();
         int y = random.nextInt();
-        float range = random.nextFloat();
+        var range = random.nextFloat();
         int damage = random.nextInt();
         int reloadTime = random.nextInt();
         int buildCost = random.nextInt();
-        
+
         assertThrows(IllegalArgumentException.class, () -> getNewDamageTower(x, y, range, buildCost, damage, reloadTime, null));
     }
-    
+
     public DamageTower getNewRandomDamageTower() {
         return new DamageTower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(),
                 new Random().nextInt(), new Random().nextInt(), new Random().nextInt()) {
@@ -45,9 +45,9 @@ public class DamageTowerTest {
             }
         };
     }
-    
+
     public DamageTower getNewDamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMs,
-                                   EntityController entityController) {
+                                         EntityController entityController) {
         return new DamageTower(x, y, range, buildCost, damage, reloadTimeInMs, entityController) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {

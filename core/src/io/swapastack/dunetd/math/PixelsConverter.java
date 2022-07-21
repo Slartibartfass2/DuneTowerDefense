@@ -6,10 +6,11 @@ import com.badlogic.gdx.Gdx;
  * Class to calculate the amount of pixels matching the percentage of the screen dimensions.
  */
 public final class PixelsConverter {
-    
+
     private PixelsConverter() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
-    
+
     /**
      * Returns the amount of pixels matching the specified percentage of the screen width.
      *
@@ -19,7 +20,7 @@ public final class PixelsConverter {
     public static float getX(float percentage) {
         return Gdx.graphics.getWidth() * percentage;
     }
-    
+
     /**
      * Returns the amount of pixels matching the specified percentage of the screen height.
      *

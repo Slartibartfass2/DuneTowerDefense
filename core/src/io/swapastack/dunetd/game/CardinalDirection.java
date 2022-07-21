@@ -16,12 +16,9 @@ public enum CardinalDirection {
     EAST(90f, new Vector2(1f, 0f)),
     SOUTH(180f, new Vector2(0f, -1f)),
     WEST(270f, new Vector2(-1f, 0f));
-    
-    /** Angle of direction */
+
     @Getter
     private final float degrees;
-    
-    /** Direction vector of cardinal direction */
     private final Vector2 direction;
 
     CardinalDirection(float degrees, @NonNull Vector2 direction) {
@@ -34,23 +31,23 @@ public enum CardinalDirection {
      *
      * @param direction normalized direction vector, which points in one of the cardinal directions
      * @return Cardinal direction according to specified direction vector
+     * @throws IllegalStateException If the direction vector doesn't match any of the cardinal directions vectors
      */
-    public static CardinalDirection fromDirection(@NonNull Vector2 direction) {
-        if (direction.equals(NORTH.direction))
+    public static CardinalDirection fromDirection(@NonNull Vector2 direction) throws IllegalStateException {
+        if (direction.equals(NORTH.direction)) {
             return NORTH;
-        else if (direction.equals(EAST.direction))
+        } else if (direction.equals(EAST.direction)) {
             return EAST;
-        else if (direction.equals(SOUTH.direction))
+        } else if (direction.equals(SOUTH.direction)) {
             return SOUTH;
-        else if (direction.equals(WEST.direction))
+        } else if (direction.equals(WEST.direction)) {
             return WEST;
-        else
+        } else {
             throw new IllegalStateException("direction shouldn't be " + direction);
+        }
     }
 
     /**
-     * Returns copy of direction vector.
-     *
      * @return Copy of direction vector
      */
     public Vector2 getDirection() {

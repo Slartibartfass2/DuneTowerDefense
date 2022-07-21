@@ -38,9 +38,9 @@ public class HarvesterTest {
     public void testSlowDown() {
         for (int i = 1; i < 10; i++) {
             var harvester = new Harvester(Vector2.Zero);
-            float slowingEffectMultiplier = 0.1f * i;
+            var slowingEffectMultiplier = 0.1f * i;
             harvester.slowDown(slowingEffectMultiplier, 100);
-            float tmp = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
+            var tmp = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
             assertEquals(harvester.speed * tmp, harvester.currentSpeed, 0f);
             assertTrue(harvester.speed >= harvester.currentSpeed);
         }

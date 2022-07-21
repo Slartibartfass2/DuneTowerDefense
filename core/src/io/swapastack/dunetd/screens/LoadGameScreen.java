@@ -14,14 +14,14 @@ import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_BACKGROUND_NAME;
 import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_SELECTION_NAME;
 
 public final class LoadGameScreen extends AbstractScreen {
-    
+
     private SaveGame lastClickedSaveGame;
     private long lastClickTimestamp = Long.MIN_VALUE;
-    
+
     public LoadGameScreen(final DuneTD game) {
         super(game);
     }
-    
+
     /**
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
@@ -29,7 +29,7 @@ public final class LoadGameScreen extends AbstractScreen {
     public void show() {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-    
+
         // Create SampleData
         // TODO: special treatment when list is empty
         var array = new ArrayList<SaveGame>();
@@ -53,21 +53,21 @@ public final class LoadGameScreen extends AbstractScreen {
         array.add(new SaveGame("SaveGame18", 12083091));
         array.add(new SaveGame("SaveGame19", 12083091));
         array.add(new SaveGame("SaveGame20", 12083091));
-    
+
         var backgroundDrawable = game.getAssetLoader().getDrawable(DRAWABLE_BACKGROUND_NAME);
         var selectionDrawable = game.getAssetLoader().getDrawable(DRAWABLE_SELECTION_NAME);
         var adapter = new ListViewAdapter(array, backgroundDrawable, selectionDrawable);
         var saveGameList = new ListView<>(adapter);
-    
+
         saveGameList.getMainTable().setWidth(width / 4f);
         saveGameList.getMainTable().setHeight(height / 2.25f);
-        float saveGameListX = width / 2f - saveGameList.getMainTable().getWidth() / 2f;
-        float saveGameListY = height / 2f - saveGameList.getMainTable().getHeight() / 2f;
+        var saveGameListX = width / 2f - saveGameList.getMainTable().getWidth() / 2f;
+        var saveGameListY = height / 2f - saveGameList.getMainTable().getHeight() / 2f;
         saveGameList.getMainTable().setPosition(saveGameListX, saveGameListY);
         saveGameList.setItemClickListener(item -> {
-            long timeNow = System.currentTimeMillis();
-            long timePassed = timeNow - lastClickTimestamp;
-            
+            var timeNow = System.currentTimeMillis();
+            var timePassed = timeNow - lastClickTimestamp;
+
             if (item == lastClickedSaveGame && timePassed <= 500) {
                 // Load game
             } else {
@@ -76,21 +76,21 @@ public final class LoadGameScreen extends AbstractScreen {
             }
         });
         stage.addActor(saveGameList.getMainTable());
-        
+
         var backToMainMenuButton = new VisTextButton("Back");
         backToMainMenuButton.setPosition(saveGameListX, saveGameListY - backToMainMenuButton.getHeight() - 10f);
         backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
         stage.addActor(backToMainMenuButton);
-        
+
         var loadGameButton = new VisTextButton("Load game");
         loadGameButton.setPosition(saveGameListX + saveGameList.getMainTable().getWidth() - loadGameButton.getWidth(),
                 saveGameListY - loadGameButton.getHeight() - 10f);
         loadGameButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.GAME));
         stage.addActor(loadGameButton);
-        
+
         Gdx.input.setInputProcessor(stage);
     }
-    
+
     /**
      * Called when the screen should render itself.
      *

@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a selection of the towers the user can build in the game.
+ *
  * @see GuardTower
  * @see BombTower
  * @see SoundTower
@@ -14,7 +15,7 @@ public enum TowerEnum {
     GUARD_TOWER,
     BOMB_TOWER,
     SOUND_TOWER;
-    
+
     /**
      * Returns the corresponding tower enum to the specified tower.
      *
@@ -22,12 +23,18 @@ public enum TowerEnum {
      * @return Corresponding tower enum to the specified tower
      */
     public static TowerEnum fromTower(@NonNull Tower tower) {
-        if (tower instanceof GuardTower) return GUARD_TOWER;
-        if (tower instanceof BombTower) return BOMB_TOWER;
-        if (tower instanceof SoundTower) return SOUND_TOWER;
+        if (tower instanceof GuardTower) {
+            return GUARD_TOWER;
+        }
+        if (tower instanceof BombTower) {
+            return BOMB_TOWER;
+        }
+        if (tower instanceof SoundTower) {
+            return SOUND_TOWER;
+        }
         throw new IllegalStateException("Unexpected tower: " + tower);
     }
-    
+
     /**
      * Creates a tower from tower enum.
      *
@@ -40,21 +47,27 @@ public enum TowerEnum {
     public Tower toTower(int x, int y, EntityController entityController) {
         switch (this) {
             case GUARD_TOWER -> {
-                if (entityController == null) return new GuardTower(x, y);
+                if (entityController == null) {
+                    return new GuardTower(x, y);
+                }
                 return new GuardTower(x, y, entityController);
             }
             case BOMB_TOWER -> {
-                if (entityController == null) return new BombTower(x, y);
+                if (entityController == null) {
+                    return new BombTower(x, y);
+                }
                 return new BombTower(x, y, entityController);
             }
             case SOUND_TOWER -> {
-                if (entityController == null) return new SoundTower(x, y);
+                if (entityController == null) {
+                    return new SoundTower(x, y);
+                }
                 return new SoundTower(x, y, entityController);
             }
             default -> throw new IllegalStateException("Unexpected value: " + this);
         }
     }
-    
+
     /**
      * Returns next tower enum.
      *
@@ -67,7 +80,7 @@ public enum TowerEnum {
             case SOUND_TOWER -> GUARD_TOWER;
         };
     }
-    
+
     /**
      * Returns previous tower enum.
      *
