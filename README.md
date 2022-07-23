@@ -1,8 +1,13 @@
-# Dune-TD
+# Dune Tower Defense
 
-[TOC]
+## Table of Contents
+- [Requirements](#requirements)
+- [Licenses](#licenses)
 
-This is Dune-TD
+This is **Dune Tower Defense** a university project made in the winter term 2021/22.
+
+[//]: # (## About the game)
+[//]: # (//TODO)
 
 ## Requirements
 
