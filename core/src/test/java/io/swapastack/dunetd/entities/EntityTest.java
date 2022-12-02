@@ -1,15 +1,15 @@
 package io.swapastack.dunetd.entities;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EntityTest {
+class EntityTest {
 
     @Test
-    public void testValidConstructor1() {
+    void testValidConstructor1() {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 
@@ -24,7 +24,7 @@ public class EntityTest {
     }
 
     @Test
-    public void testGetGridPosition3d() {
+    void testGetGridPosition3d() {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 
@@ -38,7 +38,7 @@ public class EntityTest {
     }
 
     @Test
-    public void testGetGridPosition2d() {
+    void testGetGridPosition2d() {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 

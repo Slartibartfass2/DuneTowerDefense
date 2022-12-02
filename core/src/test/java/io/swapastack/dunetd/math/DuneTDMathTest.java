@@ -6,14 +6,14 @@ import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static io.swapastack.dunetd.math.DuneTDMath.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class DuneTDMathTest {
+class DuneTDMathTest {
 
     static {
         TestHelper.readConfigFile();
@@ -23,19 +23,19 @@ public class DuneTDMathTest {
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     @Test
-    public void testGetAngleWithNullArguments() {
+    void testGetAngleWithNullArguments() {
         assertThrows(IllegalArgumentException.class, () -> getAngle(null, null));
         assertThrows(IllegalArgumentException.class, () -> getAngle(Vector2.Zero, null));
         assertThrows(IllegalArgumentException.class, () -> getAngle(null, Vector2.Zero));
     }
 
     @Test
-    public void testGetAngleWithZeroVectors() {
+    void testGetAngleWithZeroVectors() {
         assertEquals(0f, getAngle(Vector2.Zero, Vector2.Zero), 0f);
     }
 
     @Test
-    public void testGetAngleWithSomeAngles() {
+    void testGetAngleWithSomeAngles() {
         assertEquals(0f, getAngle(Vector2.Zero, new Vector2(0f, 1f)), 0f);
         assertEquals(45f, getAngle(Vector2.Zero, new Vector2(1f, 1f)), 0f);
         assertEquals(90f, getAngle(Vector2.Zero, new Vector2(1f, 0f)), 0f);
@@ -48,7 +48,7 @@ public class DuneTDMathTest {
     }
 
     @Test
-    public void testSameAngleButMultipliedVectors() {
+    void testSameAngleButMultipliedVectors() {
         var from = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
         var to = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
 
@@ -65,7 +65,7 @@ public class DuneTDMathTest {
     }
 
     @Test
-    public void testSameAngleButAddedVectors() {
+    void testSameAngleButAddedVectors() {
         var from = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
         var to = new Vector2(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f));
 
@@ -82,7 +82,7 @@ public class DuneTDMathTest {
     }
 
     @Test
-    public void testIsPositionInsideGridWithValidArguments() {
+    void testIsPositionInsideGridWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -96,7 +96,7 @@ public class DuneTDMathTest {
     }
 
     @Test
-    public void testIsPositionInsideGridWithInvalidArguments() {
+    void testIsPositionInsideGridWithInvalidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -112,7 +112,7 @@ public class DuneTDMathTest {
     }
 
     @Test
-    public void testIsPositionAvailableWithValidArguments() {
+    void testIsPositionAvailableWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -126,7 +126,7 @@ public class DuneTDMathTest {
     }
 
     @Test
-    public void testIsPositionAvailableWithInvalidArguments() {
+    void testIsPositionAvailableWithInvalidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var towers = new Vector2[width * height];
@@ -152,7 +152,7 @@ public class DuneTDMathTest {
         }
     }
 
-    public Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
+    Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
             int x = (int) towerPosition.x;

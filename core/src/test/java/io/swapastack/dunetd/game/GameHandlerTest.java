@@ -6,13 +6,13 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.DamageTower;
 import lombok.NonNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static io.swapastack.dunetd.entities.towers.TowerEnum.GUARD_TOWER;
 import static io.swapastack.dunetd.game.GamePhase.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class GameHandlerTest {
+class GameHandlerTest {
 
     static {
         TestHelper.readConfigFile();
@@ -23,7 +23,7 @@ public class GameHandlerTest {
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance().getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
 
     @Test
-    public void testGameHandlerConstructorWithInvalidArguments() {
+    void testGameHandlerConstructorWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> new GameHandler(1, 1));
         assertThrows(IllegalArgumentException.class, () -> new GameHandler(-1, 2));
         assertThrows(IllegalArgumentException.class, () -> new GameHandler(2, -1));
@@ -40,7 +40,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testGameHandlerConstructorWithValidArguments() {
+    void testGameHandlerConstructorWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -50,7 +50,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {
+    void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -81,7 +81,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testBuildTowerWithNotEnoughSpice() throws NoSuchFieldException, IllegalAccessException {
+    void testBuildTowerWithNotEnoughSpice() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -97,7 +97,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testBuildTowerInEveryPhaseButBuildPhase() throws NoSuchFieldException, IllegalAccessException {
+    void testBuildTowerInEveryPhaseButBuildPhase() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -139,7 +139,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testBuildTowerOutsideGrid() {
+    void testBuildTowerOutsideGrid() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -155,7 +155,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testBuildTowerPathBlocking() throws NoSuchFieldException, IllegalAccessException {
+    void testBuildTowerPathBlocking() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -169,7 +169,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testTearDownTowerInEveryPhaseButBuildPhase() throws NoSuchFieldException, IllegalAccessException {
+    void testTearDownTowerInEveryPhaseButBuildPhase() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -211,7 +211,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testTearDownTowerWhenPositionIsAvailable() {
+    void testTearDownTowerWhenPositionIsAvailable() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -232,7 +232,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testTearDownTowerOutsideGrid() {
+    void testTearDownTowerOutsideGrid() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -248,7 +248,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testTearDownTowerOnPortals() {
+    void testTearDownTowerOnPortals() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -262,7 +262,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testTearDownTowerCreatingShorterPath() throws NoSuchFieldException, IllegalAccessException {
+    void testTearDownTowerCreatingShorterPath() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 5; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 5; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -282,7 +282,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testTearDownTower() throws NoSuchFieldException, IllegalAccessException {
+    void testTearDownTower() throws NoSuchFieldException, IllegalAccessException {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -313,7 +313,7 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void testUpdateUntilGameIsLost() throws NoSuchFieldException, IllegalAccessException {
+    void testUpdateUntilGameIsLost() throws NoSuchFieldException, IllegalAccessException {
         var deltaTime = 0.0166f; // ~60 FPS
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
@@ -348,7 +348,7 @@ public class GameHandlerTest {
 
     // Achtung geht 20-30 Sekunden
     @Test
-    public void testUpdateUntilGameIsWon() throws NoSuchFieldException, IllegalAccessException {
+    void testUpdateUntilGameIsWon() throws NoSuchFieldException, IllegalAccessException {
         var deltaTime = 0.0166f; // ~60 FPS
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
@@ -389,21 +389,21 @@ public class GameHandlerTest {
         }
     }
 
-    public void setSpice(@NonNull GameHandler gameHandler, int spice) throws NoSuchFieldException,
+    void setSpice(@NonNull GameHandler gameHandler, int spice) throws NoSuchFieldException,
             IllegalAccessException {
         var field = GameHandler.class.getDeclaredField("playerSpice");
         field.setAccessible(true);
         field.set(gameHandler, spice);
     }
 
-    public void setPhase(@NonNull GameHandler gameHandler, @NonNull GamePhase phase) throws NoSuchFieldException,
+    void setPhase(@NonNull GameHandler gameHandler, @NonNull GamePhase phase) throws NoSuchFieldException,
             IllegalAccessException {
         var field = GameHandler.class.getDeclaredField("gamePhase");
         field.setAccessible(true);
         field.set(gameHandler, phase);
     }
 
-    public void setTowerDamageToInfinity(@NonNull Entity entity) throws NoSuchFieldException, IllegalAccessException {
+    void setTowerDamageToInfinity(@NonNull Entity entity) throws NoSuchFieldException, IllegalAccessException {
         if (entity instanceof DamageTower tower) {
             var field = DamageTower.class.getDeclaredField("damage");
             field.setAccessible(true);
@@ -411,13 +411,13 @@ public class GameHandlerTest {
         }
     }
 
-    public void setHealthToInfinity(@NonNull GameHandler gameHandler) throws NoSuchFieldException, IllegalAccessException {
+    void setHealthToInfinity(@NonNull GameHandler gameHandler) throws NoSuchFieldException, IllegalAccessException {
         var field = GameHandler.class.getDeclaredField("playerHealth");
         field.setAccessible(true);
         field.set(gameHandler, Integer.MAX_VALUE);
     }
 
-    public void setGameStarted(@NonNull GameHandler gameHandler) throws NoSuchFieldException, IllegalAccessException {
+    void setGameStarted(@NonNull GameHandler gameHandler) throws NoSuchFieldException, IllegalAccessException {
         var field = GameHandler.class.getDeclaredField("gameStarted");
         field.setAccessible(true);
         field.set(gameHandler, true);

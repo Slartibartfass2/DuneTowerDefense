@@ -6,11 +6,11 @@ import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class EntityGraphTest {
+class EntityGraphTest {
 
     static {
         TestHelper.readConfigFile();
@@ -20,7 +20,7 @@ public class EntityGraphTest {
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     @Test
-    public void testConstructorWithValidArguments() {
+    void testConstructorWithValidArguments() {
         for (int width = 1; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 1; height < MAX_GRID_HEIGHT; height++) {
                 var entityGraph = new EntityGraph(new Entity[width][height]);
@@ -30,7 +30,7 @@ public class EntityGraphTest {
     }
 
     @Test
-    public void testConstructorWithInvalidArguments() {
+    void testConstructorWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> new EntityGraph((null)));
         assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[0][0]));
         assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[0][1]));
@@ -38,7 +38,7 @@ public class EntityGraphTest {
     }
 
     @Test
-    public void testFindPathWithValidArguments() {
+    void testFindPathWithValidArguments() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         assertNotNull(entityGraph.findPath(Vector2.Zero, Vector2.Zero));
 
@@ -64,7 +64,7 @@ public class EntityGraphTest {
     }
 
     @Test
-    public void testFindPathWithInvalidArguments() {
+    void testFindPathWithInvalidArguments() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         var positionOutsideGrid = new Vector2(2, 0);
 
@@ -77,19 +77,19 @@ public class EntityGraphTest {
     }
 
     @Test
-    public void testGetIndexWithValidArguments() {
+    void testGetIndexWithValidArguments() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         assertEquals(0, entityGraph.getIndex(new EntityNode(null, 0, 0, 0)));
     }
 
     @Test
-    public void testGetIndexWithInvalidArguments() {
+    void testGetIndexWithInvalidArguments() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         assertThrows(IllegalArgumentException.class, () -> entityGraph.getIndex(null));
     }
 
     @Test
-    public void testGetNodeCount() throws NoSuchFieldException, IllegalAccessException {
+    void testGetNodeCount() throws NoSuchFieldException, IllegalAccessException {
         var entityGraph = new EntityGraph(new Entity[1][1]);
 
         var field = EntityGraph.class.getDeclaredField("entityNodes");
@@ -101,7 +101,7 @@ public class EntityGraphTest {
     }
 
     @Test
-    public void testGetConnectionsWithValidArguments() {
+    void testGetConnectionsWithValidArguments() {
         var entityGraph = new EntityGraph(new Entity[2][2]);
         var connections = entityGraph.getConnections(new EntityNode(null, 0, 0, 0));
         assertNotNull(connections);
@@ -114,12 +114,12 @@ public class EntityGraphTest {
     }
 
     @Test
-    public void testGetConnectionsWithInvalidArguments() {
+    void testGetConnectionsWithInvalidArguments() {
         var entityGraph = new EntityGraph(new Entity[2][2]);
         assertThrows(IllegalArgumentException.class, () -> entityGraph.getConnections(null));
     }
 
-    public Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
+    Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
             int x = (int) towerPosition.x;

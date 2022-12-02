@@ -4,27 +4,27 @@ import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.game.EntityController;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.NonNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DamageTowerTest {
+class DamageTowerTest {
 
     static {
         TestHelper.readConfigFile();
     }
 
     @Test
-    public void testConstructor1WithValidArguments() {
+    void testConstructor1WithValidArguments() {
         assertNotNull(getNewRandomDamageTower());
     }
 
     @Test
-    public void testConstructor2WithInvalidArguments() {
+    void testConstructor2WithInvalidArguments() {
         var random = new Random();
         int x = random.nextInt();
         int y = random.nextInt();
@@ -36,7 +36,7 @@ public class DamageTowerTest {
         assertThrows(IllegalArgumentException.class, () -> getNewDamageTower(x, y, range, buildCost, damage, reloadTime, null));
     }
 
-    public DamageTower getNewRandomDamageTower() {
+    DamageTower getNewRandomDamageTower() {
         return new DamageTower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(),
                 new Random().nextInt(), new Random().nextInt(), new Random().nextInt()) {
             @Override
@@ -46,7 +46,7 @@ public class DamageTowerTest {
         };
     }
 
-    public DamageTower getNewDamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMs,
+    DamageTower getNewDamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMs,
                                          EntityController entityController) {
         return new DamageTower(x, y, range, buildCost, damage, reloadTimeInMs, entityController) {
             @Override

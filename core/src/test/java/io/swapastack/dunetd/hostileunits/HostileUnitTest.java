@@ -7,13 +7,14 @@ import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 import io.swapastack.dunetd.game.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class HostileUnitTest {
+
+class HostileUnitTest {
 
     static {
         TestHelper.readConfigFile();
@@ -23,24 +24,24 @@ public class HostileUnitTest {
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     @Test
-    public void testConstructor1WithValidArguments() {
+    void testConstructor1WithValidArguments() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 10, 100);
         assertNotNull(hostileUnit);
     }
 
     @Test
-    public void testConstructor1WithInvalidArguments() {
+    void testConstructor1WithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> getNewHostileUnit(null, 0f, 0));
     }
 
     @Test
-    public void testConstructor2WithInvalidArguments() {
+    void testConstructor2WithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> getNewHostileUnit(null, 0f, 0, null));
         assertThrows(IllegalArgumentException.class, () -> getNewHostileUnit(Vector2.Zero, 0f, 0, null));
     }
 
     @Test
-    public void testMoveWithValidArguments() {
+    void testMoveWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var startPosition = Vector2.Zero;
@@ -54,7 +55,7 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testMoveWithValidArgumentsButTimeIsZero() {
+    void testMoveWithValidArgumentsButTimeIsZero() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var startPosition = Vector2.Zero;
@@ -68,7 +69,7 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testMoveWithValidArgumentsButTimeIsHigh() {
+    void testMoveWithValidArgumentsButTimeIsHigh() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var startPosition = Vector2.Zero;
@@ -82,7 +83,7 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testMoveWithValidArgumentsButHostileUnitIsNotOnPath() {
+    void testMoveWithValidArgumentsButHostileUnitIsNotOnPath() {
         var startPosition = Vector2.Zero;
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(new Vector2(-1f, -1f), 1, 100);
@@ -90,7 +91,7 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testMoveWithValidArgumentsWithSlowingEffect() {
+    void testMoveWithValidArgumentsWithSlowingEffect() {
         var startPosition = Vector2.Zero;
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
@@ -99,13 +100,13 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testMoveWithInvalidArguments() {
+    void testMoveWithInvalidArguments() {
         var hostileUnit = getRandomHostileUnit();
         assertThrows(IllegalArgumentException.class, () -> hostileUnit.move(null, 0f));
     }
 
     @Test
-    public void testDealDamageWithValidArguments() {
+    void testDealDamageWithValidArguments() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         var health = hostileUnit.health;
         hostileUnit.dealDamage(10);
@@ -113,14 +114,14 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testDealDamageWithValidArgumentsAndSoMuchDamageThatHostileUnitDies() {
+    void testDealDamageWithValidArgumentsAndSoMuchDamageThatHostileUnitDies() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         hostileUnit.dealDamage(Integer.MAX_VALUE);
         assertEquals(0, hostileUnit.health);
     }
 
     @Test
-    public void testDealDamageWithValidArgumentsButHostileUnitIsDead() {
+    void testDealDamageWithValidArgumentsButHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 0);
         var health = hostileUnit.health;
         hostileUnit.dealDamage(10);
@@ -128,7 +129,7 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testDealDamageWithInvalidArguments() {
+    void testDealDamageWithInvalidArguments() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(0));
         assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-1));
@@ -137,39 +138,39 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testKillWhenHostileUnitIsAlive() {
+    void testKillWhenHostileUnitIsAlive() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         hostileUnit.kill();
         assertEquals(0, hostileUnit.health);
     }
 
     @Test
-    public void testKillWhenHostileUnitIsDead() {
+    void testKillWhenHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 0);
         hostileUnit.kill();
         assertEquals(0, hostileUnit.health);
     }
 
     @Test
-    public void testIsDeadWhenHostileUnitIsAlive() {
+    void testIsDeadWhenHostileUnitIsAlive() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         assertFalse(hostileUnit.isDead());
     }
 
     @Test
-    public void testIsDeadWhenHostileUnitIsDead() {
+    void testIsDeadWhenHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 0);
         assertTrue(hostileUnit.isDead());
     }
 
     @Test
-    public void testGetPosition() {
+    void testGetPosition() {
         var hostileUnit = getRandomHostileUnit();
         assertEquals(hostileUnit.position, hostileUnit.getPosition());
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+    void testEqualsAndHashCode() {
         var hostileUnit = getRandomHostileUnit();
         var hostileUnit1 = getRandomHostileUnit();
         assertNotEquals(hostileUnit, hostileUnit1);
@@ -188,12 +189,12 @@ public class HostileUnitTest {
     }
 
     @Test
-    public void testGetHealth() {
+    void testGetHealth() {
         var hostileUnit = getRandomHostileUnit();
         assertEquals(hostileUnit.health, hostileUnit.getHealth());
     }
 
-    public HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
+    HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
         return new HostileUnit(position, speed, health) {
             @Override
             public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
@@ -207,7 +208,7 @@ public class HostileUnitTest {
         };
     }
 
-    public HostileUnit getNewHostileUnit(Vector2 position, float speed, int health, HostileUnitController hostileUnitController) {
+    HostileUnit getNewHostileUnit(Vector2 position, float speed, int health, HostileUnitController hostileUnitController) {
         return new HostileUnit(position, speed, health, hostileUnitController) {
             @Override
             public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
@@ -221,7 +222,7 @@ public class HostileUnitTest {
         };
     }
 
-    public HostileUnit getRandomHostileUnit() {
+    HostileUnit getRandomHostileUnit() {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
         var speed = new Random().nextFloat();
@@ -229,12 +230,12 @@ public class HostileUnitTest {
         return getNewHostileUnit(new Vector2(x, y), speed, health);
     }
 
-    public Path getNewPath(Vector2 startPosition, int width, int height) {
+    Path getNewPath(Vector2 startPosition, int width, int height) {
         var grid = getEntityGrid(width, height);
         return Path.calculatePath(grid, startPosition, new Vector2(width - 1, height - 1));
     }
 
-    public Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
+    Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
             int x = (int) towerPosition.x;

@@ -1,40 +1,40 @@
 package io.swapastack.dunetd.config;
 
 import io.swapastack.dunetd.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ConfigurationTest {
+class ConfigurationTest {
 
     static {
         TestHelper.readConfigFile();
     }
 
     @Test
-    public void testGetInstance() {
+    void testGetInstance() {
         assertNotNull(Configuration.getInstance());
     }
 
     @Test
-    public void testGetIntPropertyWithValidArgument() {
+    void testGetIntPropertyWithValidArgument() {
         assertEquals(20, Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH"));
     }
 
     @Test
-    public void testGetIntPropertyWithInvalidArgument() {
+    void testGetIntPropertyWithInvalidArgument() {
         var config = Configuration.getInstance();
         assertThrows(IllegalArgumentException.class, () -> config.getIntProperty(null));
         assertThrows(IllegalArgumentException.class, () -> config.getIntProperty("SPASS_AM_STUDIEREN_WÄHREND_CORONA"));
     }
 
     @Test
-    public void testGetFloatPropertyWithValidArgument() {
+    void testGetFloatPropertyWithValidArgument() {
         assertEquals(0.1f, Configuration.getInstance().getFloatProperty("TOWER_TEAR_DOWN_REFUND"), 0.001f);
     }
 
     @Test
-    public void testGetFloatPropertyWithInvalidArgument() {
+    void testGetFloatPropertyWithInvalidArgument() {
         var config = Configuration.getInstance();
         assertThrows(IllegalArgumentException.class, () -> config.getFloatProperty(null));
         assertThrows(IllegalArgumentException.class, () -> config.getFloatProperty("SPASS_AM_STUDIEREN_WÄHREND_CORONA"));

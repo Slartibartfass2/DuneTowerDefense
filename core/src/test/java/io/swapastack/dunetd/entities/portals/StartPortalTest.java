@@ -1,15 +1,15 @@
 package io.swapastack.dunetd.entities.portals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class StartPortalTest {
+class StartPortalTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 
