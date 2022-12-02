@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,11 +20,25 @@ jobs:
           java-version: '16'
           cache: 'gradle'
 
-      - run: gradle --build-cache assemble
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: gradle --build-cache assemble
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: '*/build/**'
- 
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gradle -PexcludeTest=local jacocoAggregatedReport --warning-mode all
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: '*/build/**'
