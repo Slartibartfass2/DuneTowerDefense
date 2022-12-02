@@ -50,15 +50,15 @@ jobs:
         with:
           name: test-artifacts
           path: |
-            'core/build/test-results/test/**'
-            'build/reports/jacoco/jacocoTestReport/**'
+            core/build/test-results/test/**
+            build/reports/jacoco/jacocoTestReport/**
 
       - name: Report test results
         uses: dorny/test-reporter@v1.6.0
         with:
           artifact: test-artifacts
           name: JUnit Tests
-          path: 'TEST-*.xml'
+          path: '**/TEST-*.xml'
           reporter: java-junit
       
       - name: Add coverage to PR
