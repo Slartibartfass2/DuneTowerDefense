@@ -28,6 +28,7 @@ jobs:
         with:
           name: build-artifacts
           path: 'desktop/build/libs/**'
+          if-no-files-found: error
 
   test:
     runs-on: ubuntu-latest
@@ -52,13 +53,14 @@ jobs:
           path: |
             core/build/test-results/test/**
             core/build/reports/**
+          if-no-files-found: error
 
       - name: Report test results
         uses: dorny/test-reporter@v1.6.0
         with:
           artifact: test-artifacts
           name: JUnit Tests
-          path: 'test-results/test/TEST-*.xml'
+          path: test-results/test/*.xml
           reporter: java-junit
       
       - name: Add coverage to PR
