@@ -170,8 +170,6 @@ project(":core") {
         afterEvaluate {
             getClassDirectories().setFrom(classDirectories.files.collect { fileTree(dir: it, excludes: ['**/*Test*']) })
         }
-
-        finalizedBy jacocoAggregatedReport
     }
 
     jacocoTestCoverageVerification {
