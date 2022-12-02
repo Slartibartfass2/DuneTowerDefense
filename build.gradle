@@ -152,12 +152,6 @@ project(":core") {
         testLogging {
             events "passed", "skipped", "failed"
         }
-
-        if (project.hasProperty("excludeTest")) {
-            filter {
-                excludeTestsMatching "*" + project.getProperty("excludeTest") + "*"
-            }
-        }
     }
 
     jacoco {
@@ -178,10 +172,6 @@ project(":core") {
         }
 
         finalizedBy jacocoAggregatedReport
-    }
-
-    jacocoAggregatedReport {
-        dependsOn jacocoTestReport
     }
 
     jacocoTestCoverageVerification {

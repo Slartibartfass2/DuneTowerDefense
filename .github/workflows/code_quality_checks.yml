@@ -30,15 +30,43 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: '*/build/**'
+          path: 'desktop/build/libs/**'
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: gradle -PexcludeTest=local jacocoAggregatedReport --warning-mode all
+      - name: Clean output
+        run: gradle clean
+
+      - name: Test with coverage
+        run: gradle jacocoTestReport --warning-mode all
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-artifacts
-          path: '*/build/**'
+          name: test-artifacts
+          path: |
+            'core/build/test-results/test/**'
+            'build/reports/jacoco/jacocoTestReport/**'
+
+      - name: Report test results
+        uses: dorny/test-reporter@v1.6.0
+        with:
+          artifact: test-artifacts
+          name: JUnit Tests
+          path: 'TEST-*.xml'
+          reporter: java-junit
+      
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.3
+        with:
+          paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: JaCoCo Coverage
+          update-comment: true
+
+      - name: Get the coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
