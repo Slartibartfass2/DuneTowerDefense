@@ -48,31 +48,10 @@ jobs:
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
+        if: success() || failure()
         with:
           name: test-artifacts
           path: |
             core/build/test-results/test/**
             core/build/reports/**
           if-no-files-found: error
-
-      - name: Report test results
-        uses: dorny/test-reporter@v1.6.0
-        with:
-          artifact: test-artifacts
-          name: JUnit Tests
-          path: test-results/test/*.xml
-          reporter: java-junit
-      
-      - name: Add coverage to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.3
-        with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: JaCoCo Coverage
-          update-comment: true
-
-      - name: Get the coverage info
-        run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
