@@ -16,23 +16,6 @@ class InfantryTest {
     private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance().getIntProperty("INFANTRY_SPICE_REWARD");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        var infantry = new Infantry(Vector2.Zero);
-        assertNotNull(infantry);
-    }
-
-    @Test
-    void testConstructor1WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new Infantry(null));
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new Infantry(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new Infantry(Vector2.Zero, null));
-    }
-
-    @Test
     void testSlowDown() {
         for (int i = 1; i < 10; i++) {
             var infantry = new Infantry(Vector2.Zero);

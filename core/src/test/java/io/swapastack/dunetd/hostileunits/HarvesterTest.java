@@ -18,23 +18,6 @@ class HarvesterTest {
     private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance().getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        var harvester = new Harvester(Vector2.Zero);
-        assertNotNull(harvester);
-    }
-
-    @Test
-    void testConstructor1WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new Harvester(null));
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new Harvester(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new Harvester(Vector2.Zero, null));
-    }
-
-    @Test
     void testSlowDown() {
         for (int i = 1; i < 10; i++) {
             var harvester = new Harvester(Vector2.Zero);

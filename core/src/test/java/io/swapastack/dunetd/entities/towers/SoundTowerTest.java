@@ -23,20 +23,6 @@ class SoundTowerTest {
     private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        assertNotNull(getRandomSoundTower());
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        var random = new Random();
-        int x = random.nextInt();
-        int y = random.nextInt();
-
-        assertThrows(IllegalArgumentException.class, () -> new SoundTower(x, y, null));
-    }
-
-    @Test
     void testTargetWithInvalidArguments() {
         var soundTower = getRandomSoundTower();
         assertThrows(IllegalArgumentException.class, () -> soundTower.target(null, false));

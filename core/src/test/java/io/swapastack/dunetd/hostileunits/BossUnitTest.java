@@ -16,23 +16,6 @@ class BossUnitTest {
     private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance().getIntProperty("BOSS_UNIT_SPICE_REWARD");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        var bossUnit = new BossUnit(Vector2.Zero);
-        assertNotNull(bossUnit);
-    }
-
-    @Test
-    void testConstructor1WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new BossUnit(null));
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new BossUnit(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new BossUnit(Vector2.Zero, null));
-    }
-
-    @Test
     void testSlowDown() {
         for (int i = 1; i < 10; i++) {
             var bossUnit = new BossUnit(Vector2.Zero);

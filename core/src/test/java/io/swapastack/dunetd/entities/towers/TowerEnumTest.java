@@ -15,7 +15,7 @@ class TowerEnumTest {
     void testFromTowerWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> TowerEnum.fromTower(null));
 
-        var tower = new Tower(0, 0, 0, 0, 0) {
+        var tower = new Tower(0, 0, 0, 0, 0, null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;

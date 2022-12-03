@@ -2,7 +2,6 @@ package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
-import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
@@ -20,23 +19,6 @@ class TowerTest {
 
     static {
         TestHelper.readConfigFile();
-    }
-
-    @Test
-    void testConstructor1WithValidArguments() {
-        assertNotNull(getNewRandomTower());
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        var random = new Random();
-        int x = random.nextInt();
-        int y = random.nextInt();
-        var range = random.nextFloat();
-        int reloadTime = random.nextInt();
-        int buildCost = random.nextInt();
-
-        assertThrows(IllegalArgumentException.class, () -> getNewTower(x, y, range, reloadTime, buildCost, null));
     }
 
     @Test
@@ -214,7 +196,7 @@ class TowerTest {
 
     Tower getNewRandomTower() {
         return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(), new Random().nextInt(),
-                new Random().nextInt()) {
+                new Random().nextInt(), null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
@@ -228,7 +210,7 @@ class TowerTest {
 
     Tower getNewRandomTower(boolean targetReturnValue) {
         return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(), new Random().nextInt(),
-                new Random().nextInt()) {
+                new Random().nextInt(), null, 0f) {
             int counter = 10;
 
             @Override
@@ -245,21 +227,7 @@ class TowerTest {
     }
 
     Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs) {
-        return new Tower(x, y, range, buildCost, reloadTimeInMs) {
-            @Override
-            protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
-                return false;
-            }
-
-            @Override
-            protected void idle(float deltaTime) {
-            }
-        };
-    }
-
-    Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs,
-                             EntityController entityController) {
-        return new Tower(x, y, range, buildCost, reloadTimeInMs, entityController, 0f) {
+        return new Tower(x, y, range, buildCost, reloadTimeInMs, null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;

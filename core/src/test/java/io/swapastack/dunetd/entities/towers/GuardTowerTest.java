@@ -25,20 +25,6 @@ class GuardTowerTest {
     private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        assertNotNull(getNewRandomGuardTower());
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        var random = new Random();
-        int x = random.nextInt();
-        int y = random.nextInt();
-
-        assertThrows(IllegalArgumentException.class, () -> new GuardTower(x, y, null));
-    }
-
-    @Test
     void testTargetWithInvalidArguments() {
         var guardTower = getNewRandomGuardTower();
         assertThrows(IllegalArgumentException.class, () -> guardTower.target(null, false));

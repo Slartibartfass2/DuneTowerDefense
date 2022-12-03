@@ -24,23 +24,6 @@ class HostileUnitTest {
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        var hostileUnit = getNewHostileUnit(Vector2.Zero, 10, 100);
-        assertNotNull(hostileUnit);
-    }
-
-    @Test
-    void testConstructor1WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> getNewHostileUnit(null, 0f, 0));
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> getNewHostileUnit(null, 0f, 0, null));
-        assertThrows(IllegalArgumentException.class, () -> getNewHostileUnit(Vector2.Zero, 0f, 0, null));
-    }
-
-    @Test
     void testMoveWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
@@ -195,7 +178,7 @@ class HostileUnitTest {
     }
 
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
-        return new HostileUnit(position, speed, health) {
+        return new HostileUnit(position, speed, health, null) {
             @Override
             public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
 
