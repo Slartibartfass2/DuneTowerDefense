@@ -44,7 +44,7 @@ jobs:
           cache: 'gradle'
 
       - name: Test with coverage
-        run: gradle jacocoTestReport --warning-mode all
+        run: gradle jacocoAggregatedReport --warning-mode all
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
