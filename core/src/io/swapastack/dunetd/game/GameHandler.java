@@ -119,6 +119,16 @@ public final class GameHandler {
      * @param gridWidth  Width of the grid
      * @param gridHeight Height of the grid
      */
+    public GameHandler(int gridWidth, int gridHeight) {
+        this(gridWidth, gridHeight, null, null, null);
+    }
+
+    /**
+     * Creates a game handler with a grid with the specified dimensions.
+     *
+     * @param gridWidth  Width of the grid
+     * @param gridHeight Height of the grid
+     */
     public GameHandler(int gridWidth, int gridHeight, @Nullable EntityController entityController,
                        @Nullable HostileUnitController hostileUnitController,
                        @Nullable ShaiHuludController shaiHuludController) {
@@ -157,61 +167,7 @@ public final class GameHandler {
 
         // Prepare first wave
         hostileUnitsOnGrid = new ArrayList<>();
-        setInitialGameState();
-
-        shaiHulud = new ShaiHulud(grid, shaiHuludController);
-        statistics = new Statistics();
-    }
-
-    /**
-     * Creates a game handler with a grid with the specified dimensions.
-     *
-     * @param gridWidth  Width of the grid
-     * @param gridHeight Height of the grid
-     */
-    public GameHandler(int gridWidth, int gridHeight) {
-        // Check if gridWidth and gridHeight have valid values
-        if (gridWidth < 2 || gridWidth > MAX_GRID_WIDTH) {
-            throw new IllegalArgumentException("The grid must have a width between 2 and " + MAX_GRID_WIDTH);
-        }
-        if (gridHeight < 2 || gridHeight > MAX_GRID_HEIGHT) {
-            throw new IllegalArgumentException("The grid must have a height between 2 and " + MAX_GRID_HEIGHT);
-        }
-
-        // Set initial player values
-        playerHealth = PLAYER_INITIAL_HEALTH;
-        playerSpice = PLAYER_INITIAL_SPICE;
-        hostileUnitReleaseDelayInMs = HOSTILE_UNIT_RELEASE_DELAY_IN_MS;
-
-        // Create grid and its dimensions
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-        grid = new Entity[gridWidth][gridHeight];
-
-        entityController = null;
-        hostileUnitController = null;
-
-        // Placing portals on the grid
-        startPortal = new StartPortal(0, 0);
-        placeEntityOnGrid(startPortal);
-        endPortal = new EndPortal(gridWidth - 1, gridHeight - 1);
-        placeEntityOnGrid(endPortal);
-
-        // Find first path and check if it's valid
-        path = Path.calculatePath(grid, startPortal.getGridPosition2d(), endPortal.getGridPosition2d());
-        if (path.getLength() < 1) {
-            throw new IllegalArgumentException("The path must have a length of at least one");
-        }
-
-        // Prepare first wave
-        hostileUnitsOnGrid = new ArrayList<>();
-        setInitialGameState();
-
-        shaiHulud = new ShaiHulud(grid);
-        statistics = new Statistics();
-    }
-
-    private void setInitialGameState() {
+        // Set initial game state
         infantryWaveBudget = INFANTRY_INITIAL_WAVE_BUDGET;
         harvesterWaveBudget = HARVESTER_INITIAL_WAVE_BUDGET;
         bossUnitWaveBudget = BOSS_UNIT_INITIAL_WAVE_BUDGET;
@@ -222,6 +178,9 @@ public final class GameHandler {
         gameStarted = false;
         gamePaused = false;
         timeFactor = NORMAL;
+
+        shaiHulud = new ShaiHulud(grid, shaiHuludController);
+        statistics = new Statistics();
     }
 
     /**
