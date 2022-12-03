@@ -38,6 +38,16 @@ public abstract class Entity {
     /**
      * Creates a new entity with a specified position.
      *
+     * @param x X coordinate of position
+     * @param y Y coordinate of position
+     */
+    protected Entity(int x, int y) {
+        this(x, y, null, 0f);
+    }
+
+    /**
+     * Creates a new entity with a specified position.
+     *
      * @param x                X coordinate of position
      * @param y                Y coordinate of position
      * @param entityController Controller for entities

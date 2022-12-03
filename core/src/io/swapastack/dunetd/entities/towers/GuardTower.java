@@ -1,9 +1,10 @@
 package io.swapastack.dunetd.entities.towers;
 
-import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.assets.controller.EntityController;
+import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public final class GuardTower extends DamageTower {
      * @param y Y coordinate of position
      */
     public GuardTower(int x, int y) {
-        super(x, y, GUARD_TOWER_RANGE, GUARD_TOWER_BUILD_COST, GUARD_TOWER_DAMAGE, GUARD_TOWER_RELOAD_TIME_IN_MS);
+        this(x, y, null);
     }
 
     /**
@@ -50,7 +51,7 @@ public final class GuardTower extends DamageTower {
      * @param y                Y coordinate of position
      * @param entityController Controller for towers
      */
-    public GuardTower(int x, int y, @NonNull EntityController entityController) {
+    public GuardTower(int x, int y, @Nullable EntityController entityController) {
         super(x, y, GUARD_TOWER_RANGE, GUARD_TOWER_BUILD_COST, GUARD_TOWER_DAMAGE, GUARD_TOWER_RELOAD_TIME_IN_MS, entityController);
     }
 

@@ -1,13 +1,14 @@
 package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
-import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.assets.controller.EntityController;
+import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,36 +61,16 @@ public abstract class Tower extends Entity {
     /**
      * Creates a new tower with a specified position, range, build cost and reload time.
      *
-     * @param x              X coordinate of position
-     * @param y              Y coordinate of position
-     * @param range          Range of this tower, in which it attacks hostile units
-     * @param buildCost      Costs to build this tower
-     * @param reloadTimeInMs Time in milliseconds needed to reload
-     */
-    protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMs) {
-        super(x, y);
-
-        this.range = range;
-        rangeSquared = range * range;
-        this.buildCost = buildCost;
-        this.reloadTimeInMs = reloadTimeInMs;
-        currentReloadTimeInMs = 0;
-        isDebris = false;
-    }
-
-    /**
-     * Creates a new tower with a specified position, range, build cost and reload time.
-     *
      * @param x                X coordinate of position
      * @param y                Y coordinate of position
      * @param range            Range of the tower, in which it attacks hostile units
      * @param buildCost        Costs to build this tower
      * @param reloadTimeInMs   Time in milliseconds needed to reload
      * @param entityController Controller for towers
-     * @param startRotation    Start rotation for game model of this tower
+     * @param startRotation    Start rotation of game model
      */
     protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMs,
-                    @NonNull EntityController entityController, float startRotation) {
+                    @Nullable EntityController entityController, float startRotation) {
         super(x, y, entityController, startRotation);
 
         this.range = range;
