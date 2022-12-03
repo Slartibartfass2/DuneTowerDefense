@@ -3,7 +3,7 @@ package io.swapastack.dunetd.hostileunits;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
-import io.swapastack.dunetd.game.HostileUnitController;
+import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import static io.swapastack.dunetd.game.CardinalDirection.NORTH;
 import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
-import static io.swapastack.dunetd.game.HostileUnitController.*;
+import static io.swapastack.dunetd.assets.controller.HostileUnitController.*;
 
 /**
  * A hostile unit representing the enemy in this game. It moves along a path on the grid until it reaches the end

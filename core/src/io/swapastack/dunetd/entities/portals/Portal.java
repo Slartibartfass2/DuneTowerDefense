@@ -1,10 +1,10 @@
 package io.swapastack.dunetd.entities.portals;
 
 import io.swapastack.dunetd.entities.Entity;
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import lombok.NonNull;
 
-import static io.swapastack.dunetd.game.EntityController.SHOW_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.EntityController.SHOW_EVENT_NAME;
 
 /**
  * A portal representing a part of the game grid. A portal can be: <br>

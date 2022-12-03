@@ -2,7 +2,7 @@ package io.swapastack.dunetd.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,7 +12,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 import java.util.UUID;
 
-import static io.swapastack.dunetd.game.EntityController.CREATE_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.EntityController.CREATE_EVENT_NAME;
 
 /**
  * An entity representing a part of the game grid. An entity can be: <br>

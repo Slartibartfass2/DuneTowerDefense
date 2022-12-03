@@ -3,7 +3,7 @@ package io.swapastack.dunetd.hostileunits;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.config.Configuration;
-import io.swapastack.dunetd.game.HostileUnitController;
+import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import lombok.NonNull;
 
 /**

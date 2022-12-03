@@ -1,8 +1,9 @@
-package io.swapastack.dunetd.game;
+package io.swapastack.dunetd.assets.controller;
 
 import com.badlogic.gdx.math.Vector3;
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
+import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
@@ -10,7 +11,7 @@ import net.mgsx.gltf.scene3d.scene.SceneManager;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ShaiHuludController implements PropertyChangeListener {
+public final class ShaiHuludController implements PropertyChangeListener {
 
     // Event names
     public static final String CREATE_EVENT_NAME = "create";

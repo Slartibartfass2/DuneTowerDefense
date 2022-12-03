@@ -1,7 +1,7 @@
 package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.TestHelper;
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.NonNull;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.entities.Entity;
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.swapastack.dunetd.game.EntityController.*;
+import static io.swapastack.dunetd.assets.controller.EntityController.*;
 import static io.swapastack.dunetd.math.DuneTDMath.getAngle;
 
 /**
