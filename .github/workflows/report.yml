@@ -2,7 +2,7 @@ name: Test report
 
 on:
   workflow_run:
-    workflows: ['Code Quality Checks']
+    workflows: [Code Quality Checks]
     types:
       - completed
 
