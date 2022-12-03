@@ -1,8 +1,8 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
-import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
+import io.swapastack.dunetd.config.Configuration;
 import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +26,15 @@ public final class BossUnit extends HostileUnit {
      * @see HostileUnit#getSpiceReward()
      */
     private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance().getIntProperty("BOSS_UNIT_SPICE_REWARD");
+
+    /**
+     * Creates a new boss unit with a specified position.
+     *
+     * @param position Position of this boss unit
+     */
+    public BossUnit(@NonNull Vector2 position) {
+        this(position, null);
+    }
 
     /**
      * Creates a new boss unit with a specified position.

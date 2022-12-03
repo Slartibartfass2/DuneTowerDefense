@@ -2,8 +2,8 @@ package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
+import io.swapastack.dunetd.config.Configuration;
 import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +32,15 @@ public final class Harvester extends HostileUnit {
      * Multiplier to resist the slowing effect of the sound tower.
      */
     private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance().getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
+
+    /**
+     * Creates a new harvester with a specified position.
+     *
+     * @param position Position of this harvester
+     */
+    public Harvester(@NonNull Vector2 position) {
+        this(position, null);
+    }
 
     /**
      * Creates a new harvester with a specified position.
