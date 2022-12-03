@@ -2,6 +2,7 @@ package io.swapastack.dunetd.entities.portals;
 
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.assets.controller.EntityController;
+import org.jetbrains.annotations.Nullable;
 
 import static io.swapastack.dunetd.assets.controller.EntityController.SHOW_EVENT_NAME;
 
@@ -19,7 +20,7 @@ public abstract class Portal extends Entity {
      * @param y                Y coordinate of position
      * @param entityController Controller for entities
      */
-    protected Portal(int x, int y, EntityController entityController) {
+    protected Portal(int x, int y, @Nullable EntityController entityController) {
         super(x, y, entityController, 0f);
         if (entityController != null)
             support.firePropertyChange(SHOW_EVENT_NAME, null, null);

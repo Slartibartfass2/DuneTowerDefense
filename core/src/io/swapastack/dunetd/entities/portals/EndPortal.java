@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.entities.portals;
 
 import io.swapastack.dunetd.assets.controller.EntityController;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An end portal representing a part of the game grid.
@@ -14,7 +15,7 @@ public final class EndPortal extends Portal {
      * @param y                Y coordinate of position
      * @param entityController Controller for entities
      */
-    public EndPortal(int x, int y, EntityController entityController) {
+    public EndPortal(int x, int y, @Nullable EntityController entityController) {
         super(x, y, entityController);
     }
 }

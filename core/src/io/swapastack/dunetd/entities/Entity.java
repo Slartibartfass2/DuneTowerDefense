@@ -6,6 +6,7 @@ import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
@@ -42,7 +43,7 @@ public abstract class Entity {
      * @param entityController Controller for entities
      * @param startRotation    Start rotation for game model of this entity
      */
-    protected Entity(int x, int y, EntityController entityController, float startRotation) {
+    protected Entity(int x, int y, @Nullable EntityController entityController, float startRotation) {
         uuid = UUID.randomUUID();
         this.x = x;
         this.y = y;

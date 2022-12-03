@@ -39,7 +39,7 @@ public final class ShaiHulud {
     private final PropertyChangeSupport support;
     private boolean alreadySummoned;
 
-    public ShaiHulud(@NonNull Entity[][] grid, ShaiHuludController shaiHuludController) {
+    public ShaiHulud(@NonNull Entity[][] grid, @Nullable ShaiHuludController shaiHuludController) {
         this.grid = grid;
         remainingCooldownInMs = 0;
         firstThumper = null;

@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -118,8 +119,9 @@ public final class GameHandler {
      * @param gridWidth  Width of the grid
      * @param gridHeight Height of the grid
      */
-    public GameHandler(int gridWidth, int gridHeight, EntityController entityController,
-                       HostileUnitController hostileUnitController, ShaiHuludController shaiHuludController) {
+    public GameHandler(int gridWidth, int gridHeight, @Nullable EntityController entityController,
+                       @Nullable HostileUnitController hostileUnitController,
+                       @Nullable ShaiHuludController shaiHuludController) {
         // Check if gridWidth and gridHeight have valid values
         if (gridWidth < 2 || gridWidth > MAX_GRID_WIDTH) {
             throw new IllegalArgumentException("The grid must have a width between 2 and " + MAX_GRID_WIDTH);
