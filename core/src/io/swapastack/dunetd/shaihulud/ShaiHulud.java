@@ -6,7 +6,7 @@ import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.Tower;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
-import io.swapastack.dunetd.game.ShaiHuludController;
+import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static io.swapastack.dunetd.entities.towers.TowerEnum.fromTower;
 import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
-import static io.swapastack.dunetd.game.ShaiHuludController.*;
+import static io.swapastack.dunetd.assets.controller.ShaiHuludController.*;
 import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
 import static io.swapastack.dunetd.math.DuneTDMath.isPositionInsideGrid;
 

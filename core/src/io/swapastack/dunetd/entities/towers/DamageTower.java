@@ -2,11 +2,11 @@ package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
 import lombok.NonNull;
 
-import static io.swapastack.dunetd.game.EntityController.UPDATE_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.EntityController.UPDATE_EVENT_NAME;
 
 /**
  * A damage tower representing a part of the game grid. A damage tower can be: <br>

@@ -1,9 +1,10 @@
-package io.swapastack.dunetd.game;
+package io.swapastack.dunetd.assets.controller;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
+import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.SceneManager;

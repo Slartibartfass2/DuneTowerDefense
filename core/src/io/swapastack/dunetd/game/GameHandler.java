@@ -1,6 +1,9 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
+import io.swapastack.dunetd.assets.controller.EntityController;
+import io.swapastack.dunetd.assets.controller.HostileUnitController;
+import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.portals.EndPortal;

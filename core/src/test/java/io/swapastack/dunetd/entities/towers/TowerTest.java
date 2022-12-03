@@ -2,7 +2,7 @@ package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;

@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.entities.portals;
 
-import io.swapastack.dunetd.game.EntityController;
+import io.swapastack.dunetd.assets.controller.EntityController;
 import lombok.NonNull;
 
 /**
