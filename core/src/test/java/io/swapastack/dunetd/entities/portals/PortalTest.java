@@ -13,7 +13,7 @@ class PortalTest {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 
-        var portal = new Portal(x, y) {
+        var portal = new Portal(x, y, null) {
         };
 
         assertEquals(x, portal.getX());

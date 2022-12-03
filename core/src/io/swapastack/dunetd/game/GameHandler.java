@@ -55,8 +55,8 @@ public final class GameHandler {
     private static final int HARVESTER_MAX_COUNT = Configuration.getInstance().getIntProperty("HARVESTER_MAX_COUNT");
 
     // Controller for entities and hostile units
-    private final EntityController entityController;
-    private final HostileUnitController hostileUnitController;
+    private EntityController entityController;
+    private HostileUnitController hostileUnitController;
 
     // Player information
     @Getter
@@ -118,9 +118,8 @@ public final class GameHandler {
      * @param gridWidth  Width of the grid
      * @param gridHeight Height of the grid
      */
-    public GameHandler(int gridWidth, int gridHeight, @NonNull EntityController entityController,
-                       @NonNull HostileUnitController hostileUnitController,
-                       @NonNull ShaiHuludController shaiHuludController) {
+    public GameHandler(int gridWidth, int gridHeight, EntityController entityController,
+                       HostileUnitController hostileUnitController, ShaiHuludController shaiHuludController) {
         // Check if gridWidth and gridHeight have valid values
         if (gridWidth < 2 || gridWidth > MAX_GRID_WIDTH) {
             throw new IllegalArgumentException("The grid must have a width between 2 and " + MAX_GRID_WIDTH);
