@@ -168,8 +168,19 @@ project(":core") {
         }
 
         afterEvaluate {
-            getClassDirectories().setFrom(classDirectories.files.collect { fileTree(dir: it, excludes: ['**/*Test*']) })
+            getClassDirectories().setFrom(classDirectories.files.collect {
+                fileTree(dir: it, excludes: [
+                        '**/*Test*',
+                        'io/swapastack/dunetd/assets/**',
+                        'io/swapastack/dunetd/screens/**',
+                        'io/swapastack/dunetd/hud/**',
+                ])
+            })
         }
+    }
+
+    jacocoAggregatedReport {
+        dependsOn jacocoTestReport
     }
 
     jacocoTestCoverageVerification {
