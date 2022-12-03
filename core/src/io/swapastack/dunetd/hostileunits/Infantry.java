@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An infantry representing an enemy in this game.
@@ -29,19 +30,10 @@ public final class Infantry extends HostileUnit {
     /**
      * Creates a new infantry with a specified position.
      *
-     * @param position Position of this infantry
-     */
-    public Infantry(@NonNull Vector2 position) {
-        super(position, INFANTRY_SPEED, INFANTRY_INITIAL_HEALTH);
-    }
-
-    /**
-     * Creates a new infantry with a specified position.
-     *
      * @param position              Position of this infantry
      * @param hostileUnitController Controller for hostile units
      */
-    public Infantry(@NonNull Vector2 position, @NonNull HostileUnitController hostileUnitController) {
+    public Infantry(@NonNull Vector2 position, @Nullable HostileUnitController hostileUnitController) {
         super(position, INFANTRY_SPEED, INFANTRY_INITIAL_HEALTH, hostileUnitController);
     }
 

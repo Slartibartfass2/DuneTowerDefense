@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A boss unit representing an enemy in this game.
@@ -29,19 +30,10 @@ public final class BossUnit extends HostileUnit {
     /**
      * Creates a new boss unit with a specified position.
      *
-     * @param position Position of this boss unit
-     */
-    public BossUnit(@NonNull Vector2 position) {
-        super(position, BOSS_UNIT_SPEED, BOSS_UNIT_INITIAL_HEALTH);
-    }
-
-    /**
-     * Creates a new boss unit with a specified position.
-     *
      * @param position              Position of this boss unit
      * @param hostileUnitController Controller for hostile units
      */
-    public BossUnit(@NonNull Vector2 position, @NonNull HostileUnitController hostileUnitController) {
+    public BossUnit(@NonNull Vector2 position, @Nullable HostileUnitController hostileUnitController) {
         super(position, BOSS_UNIT_SPEED, BOSS_UNIT_INITIAL_HEALTH, hostileUnitController);
     }
 

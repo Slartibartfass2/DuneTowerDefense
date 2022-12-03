@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A harvester representing an enemy in this game.
@@ -35,19 +36,10 @@ public final class Harvester extends HostileUnit {
     /**
      * Creates a new harvester with a specified position.
      *
-     * @param position Position of this harvester
-     */
-    public Harvester(@NonNull Vector2 position) {
-        super(position, HARVESTER_SPEED, HARVESTER_INITIAL_HEALTH);
-    }
-
-    /**
-     * Creates a new harvester with a specified position.
-     *
      * @param position              Position of this harvester
      * @param hostileUnitController Controller for hostile units
      */
-    public Harvester(@NonNull Vector2 position, @NonNull HostileUnitController hostileUnitController) {
+    public Harvester(@NonNull Vector2 position, @Nullable HostileUnitController hostileUnitController) {
         super(position, HARVESTER_SPEED, HARVESTER_INITIAL_HEALTH, hostileUnitController);
     }
 

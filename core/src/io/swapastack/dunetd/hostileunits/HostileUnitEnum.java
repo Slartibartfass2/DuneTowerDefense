@@ -42,26 +42,10 @@ public enum HostileUnitEnum {
     @NotNull
     public HostileUnit toHostileUnit(@NonNull Vector2 spawnPoint,
                                      @Nullable HostileUnitController hostileUnitController) {
-        switch (this) {
-            case INFANTRY -> {
-                if (hostileUnitController == null) {
-                    return new Infantry(spawnPoint);
-                }
-                return new Infantry(spawnPoint, hostileUnitController);
-            }
-            case BOSS_UNIT -> {
-                if (hostileUnitController == null) {
-                    return new BossUnit(spawnPoint);
-                }
-                return new BossUnit(spawnPoint, hostileUnitController);
-            }
-            case HARVESTER -> {
-                if (hostileUnitController == null) {
-                    return new Harvester(spawnPoint);
-                }
-                return new Harvester(spawnPoint, hostileUnitController);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + this);
-        }
+        return switch (this) {
+            case INFANTRY -> new Infantry(spawnPoint, hostileUnitController);
+            case BOSS_UNIT -> new BossUnit(spawnPoint, hostileUnitController);
+            case HARVESTER -> new Harvester(spawnPoint, hostileUnitController);
+        };
     }
 }
