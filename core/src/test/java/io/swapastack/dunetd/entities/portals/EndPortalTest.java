@@ -13,7 +13,7 @@ class EndPortalTest {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 
-        var endPortal = new EndPortal(x, y);
+        var endPortal = new EndPortal(x, y, null);
 
         assertEquals(x, endPortal.getX());
         assertEquals(y, endPortal.getY());

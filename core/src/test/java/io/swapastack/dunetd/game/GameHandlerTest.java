@@ -23,33 +23,6 @@ class GameHandlerTest {
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance().getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
 
    @Test
-   void testGameHandlerConstructorWithInvalidArguments() {
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(1, 1));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(-1, 2));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(2, -1));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(2, MAX_GRID_HEIGHT + 1));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(MAX_GRID_WIDTH + 1, 2));
-
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(1, 1, null, null, null));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(-1, 2, null, null, null));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(2, -1, null, null, null));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(2, MAX_GRID_HEIGHT + 1, null, null, null));
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(MAX_GRID_WIDTH + 1, 2, null, null, null));
-
-       assertThrows(IllegalArgumentException.class, () -> new GameHandler(2, 2, null, null, null));
-   }
-
-   @Test
-   void testGameHandlerConstructorWithValidArguments() {
-       for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-           for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-               var gameHandler = new GameHandler(width, height);
-               assertNotNull(gameHandler);
-           }
-       }
-   }
-
-   @Test
    void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {
        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {

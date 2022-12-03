@@ -27,20 +27,6 @@ class BombTowerTest {
     private static final float BOMB_TOWER_AREA_DAMAGE_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
 
     @Test
-    void testConstructor1WithValidArguments() {
-        assertNotNull(getNewRandomBombTower());
-    }
-
-    @Test
-    void testConstructor2WithInvalidArguments() {
-        var random = new Random();
-        int x = random.nextInt();
-        int y = random.nextInt();
-
-        assertThrows(IllegalArgumentException.class, () -> new BombTower(x, y, null));
-    }
-
-    @Test
     void testTargetWithInvalidArguments() {
         var bombTower = getNewRandomBombTower();
         assertThrows(IllegalArgumentException.class, () -> bombTower.target(null, false));

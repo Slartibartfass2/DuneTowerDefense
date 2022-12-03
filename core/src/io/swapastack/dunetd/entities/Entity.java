@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector3;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
 import lombok.Getter;
-import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
@@ -42,10 +42,7 @@ public abstract class Entity {
      * @param y Y coordinate of position
      */
     protected Entity(int x, int y) {
-        uuid = UUID.randomUUID();
-        this.x = x;
-        this.y = y;
-        support = null;
+        this(x, y, null, 0f);
     }
 
     /**
@@ -56,15 +53,20 @@ public abstract class Entity {
      * @param entityController Controller for entities
      * @param startRotation    Start rotation for game model of this entity
      */
-    protected Entity(int x, int y, @NonNull EntityController entityController, float startRotation) {
+    protected Entity(int x, int y, @Nullable EntityController entityController, float startRotation) {
         uuid = UUID.randomUUID();
         this.x = x;
         this.y = y;
-        support = new PropertyChangeSupport(this);
 
-        // Add entity controller as observer and call create event
-        support.addPropertyChangeListener(entityController);
-        support.firePropertyChange(CREATE_EVENT_NAME, null, new GameModelData(startRotation, new Vector2(x, y)));
+        if (entityController != null) {
+            support = new PropertyChangeSupport(this);
+
+            // Add entity controller as observer and call create event
+            support.addPropertyChangeListener(entityController);
+            support.firePropertyChange(CREATE_EVENT_NAME, null, new GameModelData(startRotation, new Vector2(x, y)));
+        } else {
+            support = null;
+        }
     }
 
     /**

@@ -13,7 +13,7 @@ class StartPortalTest {
         int x = new Random().nextInt();
         int y = new Random().nextInt();
 
-        var startPortal = new StartPortal(x, y);
+        var startPortal = new StartPortal(x, y, null);
 
         assertEquals(x, startPortal.getX());
         assertEquals(y, startPortal.getY());

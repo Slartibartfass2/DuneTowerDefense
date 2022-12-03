@@ -7,6 +7,7 @@ import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
 import lombok.Getter;
 import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
@@ -70,31 +71,13 @@ public abstract class HostileUnit {
     /**
      * Creates a new hostile unit with a specified position, speed and health.
      *
-     * @param position Position of this hostile unit
-     * @param speed    Distance that this hostile unit can cover in one second
-     * @param health   Health of this hostile unit (if <= 0, the hostile unit is dead)
-     */
-    protected HostileUnit(@NonNull Vector2 position, float speed, int health) {
-        uuid = UUID.randomUUID();
-        this.position = position.cpy();
-        this.speed = speed;
-        this.health = health;
-        currentSpeed = speed;
-        slowingEffectDurationInMs = 0;
-        cardinalDirection = NORTH;
-        support = null;
-    }
-
-    /**
-     * Creates a new hostile unit with a specified position, speed and health.
-     *
      * @param position              Position of this hostile unit
      * @param speed                 Distance that this hostile unit can cover in one second
      * @param health                Health of this hostile unit (if <= 0, the hostile unit is dead)
      * @param hostileUnitController Controller for hostile units
      */
     protected HostileUnit(@NonNull Vector2 position, float speed, int health,
-                          @NonNull HostileUnitController hostileUnitController) {
+                          @Nullable HostileUnitController hostileUnitController) {
         uuid = UUID.randomUUID();
         this.position = position.cpy();
         this.speed = speed;
@@ -102,12 +85,17 @@ public abstract class HostileUnit {
         currentSpeed = speed;
         slowingEffectDurationInMs = 0;
         cardinalDirection = NORTH;
-        support = new PropertyChangeSupport(this);
 
-        // Add hostile unit controller as observer and call create event
-        support.addPropertyChangeListener(hostileUnitController);
-        support.firePropertyChange(CREATE_EVENT_NAME, null,
-                new GameModelData(cardinalDirection.getDegrees(), position.cpy()));
+        if (hostileUnitController != null) {
+            support = new PropertyChangeSupport(this);
+
+            // Add hostile unit controller as observer and call create event
+            support.addPropertyChangeListener(hostileUnitController);
+            support.firePropertyChange(CREATE_EVENT_NAME, null,
+                    new GameModelData(cardinalDirection.getDegrees(), position.cpy()));
+        } else {
+            support = null;
+        }
     }
 
     /**

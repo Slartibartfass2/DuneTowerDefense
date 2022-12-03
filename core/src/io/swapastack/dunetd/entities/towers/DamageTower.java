@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
-import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 import static io.swapastack.dunetd.assets.controller.EntityController.UPDATE_EVENT_NAME;
 
@@ -43,8 +43,7 @@ public abstract class DamageTower extends Tower {
      * @param reloadTimeInMs Time in milliseconds needed to reload
      */
     protected DamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMs) {
-        super(x, y, range, buildCost, reloadTimeInMs);
-        this.damage = damage;
+        this(x, y, range, buildCost, damage, reloadTimeInMs, null);
     }
 
     /**
@@ -59,7 +58,7 @@ public abstract class DamageTower extends Tower {
      * @param entityController Controller for towers
      */
     protected DamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMs,
-                          @NonNull EntityController entityController) {
+                          @Nullable EntityController entityController) {
         super(x, y, range, buildCost, reloadTimeInMs, entityController, MathUtils.random(0, 359));
         this.damage = damage;
         idleGoalRotation = MathUtils.random(0, 359);
