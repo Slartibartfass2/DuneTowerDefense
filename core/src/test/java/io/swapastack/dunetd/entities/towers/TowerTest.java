@@ -8,27 +8,27 @@ import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
 import lombok.NonNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TowerTest {
+class TowerTest {
 
     static {
         TestHelper.readConfigFile();
     }
 
     @Test
-    public void testConstructor1WithValidArguments() {
+    void testConstructor1WithValidArguments() {
         assertNotNull(getNewRandomTower());
     }
 
     @Test
-    public void testConstructor2WithInvalidArguments() {
+    void testConstructor2WithInvalidArguments() {
         var random = new Random();
         int x = random.nextInt();
         int y = random.nextInt();
@@ -40,7 +40,7 @@ public class TowerTest {
     }
 
     @Test
-    public void testUpdateOnceWithHostileUnits() {
+    void testUpdateOnceWithHostileUnits() {
         var tower = getNewRandomTower(false);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -59,7 +59,7 @@ public class TowerTest {
     }
 
     @Test
-    public void testUpdateSeveralTimesWithHostileUnits() {
+    void testUpdateSeveralTimesWithHostileUnits() {
         var tower = getNewRandomTower(false);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -82,13 +82,13 @@ public class TowerTest {
     }
 
     @Test
-    public void testUpdateWithoutHostileUnits() {
+    void testUpdateWithoutHostileUnits() {
         var tower = getNewRandomTower();
         assertThrows(IllegalArgumentException.class, () -> tower.update(null, 0.16f));
     }
 
     @Test
-    public void testTargetWithHostileUnits() {
+    void testTargetWithHostileUnits() {
         var tower = getNewRandomTower();
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -99,13 +99,13 @@ public class TowerTest {
     }
 
     @Test
-    public void testTargetWithoutHostileUnits() {
+    void testTargetWithoutHostileUnits() {
         var tower = getNewRandomTower();
         assertThrows(IllegalArgumentException.class, () -> tower.target(null, true));
     }
 
     @Test
-    public void testGetHostileUnitsInRangeWithHostileUnitsInRange() {
+    void testGetHostileUnitsInRangeWithHostileUnitsInRange() {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
                 new Harvester(Vector2.Zero),
@@ -117,7 +117,7 @@ public class TowerTest {
     }
 
     @Test
-    public void testGetHostileUnitsInRangeWithHostileUnitsOutOfRange() {
+    void testGetHostileUnitsInRangeWithHostileUnitsOutOfRange() {
         int range = 10;
         int outOfRange = range + 1;
         var hostileUnits = Arrays.stream(new HostileUnit[]{
@@ -131,7 +131,7 @@ public class TowerTest {
     }
 
     @Test
-    public void testGetHostileUnitsInRangeWithTowerInRange() {
+    void testGetHostileUnitsInRangeWithTowerInRange() {
         var tower = getNewTower(0, 0, 10, 10, 100);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -144,7 +144,7 @@ public class TowerTest {
     }
 
     @Test
-    public void testGetHostileUnitsInRangeWithTowerOutOfRange() {
+    void testGetHostileUnitsInRangeWithTowerOutOfRange() {
         int range = 10;
         int outOfRange = range + 1;
         var tower = getNewTower(0, 0, range, 10, 100);
@@ -159,7 +159,7 @@ public class TowerTest {
     }
 
     @Test
-    public void testRePosition() {
+    void testRePosition() {
         var tower = getNewRandomTower();
 
         int x = new Random().nextInt();
@@ -172,14 +172,14 @@ public class TowerTest {
     }
 
     @Test
-    public void testSetToDebris() {
+    void testSetToDebris() {
         var tower = getNewRandomTower();
         tower.setToDebris();
         assertTrue(tower.isDebris);
     }
 
     @Test
-    public void testGetRange() {
+    void testGetRange() {
         var range = new Random().nextFloat();
         var tower = getNewTower(0, 0, range, 100, 100);
         assertEquals(range, tower.range, 0f);
@@ -187,20 +187,20 @@ public class TowerTest {
     }
 
     @Test
-    public void testGetBuildCost() {
+    void testGetBuildCost() {
         var tower = getNewRandomTower();
         assertEquals(tower.buildCost, tower.getBuildCost());
     }
 
     @Test
-    public void testIsDebris() {
+    void testIsDebris() {
         var tower = getNewRandomTower();
         tower.isDebris = true;
         assertTrue(tower.isDebris());
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         var tower = getNewRandomTower();
         var tower1 = getNewRandomTower();
 
@@ -212,7 +212,7 @@ public class TowerTest {
         assertNotEquals(tower2, tower3);
     }
 
-    public Tower getNewRandomTower() {
+    Tower getNewRandomTower() {
         return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(), new Random().nextInt(),
                 new Random().nextInt()) {
             @Override
@@ -226,7 +226,7 @@ public class TowerTest {
         };
     }
 
-    public Tower getNewRandomTower(boolean targetReturnValue) {
+    Tower getNewRandomTower(boolean targetReturnValue) {
         return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(), new Random().nextInt(),
                 new Random().nextInt()) {
             int counter = 10;
@@ -244,7 +244,7 @@ public class TowerTest {
         };
     }
 
-    public Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs) {
+    Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs) {
         return new Tower(x, y, range, buildCost, reloadTimeInMs) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
@@ -257,7 +257,7 @@ public class TowerTest {
         };
     }
 
-    public Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs,
+    Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs,
                              EntityController entityController) {
         return new Tower(x, y, range, buildCost, reloadTimeInMs, entityController, 0f) {
             @Override

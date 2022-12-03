@@ -1,0 +1,63 @@
+name: Code Quality Checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+          cache: 'gradle'
+
+      - name: Build
+        run: gradle --build-cache assemble
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: 'desktop/build/libs/**'
+          if-no-files-found: error
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+          cache: 'gradle'
+
+      - name: Test with coverage
+        run: gradle jacocoTestReport --warning-mode all
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-artifacts
+          path: |
+            core/build/test-results/test/**
+            core/build/reports/**
+          if-no-files-found: error
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v3
+        with:
+          directory: core/build/reports/jacoco/test
+          flags: unittests

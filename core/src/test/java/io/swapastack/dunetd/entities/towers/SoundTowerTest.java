@@ -7,14 +7,14 @@ import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SoundTowerTest {
+class SoundTowerTest {
 
     static {
         TestHelper.readConfigFile();
@@ -23,12 +23,12 @@ public class SoundTowerTest {
     private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
 
     @Test
-    public void testConstructor1WithValidArguments() {
+    void testConstructor1WithValidArguments() {
         assertNotNull(getRandomSoundTower());
     }
 
     @Test
-    public void testConstructor2WithInvalidArguments() {
+    void testConstructor2WithInvalidArguments() {
         var random = new Random();
         int x = random.nextInt();
         int y = random.nextInt();
@@ -37,13 +37,13 @@ public class SoundTowerTest {
     }
 
     @Test
-    public void testTargetWithInvalidArguments() {
+    void testTargetWithInvalidArguments() {
         var soundTower = getRandomSoundTower();
         assertThrows(IllegalArgumentException.class, () -> soundTower.target(null, false));
     }
 
     @Test
-    public void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
+    void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var soundTower = new SoundTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -59,7 +59,7 @@ public class SoundTowerTest {
     }
 
     @Test
-    public void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
+    void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var soundTower = new SoundTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -85,7 +85,7 @@ public class SoundTowerTest {
         }
     }
 
-    public SoundTower getRandomSoundTower() {
+    SoundTower getRandomSoundTower() {
         var random = new Random();
         int x = random.nextInt();
         int y = random.nextInt();
@@ -93,13 +93,13 @@ public class SoundTowerTest {
         return new SoundTower(x, y);
     }
 
-    public float getSpeed(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {
+    float getSpeed(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {
         var field = HostileUnit.class.getDeclaredField("speed");
         field.setAccessible(true);
         return (float) field.get(hostileUnit);
     }
 
-    public float getCurrentSpeed(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {
+    float getCurrentSpeed(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {
         var field = HostileUnit.class.getDeclaredField("currentSpeed");
         field.setAccessible(true);
         return (float) field.get(hostileUnit);

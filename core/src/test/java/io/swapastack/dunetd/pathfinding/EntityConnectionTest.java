@@ -1,13 +1,14 @@
 package io.swapastack.dunetd.pathfinding;
 
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-public class EntityConnectionTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class EntityConnectionTest {
 
     @Test
-    public void testConstructorWithValidArguments() {
+    void testConstructorWithValidArguments() {
         var entityNodeFrom = new EntityNode(null, 0, 0, 0);
         var entityNodeTo = new EntityNode(null, 0, 0, 0);
         var entityConnection = new EntityConnection(entityNodeFrom, entityNodeTo);
@@ -15,7 +16,7 @@ public class EntityConnectionTest {
     }
 
     @Test
-    public void testConstructorWithInvalidArguments() {
+    void testConstructorWithInvalidArguments() {
         var entityNodeFrom = new EntityNode(null, 0, 0, 0);
         var entityNodeTo = new EntityNode(null, 0, 0, 0);
 
@@ -25,7 +26,7 @@ public class EntityConnectionTest {
     }
 
     @Test
-    public void testGetter() {
+    void testGetter() {
         var entityConnection = new EntityConnection(
                 new EntityNode(null, 0, 0, 0),
                 new EntityNode(null, 0, 0, 0)

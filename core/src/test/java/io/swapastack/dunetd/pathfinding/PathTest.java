@@ -5,13 +5,13 @@ import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PathTest {
+class PathTest {
 
     static {
         TestHelper.readConfigFile();
@@ -21,7 +21,7 @@ public class PathTest {
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     @Test
-    public void testCalculatePathWithValidArguments() {
+    void testCalculatePathWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -40,7 +40,7 @@ public class PathTest {
     }
 
     @Test
-    public void testCalculatePathWithInvalidArguments() {
+    void testCalculatePathWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(null, null, null));
         assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(null, null, Vector2.Zero));
         assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(null, Vector2.Zero, null));
@@ -53,7 +53,7 @@ public class PathTest {
     }
 
     @Test
-    public void testGetNextWaypointWithValidArguments() {
+    void testGetNextWaypointWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -82,7 +82,7 @@ public class PathTest {
     }
 
     @Test
-    public void testGetNextWaypointWithValidArgumentsButPositionsOutsideGrid() {
+    void testGetNextWaypointWithValidArgumentsButPositionsOutsideGrid() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -96,14 +96,14 @@ public class PathTest {
     }
 
     @Test
-    public void testGetNextWaypointWithInvalidArguments() {
+    void testGetNextWaypointWithInvalidArguments() {
         var grid = getEntityGrid(10, 10);
         var path = Path.calculatePath(grid, Vector2.Zero, new Vector2(9, 9));
         assertThrows(IllegalArgumentException.class, () -> path.getNextWaypoint(null));
     }
 
     @Test
-    public void testGetWaypointWithValidArguments() {
+    void testGetWaypointWithValidArguments() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -117,7 +117,7 @@ public class PathTest {
     }
 
     @Test
-    public void testGetWaypointWithInvalidArguments() {
+    void testGetWaypointWithInvalidArguments() {
         var grid = getEntityGrid(10, 10);
         var path = Path.calculatePath(grid, Vector2.Zero, new Vector2(9, 9));
         var wayPoints = path.getWaypoints();
@@ -126,7 +126,7 @@ public class PathTest {
     }
 
     @Test
-    public void testCopy() {
+    void testCopy() {
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var grid = getEntityGrid(width, height);
@@ -142,7 +142,7 @@ public class PathTest {
         }
     }
 
-    public Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
+    Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
             int x = (int) towerPosition.x;

@@ -1,16 +1,16 @@
 package io.swapastack.dunetd.pathfinding;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class EntityHeuristicTest {
+class EntityHeuristicTest {
 
     @Test
-    public void testEstimateWithValidArguments() {
+    void testEstimateWithValidArguments() {
         var entityHeuristic = new EntityHeuristic();
 
         var entityNode1 = new EntityNode(null, 0, 0, 0);
@@ -28,7 +28,7 @@ public class EntityHeuristicTest {
     }
 
     @Test
-    public void testEstimateWithInvalidArguments() {
+    void testEstimateWithInvalidArguments() {
         var entityHeuristic = new EntityHeuristic();
 
         var entityNode1 = new EntityNode(null, 0, 0, 0);

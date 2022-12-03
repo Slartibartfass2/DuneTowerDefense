@@ -8,14 +8,21 @@ buildscript {
         gradlePluginPortal()
         google()
     }
+
     dependencies {
         classpath "com.badlogicgames.gdx:gdx-ai:1.8.2"
     }
 }
 
+plugins {
+    id 'java'
+    id 'org.barfuin.gradle.jacocolog' version '2.0.0'
+}
+
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "java"
+    apply plugin: "jacoco"
 
     version = '1.0'
     ext {
@@ -33,6 +40,7 @@ allprojects {
         imguiVersion = '1.84.1.4'
         lombokVersion = '1.18.22'
         visuiVersion = '1.5.0'
+        jUnitVersion = '5.9.1'
     }
 
     repositories {
@@ -46,7 +54,6 @@ allprojects {
     }
 
     dependencies {
-        implementation 'junit:junit:4.13.2'
         implementation 'org.jetbrains:annotations:23.0.0'
     }
 }
@@ -70,9 +77,11 @@ project(":desktop") {
     }
 
     jar {
+        dependsOn(":core:jar")
+
         manifest {
             attributes(
-                    'Main-Class': 'io.swapastack.dunetd.desktop.DesktopLauncher'
+                'Main-Class': 'io.swapastack.dunetd.desktop.DesktopLauncher'
             )
         }
 
@@ -91,6 +100,10 @@ project(":core") {
     }
 
     dependencies {
+        // JUnit
+        implementation "org.junit.jupiter:junit-jupiter:$jUnitVersion"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
@@ -130,5 +143,46 @@ project(":core") {
         implementation "io.github.spair:imgui-java-natives-windows:$imguiVersion"
         implementation "io.github.spair:imgui-java-natives-linux:$imguiVersion"
         implementation "io.github.spair:imgui-java-natives-macos:$imguiVersion"
+    }
+
+    jar {}
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.8.6"
+    }
+
+    jacocoTestReport {
+        dependsOn test
+
+        reports {
+            xml.required = true
+            csv.required = false
+            html.required = true
+        }
+
+        afterEvaluate {
+            getClassDirectories().setFrom(classDirectories.files.collect { fileTree(dir: it, excludes: ['**/*Test*']) })
+        }
+    }
+
+    jacocoTestCoverageVerification {
+        dependsOn jacocoTestReport
+
+        violationRules {
+            rule {
+                limit {
+                    minimum = 0.6
+                }
+
+                failOnViolation true
+            }
+        }
     }
 }

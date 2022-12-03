@@ -3,16 +3,16 @@ package io.swapastack.dunetd.entities.towers;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.NonNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TowerEnumTest {
+class TowerEnumTest {
 
     @Test
-    public void testFromTowerWithInvalidArguments() {
+    void testFromTowerWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> TowerEnum.fromTower(null));
 
         var tower = new Tower(0, 0, 0, 0, 0) {
@@ -31,7 +31,7 @@ public class TowerEnumTest {
     }
 
     @Test
-    public void testFromTowerWithValidArguments() {
+    void testFromTowerWithValidArguments() {
         var guardTower = new GuardTower(0, 0);
         assertEquals(TowerEnum.GUARD_TOWER, TowerEnum.fromTower(guardTower));
 
@@ -43,7 +43,7 @@ public class TowerEnumTest {
     }
 
     @Test
-    public void testToTowerExpectedOutput() {
+    void testToTowerExpectedOutput() {
         TestHelper.readConfigFile();
 
         var towerEnum0 = TowerEnum.GUARD_TOWER;
@@ -60,7 +60,7 @@ public class TowerEnumTest {
     }
 
     @Test
-    public void testNext() {
+    void testNext() {
         // Test if next element is always element with ordinal + 1, or 0 if it's the last element
         for (int i = 0; i < TowerEnum.values().length; i++) {
             var towerEnum = TowerEnum.values()[i];
@@ -70,7 +70,7 @@ public class TowerEnumTest {
     }
 
     @Test
-    public void testPrevious() {
+    void testPrevious() {
         // Test if previous element is always element with ordinal - 1, or values().length - 1 if it's the first element
         for (int i = 0; i < TowerEnum.values().length; i++) {
             var towerEnum = TowerEnum.values()[i];

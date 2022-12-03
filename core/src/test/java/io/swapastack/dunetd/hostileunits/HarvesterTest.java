@@ -4,11 +4,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class HarvesterTest {
+class HarvesterTest {
 
     static {
         TestHelper.readConfigFile();
@@ -18,24 +18,24 @@ public class HarvesterTest {
     private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance().getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
 
     @Test
-    public void testConstructor1WithValidArguments() {
+    void testConstructor1WithValidArguments() {
         var harvester = new Harvester(Vector2.Zero);
         assertNotNull(harvester);
     }
 
     @Test
-    public void testConstructor1WithInvalidArguments() {
+    void testConstructor1WithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> new Harvester(null));
     }
 
     @Test
-    public void testConstructor2WithInvalidArguments() {
+    void testConstructor2WithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> new Harvester(null, null));
         assertThrows(IllegalArgumentException.class, () -> new Harvester(Vector2.Zero, null));
     }
 
     @Test
-    public void testSlowDown() {
+    void testSlowDown() {
         for (int i = 1; i < 10; i++) {
             var harvester = new Harvester(Vector2.Zero);
             var slowingEffectMultiplier = 0.1f * i;
@@ -47,7 +47,7 @@ public class HarvesterTest {
     }
 
     @Test
-    public void testGetSpiceReward() {
+    void testGetSpiceReward() {
         var harvester = new Harvester(Vector2.Zero);
         assertEquals(HARVESTER_SPICE_REWARD, harvester.getSpiceReward());
     }

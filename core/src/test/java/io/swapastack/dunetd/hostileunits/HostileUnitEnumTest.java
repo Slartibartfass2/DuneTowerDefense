@@ -2,19 +2,19 @@ package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class HostileUnitEnumTest {
+class HostileUnitEnumTest {
 
     static {
         TestHelper.readConfigFile();
     }
 
     @Test
-    public void testFromHostileUnitWithValidArguments() {
+    void testFromHostileUnitWithValidArguments() {
         var infantry = new Infantry(Vector2.Zero);
         assertEquals(HostileUnitEnum.INFANTRY, fromHostileUnit(infantry));
 
@@ -26,12 +26,12 @@ public class HostileUnitEnumTest {
     }
 
     @Test
-    public void testFromHostileUnitWithInvalidArguments() {
+    void testFromHostileUnitWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> fromHostileUnit(null));
     }
 
     @Test
-    public void testToHostileUnitWithValidArguments() {
+    void testToHostileUnitWithValidArguments() {
         var infantryEnum = HostileUnitEnum.INFANTRY;
         var infantry = infantryEnum.toHostileUnit(Vector2.Zero, null);
         assertNotNull(infantry);
@@ -46,7 +46,7 @@ public class HostileUnitEnumTest {
     }
 
     @Test
-    public void testToHostileUnitWithInvalidArguments() {
+    void testToHostileUnitWithInvalidArguments() {
         var infantryEnum = HostileUnitEnum.INFANTRY;
         assertThrows(IllegalArgumentException.class, () -> infantryEnum.toHostileUnit(null, null));
 

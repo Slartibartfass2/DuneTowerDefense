@@ -1,16 +1,16 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static io.swapastack.dunetd.game.CardinalDirection.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CardinalDirectionTest {
+class CardinalDirectionTest {
 
     @Test
-    public void testFromDirectionWithValidArguments() {
+    void testFromDirectionWithValidArguments() {
         var northVector = new Vector2(0f, 1f);
         assertEquals(NORTH, fromDirection(northVector));
 
@@ -25,12 +25,12 @@ public class CardinalDirectionTest {
     }
 
     @Test
-    public void testFromDirectionWithInvalidArguments() {
+    void testFromDirectionWithInvalidArguments() {
         assertThrows(IllegalArgumentException.class, () -> fromDirection(null));
     }
 
     @Test
-    public void testGetDirection() {
+    void testGetDirection() {
         var northVector = new Vector2(0f, 1f);
         assertEquals(NORTH.getDirection(), northVector);
 
@@ -45,7 +45,7 @@ public class CardinalDirectionTest {
     }
 
     @Test
-    public void testGetDegrees() {
+    void testGetDegrees() {
         assertEquals(0f, NORTH.getDegrees(), 0f);
         assertEquals(90f, EAST.getDegrees(), 0f);
         assertEquals(180f, SOUTH.getDegrees(), 0f);
