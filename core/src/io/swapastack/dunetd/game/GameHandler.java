@@ -55,8 +55,8 @@ public final class GameHandler {
     private static final int HARVESTER_MAX_COUNT = Configuration.getInstance().getIntProperty("HARVESTER_MAX_COUNT");
 
     // Controller for entities and hostile units
-    private EntityController entityController;
-    private HostileUnitController hostileUnitController;
+    private final EntityController entityController;
+    private final HostileUnitController hostileUnitController;
 
     // Player information
     @Getter

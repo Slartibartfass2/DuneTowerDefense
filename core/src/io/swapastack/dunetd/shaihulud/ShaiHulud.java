@@ -39,29 +39,24 @@ public final class ShaiHulud {
     private final PropertyChangeSupport support;
     private boolean alreadySummoned;
 
-    public ShaiHulud(@NonNull Entity[][] grid) {
+    public ShaiHulud(@NonNull Entity[][] grid, ShaiHuludController shaiHuludController) {
         this.grid = grid;
         remainingCooldownInMs = 0;
         firstThumper = null;
         secondThumper = null;
         gridPosition = null;
         movingDirection = null;
-        support = null;
         alreadySummoned = false;
-    }
 
-    public ShaiHulud(@NonNull Entity[][] grid, @NonNull ShaiHuludController shaiHuludController) {
-        this.grid = grid;
-        remainingCooldownInMs = 0;
-        firstThumper = null;
-        secondThumper = null;
-        gridPosition = null;
-        movingDirection = null;
-        support = new PropertyChangeSupport(this);
+        if (shaiHuludController != null) {
+            support = new PropertyChangeSupport(this);
 
-        // Add shai hulud controller as observer and call create event
-        support.addPropertyChangeListener(shaiHuludController);
-        support.firePropertyChange(CREATE_EVENT_NAME, null, null);
+            // Add shai hulud controller as observer and call create event
+            support.addPropertyChangeListener(shaiHuludController);
+            support.firePropertyChange(CREATE_EVENT_NAME, null, null);
+        } else {
+            support = null;
+        }
     }
 
     /**
