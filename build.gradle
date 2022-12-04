@@ -17,6 +17,7 @@ buildscript {
 plugins {
     id 'java'
     id 'org.barfuin.gradle.jacocolog' version '2.0.0'
+    id 'checkstyle'
 }
 
 allprojects {
@@ -195,5 +196,25 @@ project(":core") {
                 failOnViolation true
             }
         }
+    }
+}
+
+checkstyle {
+    toolVersion = '10.5.0'
+    configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+
+    checkstyleMain {
+        source = 'core/src/io/swapastack/dunetd'
+    }
+
+    checkstyleTest {
+        source = 'core/src/test/java/io/swapastack/dunetd'
+    }
+}
+
+tasks.withType(Checkstyle).configureEach {
+    reports {
+        xml.enabled false
+        html.enabled true
     }
 }
