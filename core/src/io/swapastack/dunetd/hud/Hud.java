@@ -257,13 +257,8 @@ public final class Hud implements Disposable {
         }
 
         // Vector indicates in which direction the camera should move
-        // User can the movement with WASD
-        @SuppressWarnings("squid:S3358")
-        var cameraMovementIndicator = new Vector2(
-                // Move forward / backward
-                Gdx.input.isKeyPressed(Input.Keys.W) ? 1f : Gdx.input.isKeyPressed(Input.Keys.S) ? -1f : 0f,
-                // Move to the left / right
-                Gdx.input.isKeyPressed(Input.Keys.D) ? 1f : Gdx.input.isKeyPressed(Input.Keys.A) ? -1f : 0f);
+        // User can control the movement with WASD
+        var cameraMovementIndicator = getCameraMovement();
 
         // Angle to which camera should move
         var movementAngle = -cameraMovementIndicator.angleDeg();
@@ -278,21 +273,58 @@ public final class Hud implements Disposable {
         var newZ = camera.position.z + cameraPositionChange.z;
 
         // Restrain camera position to keep camera around the game field
-        if (newX < -CAMERA_BORDER_OFFSET) {
-            cameraPositionChange.x = -CAMERA_BORDER_OFFSET - camera.position.x;
-        } else if (newX > gameHandler.getGridWidth() + CAMERA_BORDER_OFFSET) {
-            cameraPositionChange.x = gameHandler.getGridWidth() + CAMERA_BORDER_OFFSET - camera.position.x;
-        }
-
-        if (newZ < -CAMERA_BORDER_OFFSET) {
-            cameraPositionChange.z = -CAMERA_BORDER_OFFSET - camera.position.z;
-        } else if (newZ > gameHandler.getGridHeight() + CAMERA_BORDER_OFFSET) {
-            cameraPositionChange.z = gameHandler.getGridHeight() + CAMERA_BORDER_OFFSET - camera.position.z;
-        }
+        cameraPositionChange = getCameraPositionChange(camera, cameraPositionChange, newX, newZ);
 
         // Move camera if cameraPositionChange is not Vector3.Zero
         camera.position.add(cameraPositionChange);
         cameraFocusPosition.add(cameraPositionChange);
+    }
+
+    private Vector3 getCameraPositionChange(@NonNull PerspectiveCamera camera, @NonNull Vector3 cameraPositionChange,
+                                            float newX, float newZ) {
+        float x;
+        float z;
+
+        if (newX < -CAMERA_BORDER_OFFSET) {
+            x = -CAMERA_BORDER_OFFSET - camera.position.x;
+        } else if (newX > gameHandler.getGridWidth() + CAMERA_BORDER_OFFSET) {
+            x = gameHandler.getGridWidth() + CAMERA_BORDER_OFFSET - camera.position.x;
+        } else {
+            x = cameraPositionChange.x;
+        }
+
+        if (newZ < -CAMERA_BORDER_OFFSET) {
+            z = -CAMERA_BORDER_OFFSET - camera.position.z;
+        } else if (newZ > gameHandler.getGridHeight() + CAMERA_BORDER_OFFSET) {
+            z = gameHandler.getGridHeight() + CAMERA_BORDER_OFFSET - camera.position.z;
+        } else {
+            z = cameraPositionChange.z;
+        }
+
+        return new Vector3(x, 0f, z);
+    }
+
+    private Vector2 getCameraMovement() {
+        float x;
+        float y;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            x = 1f;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            x = -1f;
+        } else {
+            x = 0f;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            y = 1f;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            y = -1f;
+        } else {
+            y = 0f;
+        }
+
+        return new Vector2(x, y);
     }
 
     private void switchEscapeMenuVisibility() {
