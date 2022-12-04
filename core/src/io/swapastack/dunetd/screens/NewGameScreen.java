@@ -85,10 +85,7 @@ public final class NewGameScreen extends AbstractScreen {
     }
 
     private void saveGameSettings() {
-        try {
-            settings.setGridWidth(Integer.parseInt(gridWidthSpinner.getModel().getText()));
-            settings.setGridHeight(Integer.parseInt(gridHeightSpinner.getModel().getText()));
-        } catch (NumberFormatException ignored) {
-        }
+        settings.setGridWidth(Integer.parseInt(gridWidthSpinner.getModel().getText()));
+        settings.setGridHeight(Integer.parseInt(gridHeightSpinner.getModel().getText()));
     }
 }
