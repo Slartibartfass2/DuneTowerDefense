@@ -22,71 +22,6 @@ class TowerTest {
     }
 
     @Test
-    void testUpdateOnceWithHostileUnits() {
-        var tower = getNewRandomTower(false);
-        var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
-        }).toList();
-        tower.update(hostileUnits, 0.16f);
-
-        var tower1 = getNewRandomTower(true);
-        var hostileUnits1 = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
-        }).toList();
-        tower1.update(hostileUnits1, 0.16f);
-    }
-
-    @Test
-    void testUpdateSeveralTimesWithHostileUnits() {
-        var tower = getNewRandomTower(false);
-        var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
-        }).toList();
-        for (int i = 0; i < 10; i++) {
-            tower.update(hostileUnits, 0.16f);
-        }
-
-        var tower1 = getNewRandomTower(true);
-        var hostileUnits1 = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
-        }).toList();
-        for (int i = 0; i < 10; i++) {
-            tower1.update(hostileUnits1, 0.16f);
-        }
-    }
-
-    @Test
-    void testUpdateWithoutHostileUnits() {
-        var tower = getNewRandomTower();
-        assertThrows(IllegalArgumentException.class, () -> tower.update(null, 0.16f));
-    }
-
-    @Test
-    void testTargetWithHostileUnits() {
-        var tower = getNewRandomTower();
-        var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
-        }).toList();
-        tower.target(hostileUnits, true);
-    }
-
-    @Test
-    void testTargetWithoutHostileUnits() {
-        var tower = getNewRandomTower();
-        assertThrows(IllegalArgumentException.class, () -> tower.target(null, true));
-    }
-
-    @Test
     void testGetHostileUnitsInRangeWithHostileUnitsInRange() {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
                 new Infantry(Vector2.Zero),
@@ -200,24 +135,6 @@ class TowerTest {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
-            }
-
-            @Override
-            protected void idle(float deltaTime) {
-            }
-        };
-    }
-
-    Tower getNewRandomTower(boolean targetReturnValue) {
-        return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(), new Random().nextInt(),
-                new Random().nextInt(), null, 0f) {
-            int counter = 10;
-
-            @Override
-            protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
-                if (--counter <= 0)
-                    return false;
-                return targetReturnValue;
             }
 
             @Override
