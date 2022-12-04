@@ -51,19 +51,8 @@ public final class GameGround {
             return;
         }
 
-        // Delete old path
         if (this.path != null) {
-            for (Vector2 wayPoint : this.path.getWaypoints()) {
-                if (wayPoint == null) {
-                    continue;
-                }
-                int x = (int) wayPoint.x;
-                int y = (int) wayPoint.y;
-                if (groundGrid[x][y] != null) {
-                    sceneManager.removeScene(groundGrid[x][y].getScene());
-                }
-                groundGrid[x][y] = null;
-            }
+            deleteOldPath();
         }
 
         this.path = path.copy();
@@ -87,40 +76,76 @@ public final class GameGround {
             if (i == 0 || i == wayPointLength - 1) {
                 newTile = assetLoader.getGroundTile(GroundTileEnum.GROUND_TILE);
             } else {
-                // Path tiles
-                Vector2 wayPointBefore = this.path.getWaypoint(i - 1);
-                Vector2 wayPointAfter = this.path.getWaypoint(i + 1);
-
-                // Get direction vectors
-                wayPointAfter.sub(wayPoint);
-                wayPoint.sub(wayPointBefore);
-
-                // If vectors are equal the path tile is straight
-                if (wayPoint.equals(wayPointAfter)) {
-                    CardinalDirection tileOrientation = CardinalDirection.fromDirection(wayPoint);
-                    newTile = assetLoader.getGroundTile(GroundTileEnum.PATH_STRAIGHT);
-                    rotation = tileOrientation.getDegrees();
-                } else {
-                    // Curve tile -> calculate turn angle
-                    var rotationBefore = CardinalDirection.fromDirection(wayPoint).getDegrees();
-                    var rotationAfter = CardinalDirection.fromDirection(wayPointAfter).getDegrees();
-                    var rotationChange = (rotationBefore - rotationAfter + 360) % 360;
-
-                    // if rotationChange == 90 then it's a turn right otherwise it's a turn left
-                    if (rotationChange == 90) {
-                        rotation = rotationBefore;
-                    } else if (rotationChange == 270) {
-                        rotation = (rotationBefore + 270) % 360;
-                    }
-
-                    newTile = assetLoader.getGroundTile(GroundTileEnum.PATH_CURVE);
-                }
+                var tileAndRotation = determinePathTile(wayPoint, i);
+                newTile = tileAndRotation.tile();
+                rotation = tileAndRotation.rotation();
             }
 
             addTileToGround(x, y, newTile, rotation);
         }
 
-        // Fill wholes in grid with ground tiles
+        fillHolesInGrid();
+    }
+
+    private void deleteOldPath() {
+        for (var wayPoint : path.getWaypoints()) {
+            if (wayPoint == null) {
+                continue;
+            }
+            int x = (int) wayPoint.x;
+            int y = (int) wayPoint.y;
+            if (groundGrid[x][y] != null) {
+                sceneManager.removeScene(groundGrid[x][y].getScene());
+            }
+            groundGrid[x][y] = null;
+        }
+    }
+
+    /**
+     * Determines which path tile and rotation to chose according to the path waypoints
+     */
+    private TileAndRotation determinePathTile(Vector2 wayPoint, int i) {
+        // Path tiles
+        var wayPointBefore = path.getWaypoint(i - 1);
+        var wayPointAfter = path.getWaypoint(i + 1);
+
+        // Get direction vectors
+        wayPointAfter.sub(wayPoint);
+        wayPoint.sub(wayPointBefore);
+
+        GameModelSingle newTile;
+        var rotation = 0f;
+
+        // If vectors are equal the path tile is straight
+        if (wayPoint.equals(wayPointAfter)) {
+            CardinalDirection tileOrientation = CardinalDirection.fromDirection(wayPoint);
+            newTile = assetLoader.getGroundTile(GroundTileEnum.PATH_STRAIGHT);
+            rotation = tileOrientation.getDegrees();
+        } else {
+            // Curve tile -> calculate turn angle
+            var rotationBefore = CardinalDirection.fromDirection(wayPoint).getDegrees();
+            var rotationAfter = CardinalDirection.fromDirection(wayPointAfter).getDegrees();
+            var rotationChange = (rotationBefore - rotationAfter + 360) % 360;
+
+            // if rotationChange == 90 then it's a turn right otherwise it's a turn left
+            if (rotationChange == 90) {
+                rotation = rotationBefore;
+            } else if (rotationChange == 270) {
+                rotation = (rotationBefore + 270) % 360;
+            }
+
+            newTile = assetLoader.getGroundTile(GroundTileEnum.PATH_CURVE);
+        }
+
+        return new TileAndRotation(newTile, rotation);
+    }
+
+    private record TileAndRotation(GameModelSingle tile, float rotation) {}
+
+    /**
+     * Fills hole in grid with ground tiles
+     */
+    private void fillHolesInGrid() {
         for (int x = 0; x < groundGrid.length; x++) {
             for (int y = 0; y < groundGrid[x].length; y++) {
                 if (groundGrid[x][y] != null) {
