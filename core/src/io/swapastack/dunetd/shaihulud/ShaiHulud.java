@@ -1,24 +1,25 @@
 package io.swapastack.dunetd.shaihulud;
 
 import com.badlogic.gdx.math.Vector2;
+import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.Tower;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
-import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import lombok.Getter;
 import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import static io.swapastack.dunetd.assets.controller.ShaiHuludController.*;
 import static io.swapastack.dunetd.entities.towers.TowerEnum.fromTower;
 import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
-import static io.swapastack.dunetd.assets.controller.ShaiHuludController.*;
 import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
 import static io.swapastack.dunetd.math.DuneTDMath.isPositionInsideGrid;
 
@@ -80,31 +81,41 @@ public final class ShaiHulud {
             if (!isPositionInsideGrid(grid, gridPosition.x, gridPosition.y)) {
                 reset(false);
             } else {
-                if (support != null) {// Update game model if existing
-                    support.firePropertyChange(UPDATE_EVENT_NAME, null,
-                            new GameModelData(movingDirection.getDegrees(),
-                                    new Vector2(gridPosition.x, gridPosition.y)));
-                }
-
-                // If shai hulud hits tower, set tower to debris
-                var entity = grid[(int) gridPosition.x][(int) gridPosition.y];
-                if (entity instanceof Tower tower && !tower.isDebris()) {
-                    tower.setToDebris();
-                    statistics.destroyedTowerByShaiHulud(fromTower(tower));
-                }
-
-                // If shai hulud hits hostile units kill hostile units
-                for (var hostileUnit : hostileUnits) {
-                    var hostileUnitPosition = hostileUnit.getPosition();
-                    if (gridPosition.dst2(hostileUnitPosition) <= RANGE) {
-                        hostileUnit.kill();
-                        statistics.killedHostileUnitByShaiHulud(fromHostileUnit(hostileUnit));
-                    }
-                }
+                updateGameModel();
+                destroyTowerOnCollision(statistics);
+                killHostileUnits(hostileUnits, statistics);
             }
             // If both thumpers were set but the grid position is null, the shai hulud needs to be summoned
         } else if (firstThumper != null && secondThumper != null) {
             summonShaiHulud();
+        }
+    }
+
+    private void updateGameModel() {
+        if (support != null) {// Update game model if existing
+            var gameModelData = new GameModelData(movingDirection.getDegrees(),
+                    new Vector2(gridPosition.x, gridPosition.y));
+            support.firePropertyChange(UPDATE_EVENT_NAME, null, gameModelData);
+        }
+    }
+
+    private void destroyTowerOnCollision(@NotNull Statistics statistics) {
+        // If shai hulud hits tower, set tower to debris
+        var entity = grid[(int) gridPosition.x][(int) gridPosition.y];
+        if (entity instanceof Tower tower && !tower.isDebris()) {
+            tower.setToDebris();
+            statistics.destroyedTowerByShaiHulud(fromTower(tower));
+        }
+    }
+
+    private void killHostileUnits(@NonNull List<HostileUnit> hostileUnits, @NonNull Statistics statistics) {
+        // If shai hulud hits hostile units kill hostile units
+        for (var hostileUnit : hostileUnits) {
+            var hostileUnitPosition = hostileUnit.getPosition();
+            if (gridPosition.dst2(hostileUnitPosition) <= RANGE) {
+                hostileUnit.kill();
+                statistics.killedHostileUnitByShaiHulud(fromHostileUnit(hostileUnit));
+            }
         }
     }
 
