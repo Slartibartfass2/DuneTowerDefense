@@ -61,3 +61,30 @@ jobs:
         with:
           directory: core/build/reports/jacoco/test
           flags: unittests
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+          cache: 'gradle'
+
+      - name: Run checkstyleMain
+        run: gradle checkstyleMain
+
+      - name: Run checkstyleTest
+        run: gradle checkstyleTest
+
+      - name: Archive report
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: linter-artifacts
+          path: build/reports/checkstyle/**
+          if-no-files-found: error
