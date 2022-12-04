@@ -8,15 +8,16 @@ import io.swapastack.dunetd.config.Configuration;
 public final class GameSettings {
 
     private final Preferences settings;
-    private final int monitorCount;
+    private final int maxMonitorIndex;
 
+    private static final int MIN_GRID_DIMENSION = 2;
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     // Default settings
     private static final boolean DEFAULT_VSYNC = true;
     private static final int DEFAULT_MONITOR_INDEX = 0;
-    private static final float DEFAULT_MASTER_VOLUME = 1f;
+    private static final float DEFAULT_MASTER_VOLUME = 0.5f;
     private static final int DEFAULT_GRID_SIZE = 2;
 
     // Setting names
@@ -27,8 +28,8 @@ public final class GameSettings {
     private static final String GRID_HEIGHT_SETTING_KEY = "gridHeight";
 
     public GameSettings() {
-        settings = Gdx.app.getPreferences("settings");
-        monitorCount = Gdx.graphics.getMonitors().length;
+        settings = Gdx.app.getPreferences("io.swapastack.dunetd.settings");
+        maxMonitorIndex = Gdx.graphics.getMonitors().length - 1;
     }
 
     public boolean getVSync() {
@@ -41,28 +42,18 @@ public final class GameSettings {
     }
 
     public int getMonitorIndex() {
-        try {
-            return MathUtils.clamp(settings.getInteger(MONITOR_SETTING_KEY, DEFAULT_MONITOR_INDEX), 0, monitorCount);
-        } catch (Exception ignored) {
-        }
-        settings.putInteger(MONITOR_SETTING_KEY, DEFAULT_MONITOR_INDEX);
-        settings.flush();
-        return DEFAULT_MONITOR_INDEX;
+        var value = settings.getInteger(MONITOR_SETTING_KEY, DEFAULT_MONITOR_INDEX);
+        return MathUtils.clamp(value, 0, maxMonitorIndex);
     }
 
     public void setMonitorIndex(int monitorIndex) {
-        settings.putInteger(MONITOR_SETTING_KEY, MathUtils.clamp(monitorIndex, 0, monitorCount));
+        settings.putInteger(MONITOR_SETTING_KEY, MathUtils.clamp(monitorIndex, 0, maxMonitorIndex));
         settings.flush();
     }
 
     public float getMasterVolume() {
-        try {
-            return MathUtils.clamp(settings.getFloat(MASTER_VOLUME_SETTING_KEY, DEFAULT_MASTER_VOLUME), 0f, 1f);
-        } catch (NumberFormatException ignored) {
-        }
-        settings.putFloat(MASTER_VOLUME_SETTING_KEY, DEFAULT_MASTER_VOLUME);
-        settings.flush();
-        return DEFAULT_MASTER_VOLUME;
+        var value = settings.getFloat(MASTER_VOLUME_SETTING_KEY, DEFAULT_MASTER_VOLUME);
+        return MathUtils.clamp(value, 0f, 1f);
     }
 
     public void setMasterVolume(float masterVolume) {
@@ -71,13 +62,8 @@ public final class GameSettings {
     }
 
     public int getGridWidth() {
-        try {
-            return MathUtils.clamp(settings.getInteger(GRID_WIDTH_SETTING_KEY, DEFAULT_GRID_SIZE), 2, MAX_GRID_WIDTH);
-        } catch (NumberFormatException ignored) {
-        }
-        settings.putInteger(GRID_WIDTH_SETTING_KEY, DEFAULT_GRID_SIZE);
-        settings.flush();
-        return DEFAULT_GRID_SIZE;
+        var value = settings.getInteger(GRID_WIDTH_SETTING_KEY, DEFAULT_GRID_SIZE);
+        return MathUtils.clamp(value, MIN_GRID_DIMENSION, MAX_GRID_WIDTH);
     }
 
     public void setGridWidth(int gridWidth) {
@@ -86,13 +72,8 @@ public final class GameSettings {
     }
 
     public int getGridHeight() {
-        try {
-            return MathUtils.clamp(settings.getInteger(GRID_HEIGHT_SETTING_KEY, DEFAULT_GRID_SIZE), 2, MAX_GRID_HEIGHT);
-        } catch (NumberFormatException ignored) {
-        }
-        settings.putInteger(GRID_HEIGHT_SETTING_KEY, DEFAULT_GRID_SIZE);
-        settings.flush();
-        return DEFAULT_GRID_SIZE;
+        var value = settings.getInteger(GRID_HEIGHT_SETTING_KEY, DEFAULT_GRID_SIZE);
+        return MathUtils.clamp(value, MIN_GRID_DIMENSION, MAX_GRID_HEIGHT);
     }
 
     public void setGridHeight(int gridHeight) {

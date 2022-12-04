@@ -20,6 +20,8 @@ import lombok.NonNull;
  */
 public final class LoadingScreen extends AbstractScreen {
 
+    private static final String LOADING_SCREEN_PACK_PATH = "loading_screen/loading.pack";
+
     private Image logo;
     private Image loadingFrame;
     private Image loadingBarHidden;
@@ -45,11 +47,11 @@ public final class LoadingScreen extends AbstractScreen {
     @Override
     public void show() {
         // Load assets for loading screen and wait until its finished
-        assetManager.load("loading_screen/loading.pack", TextureAtlas.class);
+        assetManager.load(LOADING_SCREEN_PACK_PATH, TextureAtlas.class);
         assetManager.finishLoading();
 
         // Get the texture atlas from the manager
-        var atlas = assetManager.get("loading_screen/loading.pack", TextureAtlas.class);
+        var atlas = assetManager.get(LOADING_SCREEN_PACK_PATH, TextureAtlas.class);
 
         // Grab the regions from the atlas and create some images
         logo = new Image(atlas.findRegion("libgdx-logo"));
@@ -156,6 +158,6 @@ public final class LoadingScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         // Dispose the loading assets as we no longer need them
-        assetManager.unload("loading_screen/loading.pack");
+        assetManager.unload(LOADING_SCREEN_PACK_PATH);
     }
 }

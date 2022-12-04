@@ -79,7 +79,7 @@ class HostileUnitTest {
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
         hostileUnit.slowingEffectDurationInMs = 1000;
-        hostileUnit.move(path, 0.016f);
+        assertDoesNotThrow(() -> hostileUnit.move(path, 0.016f));
     }
 
     @Test

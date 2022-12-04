@@ -55,26 +55,33 @@ public final class EntityGraph implements IndexedGraph<EntityNode> {
         // Create nodes and connection between nodes
         for (int x = 0; x < gridWidth; x++) {
             for (int y = 0; y < gridHeight; y++) {
-                var currentNode = nodeGrid[x][y];
-
-                // Add entity node at position x y, if not already created
-                if (currentNode == null) {
-                    currentNode = new EntityNode(grid[x][y], x, y, nodeIndex++);
-                    nodeGrid[x][y] = currentNode;
-                    entityNodes.add(currentNode);
-                }
-
-                // Add horizontal connection
-                if (x < gridWidth - 1) {
-                    nodeIndex = addConnection(grid, nodeGrid, currentNode, x + 1, y, nodeIndex);
-                }
-
-                // Add vertical connection
-                if (y < gridHeight - 1) {
-                    nodeIndex = addConnection(grid, nodeGrid, currentNode, x, y + 1, nodeIndex);
-                }
+                nodeIndex = createNodeAndConnectionForTile(grid, gridWidth, gridHeight, nodeIndex, nodeGrid, x, y);
             }
         }
+    }
+
+    private int createNodeAndConnectionForTile(@NonNull Entity[][] grid, int gridWidth, int gridHeight, int nodeIndex,
+                                               EntityNode[][] nodeGrid, int x, int y) {
+        var currentNode = nodeGrid[x][y];
+
+        // Add entity node at position x y, if not already created
+        if (currentNode == null) {
+            currentNode = new EntityNode(grid[x][y], x, y, nodeIndex++);
+            nodeGrid[x][y] = currentNode;
+            entityNodes.add(currentNode);
+        }
+
+        // Add horizontal connection
+        if (x < gridWidth - 1) {
+            nodeIndex = addConnection(grid, nodeGrid, currentNode, x + 1, y, nodeIndex);
+        }
+
+        // Add vertical connection
+        if (y < gridHeight - 1) {
+            nodeIndex = addConnection(grid, nodeGrid, currentNode, x, y + 1, nodeIndex);
+        }
+
+        return nodeIndex;
     }
 
     /**
