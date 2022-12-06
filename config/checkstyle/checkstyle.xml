@@ -23,7 +23,6 @@
     <!-- Whitespace -->
     <module name="FileTabCharacter"/>
 
-
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
 
@@ -191,20 +190,24 @@
         <!-- Whitespace -->
         <module name="EmptyForInitializerPad"/>
         <module name="EmptyForIteratorPad"/>
-<!--        <module name="EmptyLineSeparator">-->
-<!--            <property name="allowMultipleEmptyLines" value="false"/>-->
-<!--            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>-->
-<!--            <property name="tokens"-->
-<!--                      value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, STATIC_INIT,-->
-<!--                      INSTANCE_INIT, METHOD_DEF, CTOR_DEF, RECORD_DEF, COMPACT_CTOR_DEF"/>-->
-<!--        </module>-->
+        <module name="EmptyLineSeparator">
+            <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+            <property name="tokens"
+                      value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, STATIC_INIT,
+                      INSTANCE_INIT, METHOD_DEF, CTOR_DEF, RECORD_DEF, COMPACT_CTOR_DEF"/>
+        </module>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
         <module name="NoLineWrap"/>
         <module name="NoWhitespaceAfter"/>
         <module name="NoWhitespaceBefore"/>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
-<!--        <module name="OperatorWrap"/>-->
+        <module name="OperatorWrap">
+            <property name="tokens"
+                      value="QUESTION, COLON, EQUAL, NOT_EQUAL, DIV, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT,
+                      BXOR, BOR, LOR, BAND, LAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF"/>
+        </module>
         <module name="ParenPad"/>
         <module name="SeparatorWrap">
             <property name="tokens" value="COMMA"/>
@@ -212,6 +215,6 @@
         <module name="SingleSpaceSeparator"/>
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
-<!--        <module name="WhitespaceAround"/>-->
+        <module name="WhitespaceAround"/>
     </module>
 </module>
