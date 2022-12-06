@@ -115,8 +115,8 @@ public abstract class Tower extends Entity {
         }
 
         // If the tower didn't attack anything just idle
-//        if (!attacked)
-//            idle(deltaTime);
+        //if (!attacked)
+        //    idle(deltaTime);
     }
 
     /**

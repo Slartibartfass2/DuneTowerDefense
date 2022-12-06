@@ -24,9 +24,9 @@ class TowerTest {
     @Test
     void testGetHostileUnitsInRangeWithHostileUnitsInRange() {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero)
         }).toList();
         var hostileUnitsInRange = Tower.getHostileUnitsInRange(hostileUnits, Vector2.Zero, 100);
         assertNotNull(hostileUnitsInRange);
@@ -38,9 +38,9 @@ class TowerTest {
         int range = 10;
         int outOfRange = range + 1;
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(new Vector2(outOfRange, 0f)),
-                new Harvester(new Vector2(outOfRange, 0f)),
-                new BossUnit(new Vector2(outOfRange, 0f))
+            new Infantry(new Vector2(outOfRange, 0f)),
+            new Harvester(new Vector2(outOfRange, 0f)),
+            new BossUnit(new Vector2(outOfRange, 0f))
         }).toList();
         var hostileUnitsInRange = Tower.getHostileUnitsInRange(hostileUnits, Vector2.Zero, range * range);
         assertNotNull(hostileUnitsInRange);
@@ -51,9 +51,9 @@ class TowerTest {
     void testGetHostileUnitsInRangeWithTowerInRange() {
         var tower = getNewTower(0, 0, 10, 10, 100);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero)
         }).toList();
         var hostileUnitsInRange = tower.getHostileUnitsInRange(hostileUnits);
         assertNotNull(hostileUnitsInRange);
@@ -66,9 +66,9 @@ class TowerTest {
         int outOfRange = range + 1;
         var tower = getNewTower(0, 0, range, 10, 100);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(new Vector2(outOfRange, 0f)),
-                new Harvester(new Vector2(outOfRange, 0f)),
-                new BossUnit(new Vector2(outOfRange, 0f))
+            new Infantry(new Vector2(outOfRange, 0f)),
+            new Harvester(new Vector2(outOfRange, 0f)),
+            new BossUnit(new Vector2(outOfRange, 0f))
         }).toList();
         var hostileUnitsInRange = tower.getHostileUnitsInRange(hostileUnits);
         assertNotNull(hostileUnitsInRange);

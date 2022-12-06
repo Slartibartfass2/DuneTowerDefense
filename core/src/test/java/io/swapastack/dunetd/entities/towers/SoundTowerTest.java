@@ -32,9 +32,9 @@ class SoundTowerTest {
     void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var soundTower = new SoundTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero)
         }).toList();
 
         assertFalse(soundTower.target(hostileUnits, false));
@@ -48,15 +48,15 @@ class SoundTowerTest {
     void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var soundTower = new SoundTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero),
-                new Infantry(new Vector2(SOUND_TOWER_RANGE, 0f)),
-                new Harvester(new Vector2(SOUND_TOWER_RANGE, 0f)),
-                new BossUnit(new Vector2(SOUND_TOWER_RANGE, 0f)),
-                new Infantry(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
-                new Harvester(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
-                new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f))
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero),
+            new Infantry(new Vector2(SOUND_TOWER_RANGE, 0f)),
+            new Harvester(new Vector2(SOUND_TOWER_RANGE, 0f)),
+            new BossUnit(new Vector2(SOUND_TOWER_RANGE, 0f)),
+            new Infantry(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
+            new Harvester(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
+            new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f))
         }).toList();
 
         assertTrue(soundTower.target(hostileUnits, true));

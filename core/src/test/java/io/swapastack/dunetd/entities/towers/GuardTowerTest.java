@@ -34,9 +34,9 @@ class GuardTowerTest {
     void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var guardTower = new GuardTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero)
         }).toList();
 
         assertFalse(guardTower.target(hostileUnits, false));
@@ -50,9 +50,9 @@ class GuardTowerTest {
     void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var guardTower = new GuardTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero)
         }).toList();
 
         assertTrue(guardTower.target(hostileUnits, true));

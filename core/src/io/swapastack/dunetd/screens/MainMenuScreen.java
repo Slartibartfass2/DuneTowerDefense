@@ -148,16 +148,16 @@ public final class MainMenuScreen extends AbstractScreen {
         showNewGameConfigButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.NEW_GAME));
 
         // Button to switch to LoadGameScreen
-//        var loadGameMenuButton = new VisTextButton("Load game");
-//        loadGameMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.LOAD_GAME));
+        //var loadGameMenuButton = new VisTextButton("Load game");
+        //loadGameMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.LOAD_GAME));
 
         // Button to switch to SettingsScreen
         var showSettingsButton = new VisTextButton("Settings");
         showSettingsButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.SETTINGS));
 
         // Button to switch to HighscoreScreen
-//        var showHighscoresButton = new VisTextButton("Highscores");
-//        showHighscoresButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.HIGHSCORE));
+        //var showHighscoresButton = new VisTextButton("Highscores");
+        //showHighscoresButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.HIGHSCORE));
 
         // Button to switch to CreditsScreen
         var showCreditsButton = new VisTextButton("Credits");
@@ -168,9 +168,9 @@ public final class MainMenuScreen extends AbstractScreen {
         exitButton.addListener(new ClickInputListener(() -> Gdx.app.exit()));
 
         table.add(showNewGameConfigButton).padBottom(10).row();
-//        table.add(loadGameMenuButton).padBottom(10).row();
+        //table.add(loadGameMenuButton).padBottom(10).row();
         table.add(showSettingsButton).padBottom(10).row();
-//        table.add(showHighscoresButton).padBottom(10).row();
+        //table.add(showHighscoresButton).padBottom(10).row();
         table.add(showCreditsButton).padBottom(10).row();
         table.add(exitButton);
     }

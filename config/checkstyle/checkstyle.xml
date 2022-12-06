@@ -132,9 +132,9 @@
         <!-- Miscellaneous -->
         <module name="ArrayTypeStyle"/>
         <module name="AvoidEscapedUnicodeCharacters"/>
-<!--        <module name="CommentsIndentation"/>-->
+        <module name="CommentsIndentation"/>
 <!--        <module name="DescendantToken"/> TODO check out-->
-<!--        <module name="Indentation"/>-->
+        <module name="Indentation"/>
         <module name="NoCodeInFile"/>
 <!--        <module name="OuterTypeFilename"/> -->
 <!--        <module name="TodoComment"/> add oder special comments e.g. fixme-->
