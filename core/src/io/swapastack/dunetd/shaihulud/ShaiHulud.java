@@ -92,7 +92,8 @@ public final class ShaiHulud {
     }
 
     private void updateGameModel() {
-        if (support != null) {// Update game model if existing
+        // Update game model if existing
+        if (support != null) {
             var gameModelData = new GameModelData(movingDirection.getDegrees(),
                     new Vector2(gridPosition.x, gridPosition.y));
             support.firePropertyChange(UPDATE_EVENT_NAME, null, gameModelData);

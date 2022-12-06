@@ -140,7 +140,8 @@ public final class GameGround {
         return new TileAndRotation(newTile, rotation);
     }
 
-    private record TileAndRotation(GameModelSingle tile, float rotation) {}
+    private record TileAndRotation(GameModelSingle tile, float rotation) {
+    }
 
     /**
      * Fills hole in grid with ground tiles
