@@ -35,24 +35,6 @@ public final class LoadGameScreen extends AbstractScreen {
         var array = new ArrayList<SaveGame>();
         array.add(new SaveGame("SaveGame1", 12083091));
         array.add(new SaveGame("SaveGame2", 12083091));
-        array.add(new SaveGame("SaveGame3", 12083091));
-        array.add(new SaveGame("SaveGame4", 12083091));
-        array.add(new SaveGame("SaveGame5", 12083091));
-        array.add(new SaveGame("SaveGame6", 12083091));
-        array.add(new SaveGame("SaveGame7", 12083091));
-        array.add(new SaveGame("SaveGame8", 12083091));
-        array.add(new SaveGame("SaveGame9", 12083091));
-        array.add(new SaveGame("SaveGame10", 12083091));
-        array.add(new SaveGame("SaveGame11", 12083091));
-        array.add(new SaveGame("SaveGame12", 12083091));
-        array.add(new SaveGame("SaveGame13", 12083091));
-        array.add(new SaveGame("SaveGame14", 12083091));
-        array.add(new SaveGame("SaveGame15", 12083091));
-        array.add(new SaveGame("SaveGame16", 12083091));
-        array.add(new SaveGame("SaveGame17", 12083091));
-        array.add(new SaveGame("SaveGame18", 12083091));
-        array.add(new SaveGame("SaveGame19", 12083091));
-        array.add(new SaveGame("SaveGame20", 12083091));
 
         var backgroundDrawable = game.getAssetLoader().getDrawable(DRAWABLE_BACKGROUND_NAME);
         var selectionDrawable = game.getAssetLoader().getDrawable(DRAWABLE_SELECTION_NAME);

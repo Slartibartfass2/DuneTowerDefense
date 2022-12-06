@@ -185,9 +185,9 @@
         <module name="MethodCount">
             <property name="maxTotal" value="25"/>
         </module>
-<!--        <module name="MethodLength">-->
-<!--            <property name="max" value="60"/>-->
-<!--        </module>-->
+        <module name="MethodLength">
+            <property name="max" value="60"/>
+        </module>
         <module name="OuterTypeNumber"/>
         <module name="ParameterNumber"/>
         <module name="RecordComponentNumber"/>

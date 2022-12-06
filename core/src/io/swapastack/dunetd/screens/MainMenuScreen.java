@@ -51,27 +51,7 @@ public final class MainMenuScreen extends AbstractScreen {
 
         // Initialize FreeTypeFontGenerator for BitmapFont generation
         bitmapFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/NotoSansCJKtc_ttf/NotoSansCJKtc-Bold.ttf"));
-        // Specify parameters for BitmapFont generation
-        var bitmapFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        // Set font size
-        bitmapFontParameter.size = 60;
-        // Specify available letters
-        bitmapFontParameter.characters = duneTD;
-        // Set font color in RGBA format (red, green, blue, alpha)
-        bitmapFontParameter.color = new Color(1f, 1f, 0, 1f);
-        // Other specifications
-        bitmapFontParameter.borderWidth = 1;
-        bitmapFontParameter.borderColor = Color.BLACK;
-        bitmapFontParameter.shadowOffsetX = 3;
-        bitmapFontParameter.shadowOffsetY = 3;
-        bitmapFontParameter.shadowColor = new Color(1f, 1f, 0, 0.25f);
-
-        // Generate BitmapFont with FreeTypeFontGenerator and FreeTypeFontParameter specification
-        var japaneseLatinFont = bitmapFontGenerator.generateFont(bitmapFontParameter);
-
-        // Create a LabelStyle object to specify Label font
-        var japaneseLatinLabelStyle = new Label.LabelStyle();
-        japaneseLatinLabelStyle.font = japaneseLatinFont;
+        var japaneseLatinLabelStyle = getLabelStyle(duneTD);
 
         // Create a Label with the main menu title string
         var duneTDLabel = new VisLabel(duneTD, japaneseLatinLabelStyle);
@@ -97,6 +77,29 @@ public final class MainMenuScreen extends AbstractScreen {
             backgroundMusic.setLooping(true);
             backgroundMusic.play();
         }
+    }
+
+    private Label.LabelStyle getLabelStyle(String label) {
+        // Specify parameters for BitmapFont generation
+        var bitmapFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        // Set font size
+        bitmapFontParameter.size = 60;
+        // Specify available letters
+        bitmapFontParameter.characters = label;
+        // Set font color in RGBA format (red, green, blue, alpha)
+        bitmapFontParameter.color = new Color(1f, 1f, 0, 1f);
+        // Other specifications
+        bitmapFontParameter.borderWidth = 1;
+        bitmapFontParameter.borderColor = Color.BLACK;
+        bitmapFontParameter.shadowOffsetX = 3;
+        bitmapFontParameter.shadowOffsetY = 3;
+        bitmapFontParameter.shadowColor = new Color(1f, 1f, 0, 0.25f);
+
+        // Generate BitmapFont with FreeTypeFontGenerator and FreeTypeFontParameter specification
+        var japaneseLatinFont = bitmapFontGenerator.generateFont(bitmapFontParameter);
+
+        // Create a LabelStyle object to specify Label font
+        return new Label.LabelStyle(japaneseLatinFont, null);
     }
 
     /**
