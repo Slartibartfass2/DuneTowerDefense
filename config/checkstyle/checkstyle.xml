@@ -6,9 +6,18 @@
     <property name="charset" value="UTF-8"/>
     <property name="fileExtensions" value="java, properties, xml"/>
 
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="OrderedProperties"/>
+        <property name="files" value="config.properties"/>
+    </module>
+
     <!-- Miscellaneous -->
     <module name="NewlineAtEndOfFile"/>
     <module name="OrderedProperties"/>
+    <module name="Translation">
+        <property name="fileExtensions" value="properties, translations"/>
+        <property name="requiredTranslations" value="en, de"/>
+    </module>
     <module name="UniqueProperties"/>
 
     <!-- Size Violations -->
@@ -133,15 +142,11 @@
         <module name="ArrayTypeStyle"/>
         <module name="AvoidEscapedUnicodeCharacters"/>
         <module name="CommentsIndentation"/>
-<!--        <module name="DescendantToken"/> TODO check out-->
         <module name="Indentation"/>
         <module name="NoCodeInFile"/>
         <module name="OuterTypeFilename"/>
-<!--        <module name="TodoComment"/> add oder special comments e.g. fixme-->
+<!--        <module name="TodoComment"/> TODO: add oder special comments e.g. fixme -->
         <module name="TrailingComment"/>
-<!--        <module name="Translation"> TODO NOT USED HERE -->
-<!--            <property name="fileExtensions" value="properties, translations"/>-->
-<!--        </module>-->
         <module name="UncommentedMain"/>
         <module name="UpperEll"/>
 
