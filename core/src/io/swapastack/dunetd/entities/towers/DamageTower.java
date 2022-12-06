@@ -14,7 +14,7 @@ import static io.swapastack.dunetd.assets.controller.EntityController.UPDATE_EVE
  * - a bomb tower: a tower which deals area damage to at least one hostile unit in range. <br>
  * It consists of the same properties as a tower plus the amount of damage it deals to hostile units.
  */
-@SuppressWarnings("squid:S2160") // equals only takes uuid
+@SuppressWarnings("squid:S2160")
 public abstract class DamageTower extends Tower {
 
     /**

@@ -61,7 +61,7 @@ public final class MainMenuScreen extends AbstractScreen {
         bitmapFontParameter.color = new Color(1f, 1f, 0, 1f);
         // Other specifications
         bitmapFontParameter.borderWidth = 1;
-        bitmapFontParameter.borderColor = Color.BLACK; // alternative enum color specification
+        bitmapFontParameter.borderColor = Color.BLACK;
         bitmapFontParameter.shadowOffsetX = 3;
         bitmapFontParameter.shadowOffsetY = 3;
         bitmapFontParameter.shadowColor = new Color(1f, 1f, 0, 0.25f);

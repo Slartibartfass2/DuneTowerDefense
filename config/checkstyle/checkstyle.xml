@@ -136,9 +136,9 @@
 <!--        <module name="DescendantToken"/> TODO check out-->
         <module name="Indentation"/>
         <module name="NoCodeInFile"/>
-<!--        <module name="OuterTypeFilename"/> -->
+        <module name="OuterTypeFilename"/>
 <!--        <module name="TodoComment"/> add oder special comments e.g. fixme-->
-<!--        <module name="TrailingComment"/>-->
+        <module name="TrailingComment"/>
 <!--        <module name="Translation"> TODO NOT USED HERE -->
 <!--            <property name="fileExtensions" value="properties, translations"/>-->
 <!--        </module>-->

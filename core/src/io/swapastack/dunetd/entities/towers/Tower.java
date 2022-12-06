@@ -22,7 +22,7 @@ import static io.swapastack.dunetd.math.DuneTDMath.getAngle;
  * - a damage tower: a tower which deals damage to hostile units in range. <br>
  * It consists of a position, range, build cost and reload time.
  */
-@SuppressWarnings("squid:S2160") // equals only takes uuid
+@SuppressWarnings("squid:S2160")
 public abstract class Tower extends Entity {
 
     /**

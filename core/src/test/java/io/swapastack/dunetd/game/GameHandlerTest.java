@@ -287,7 +287,8 @@ class GameHandlerTest {
 
     @Test
     void testUpdateUntilGameIsLost() throws NoSuchFieldException, IllegalAccessException {
-        var deltaTime = 0.0166f; // ~60 FPS
+        // deltaTime is ~ 60 FPS
+        var deltaTime = 0.0166f;
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -322,7 +323,8 @@ class GameHandlerTest {
     // Achtung geht 20-30 Sekunden
     @Test
     void testUpdateUntilGameIsWon() throws NoSuchFieldException, IllegalAccessException {
-        var deltaTime = 0.0166f; // ~60 FPS
+        // deltaTime is ~ 60 FPS
+        var deltaTime = 0.0166f;
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
