@@ -74,21 +74,26 @@ public final class Path {
                 return secondPoint;
             } else if (position.equals(secondPoint)) {
                 if (i < waypoints.length - 2) {
-                    return waypoints[i + 2];  // just get 'third point' (point after secondPoint)
+                    // just get 'third point' (point after secondPoint)
+                    return waypoints[i + 2];
                 } else {
-                    return secondPoint; // reached end
+                    // reached end
+                    return secondPoint;
                 }
             }
 
-            if (firstPoint.x == secondPoint.x && firstPoint.x == position.x // Vertical connection
+            // Vertical connection
+            if (firstPoint.x == secondPoint.x && firstPoint.x == position.x
                     && isValueInBetween(firstPoint.y, secondPoint.y, position.y)) {
                 return secondPoint;
 
-            } else if (firstPoint.y == secondPoint.y && firstPoint.y == position.y // Horizontal connection
+            // Horizontal connection
+            } else if (firstPoint.y == secondPoint.y && firstPoint.y == position.y
                     && isValueInBetween(firstPoint.x, secondPoint.x, position.x)) {
                 return secondPoint;
 
-            } else if (firstPoint.x != secondPoint.x && firstPoint.y != secondPoint.y) { // Diagonal connection
+            // Diagonal connection
+            } else if (firstPoint.x != secondPoint.x && firstPoint.y != secondPoint.y) {
                 throw new IllegalStateException("Waypoints can't have a diagonal connection");
             }
 

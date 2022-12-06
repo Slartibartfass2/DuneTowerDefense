@@ -27,11 +27,11 @@ public final class EscapeMenu extends VisWindow {
         var backToGameButton = new VisTextButton("Resume to game");
         backToGameButton.addListener(backToGameCommand);
 
-//        // Button to save the game
-//        var saveGameButton = new VisTextButton("Save game");
-//
-//        // Button to show the settings
-//        var settingsButton = new VisTextButton("Settings");
+        // Button to save the game
+        //var saveGameButton = new VisTextButton("Save game");
+
+        // Button to show the settings
+        //var settingsButton = new VisTextButton("Settings");
 
         // Button to get back to the main menu
         var menuButton = new VisTextButton("Back to main menu");
@@ -41,8 +41,8 @@ public final class EscapeMenu extends VisWindow {
         var padVertical = PixelsConverter.getY(PADDING_VERTICAL);
         var spacing = PixelsConverter.getY(SPACING);
         add(backToGameButton).pad(padVertical - getTitleTable().getHeight(), padHorizontal, spacing, padHorizontal).row();
-//        add(saveGameButton).pad(0f, padHorizontal, spacing, padHorizontal).row();
-//        add(settingsButton).pad(0f, padHorizontal, spacing, padHorizontal).row();
+        //add(saveGameButton).pad(0f, padHorizontal, spacing, padHorizontal).row();
+        //add(settingsButton).pad(0f, padHorizontal, spacing, padHorizontal).row();
         add(menuButton).pad(0f, padHorizontal, padVertical, padHorizontal).row();
         pack();
         centerWindow();

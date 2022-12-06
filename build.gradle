@@ -204,11 +204,14 @@ checkstyle {
     configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
 
     checkstyleMain {
-        source = 'core/src/io/swapastack/dunetd'
+        source = 'core/src'
+        excludes = [
+                'test/**',
+        ]
     }
 
     checkstyleTest {
-        source = 'core/src/test/java/io/swapastack/dunetd'
+        source = 'core/src/test'
     }
 }
 

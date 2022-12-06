@@ -36,9 +36,9 @@ class BombTowerTest {
     void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var bombTower = new BombTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero)
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero)
         }).toList();
 
         assertFalse(bombTower.target(hostileUnits, false));
@@ -52,15 +52,15 @@ class BombTowerTest {
     void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
         var bombTower = new BombTower(0, 0);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-                new Infantry(Vector2.Zero),
-                new Harvester(Vector2.Zero),
-                new BossUnit(Vector2.Zero),
-                new Infantry(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
-                new Harvester(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
-                new BossUnit(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
-                new Infantry(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-                new Harvester(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-                new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f))
+            new Infantry(Vector2.Zero),
+            new Harvester(Vector2.Zero),
+            new BossUnit(Vector2.Zero),
+            new Infantry(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
+            new Harvester(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
+            new BossUnit(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
+            new Infantry(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
+            new Harvester(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
+            new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f))
         }).toList();
 
         assertTrue(bombTower.target(hostileUnits, true));
