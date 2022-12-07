@@ -4,12 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
-import java.util.Objects;
 import java.util.UUID;
 
 import static io.swapastack.dunetd.assets.controller.EntityController.CREATE_EVENT_NAME;
@@ -20,11 +20,13 @@ import static io.swapastack.dunetd.assets.controller.EntityController.CREATE_EVE
  * - a tower: attacking hostile units in range <br>
  * An entity consists of a position.
  */
+@EqualsAndHashCode
 public abstract class Entity {
 
     /**
      * Unique identifier for storing this tower in a map
      */
+    @Getter
     private final UUID uuid;
     @Getter
     protected int x;
@@ -87,30 +89,5 @@ public abstract class Entity {
     @NotNull
     public final Vector2 getGridPosition2d() {
         return new Vector2(x, y);
-    }
-
-    /**
-     * @param o The reference object with which to compare.
-     * @return True if this object is the same as the obj argument; false otherwise.
-     * @see Object#equals(Object)
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        } else if (!(o instanceof Entity other)) {
-            return false;
-        } else {
-            return Objects.equals(this.uuid, other.uuid);
-        }
-    }
-
-    /**
-     * @return A hash code value for this object.
-     * @see Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        return 59 + (this.uuid == null ? 43 : this.uuid.hashCode());
     }
 }

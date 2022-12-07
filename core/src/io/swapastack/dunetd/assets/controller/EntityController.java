@@ -1,7 +1,6 @@
 package io.swapastack.dunetd.assets.controller;
 
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ObjectMap;
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelInterface;
 import io.swapastack.dunetd.assets.GameModelTower;
@@ -15,6 +14,9 @@ import net.mgsx.gltf.scene3d.scene.SceneManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.UUID;
 
 public final class EntityController implements PropertyChangeListener {
 
@@ -30,12 +32,12 @@ public final class EntityController implements PropertyChangeListener {
 
     private final SceneManager sceneManager;
     private final AssetLoader assetLoader;
-    private final ObjectMap<Entity, GameModelInterface> entityModelMap;
+    private final HashMap<UUID, GameModelInterface> entityModelMap;
 
     public EntityController(@NonNull SceneManager sceneManager, @NonNull AssetLoader assetLoader) {
         this.sceneManager = sceneManager;
         this.assetLoader = assetLoader;
-        entityModelMap = new ObjectMap<>();
+        entityModelMap = new HashMap<>();
     }
 
     /**
@@ -83,16 +85,16 @@ public final class EntityController implements PropertyChangeListener {
 
         var gameModelPosition = new Vector3(entityModelData.position().x, 0f, entityModelData.position().y);
         gameModel.rePositionAndRotate(gameModelPosition, entityModelData.rotation());
-        entityModelMap.put(entity, gameModel);
+        entityModelMap.put(entity.getUuid(), gameModel);
     }
 
     private void handleShowEvent(@NonNull Entity entity) throws IllegalStateException {
-        if (!entityModelMap.containsKey(entity)) {
+        if (!entityModelMap.containsKey(entity.getUuid())) {
             throw new IllegalStateException(ENTITY_NOT_REGISTERED_MESSAGE);
         }
 
         // Add scene of game model to scene manager
-        var gameModel = entityModelMap.get(entity);
+        var gameModel = entityModelMap.get(entity.getUuid());
         for (var scene : gameModel.getScenes()) {
             sceneManager.addScene(scene);
         }
@@ -100,7 +102,7 @@ public final class EntityController implements PropertyChangeListener {
 
     private void handleUpdateEvent(@NonNull Object newValue, @NonNull Entity entity)
             throws IllegalStateException, IllegalArgumentException {
-        if (!entityModelMap.containsKey(entity)) {
+        if (!entityModelMap.containsKey(entity.getUuid())) {
             throw new IllegalStateException(ENTITY_NOT_REGISTERED_MESSAGE);
         }
         if (!(newValue instanceof GameModelData newGameModelData)) {
@@ -108,19 +110,19 @@ public final class EntityController implements PropertyChangeListener {
         }
 
         // Update game models position, rotation and animation
-        var gameModel = entityModelMap.get(entity);
+        var gameModel = entityModelMap.get(entity.getUuid());
         var gameModelPosition = new Vector3(newGameModelData.position().x, 0f, newGameModelData.position().y);
         if (newGameModelData.rotation() != -1f) {
             gameModel.rePositionAndRotate(gameModelPosition, newGameModelData.rotation());
         } else {
             gameModel.rePosition(gameModelPosition);
         }
-        entityModelMap.put(entity, gameModel);
+        entityModelMap.put(entity.getUuid(), gameModel);
     }
 
     private void handleToDebrisEvent(@NonNull Entity entity)
             throws IllegalStateException, IllegalArgumentException {
-        if (!entityModelMap.containsKey(entity)) {
+        if (!entityModelMap.containsKey(entity.getUuid())) {
             throw new IllegalStateException(ENTITY_NOT_REGISTERED_MESSAGE);
         }
         if (!(entity instanceof Tower tower)) {
@@ -128,7 +130,7 @@ public final class EntityController implements PropertyChangeListener {
         }
 
         // Remove game model and add new debris game model to scene manager
-        var gameModel = (GameModelTower) entityModelMap.get(tower);
+        var gameModel = (GameModelTower) entityModelMap.get(tower.getUuid());
         for (var scene : gameModel.getScenes()) {
             sceneManager.removeScene(scene);
         }
@@ -139,34 +141,32 @@ public final class EntityController implements PropertyChangeListener {
     }
 
     private void handleDestroyEvent(@NonNull Entity entity) throws IllegalStateException {
-        if (!entityModelMap.containsKey(entity)) {
+        if (!entityModelMap.containsKey(entity.getUuid())) {
             throw new IllegalStateException(ENTITY_NOT_REGISTERED_MESSAGE);
         }
 
         // Remove scene of game model from scene manager and remove entity from hash map
-        var gameModel = entityModelMap.get(entity);
+        var gameModel = entityModelMap.get(entity.getUuid());
         var scenes = gameModel.getScenes();
         for (var scene : scenes) {
             sceneManager.removeScene(scene);
             scene.modelInstance.model.dispose();
         }
-        entityModelMap.remove(entity);
+        entityModelMap.remove(entity.getUuid());
     }
 
     public float getRotation(@NonNull Entity entity) throws IllegalStateException {
-        if (!entityModelMap.containsKey(entity)) {
+        if (!entityModelMap.containsKey(entity.getUuid())) {
             throw new IllegalStateException(ENTITY_NOT_REGISTERED_MESSAGE);
         }
 
-        var gameModel = entityModelMap.get(entity);
+        var gameModel = entityModelMap.get(entity.getUuid());
         return gameModel.getRotation();
     }
 
     public void dispose() {
-        for (var gameModel : new ObjectMap.Values<>(entityModelMap).iterator()) {
-            for (var scene : gameModel.getScenes()) {
-                scene.modelInstance.model.dispose();
-            }
-        }
+        entityModelMap.values().stream()
+                .flatMap(gameModel -> Arrays.stream(gameModel.getScenes()))
+                .forEach(scene -> scene.modelInstance.model.dispose());
     }
 }
