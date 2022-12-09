@@ -136,10 +136,6 @@ class TowerTest {
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
             }
-
-            @Override
-            protected void idle(float deltaTime) {
-            }
         };
     }
 
@@ -148,10 +144,6 @@ class TowerTest {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
-            }
-
-            @Override
-            protected void idle(float deltaTime) {
             }
         };
     }
