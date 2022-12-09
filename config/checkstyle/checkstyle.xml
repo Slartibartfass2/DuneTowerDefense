@@ -186,7 +186,7 @@
         <!-- Size Violations -->
         <module name="AnonInnerLength"/>
 <!--        <module name="ExecutableStatementCount"/>-->
-<!--        <module name="LambdaBodyLength"/>-->
+        <module name="LambdaBodyLength"/>
         <module name="MethodCount">
             <property name="maxTotal" value="25"/>
         </module>

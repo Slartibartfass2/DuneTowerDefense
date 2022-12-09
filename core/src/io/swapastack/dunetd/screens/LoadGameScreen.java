@@ -46,17 +46,7 @@ public final class LoadGameScreen extends AbstractScreen {
         var saveGameListX = width / 2f - saveGameList.getMainTable().getWidth() / 2f;
         var saveGameListY = height / 2f - saveGameList.getMainTable().getHeight() / 2f;
         saveGameList.getMainTable().setPosition(saveGameListX, saveGameListY);
-        saveGameList.setItemClickListener(item -> {
-            var timeNow = System.currentTimeMillis();
-            var timePassed = timeNow - lastClickTimestamp;
-
-            if (item == lastClickedSaveGame && timePassed <= 500) {
-                // Load game
-            } else {
-                lastClickedSaveGame = item;
-                lastClickTimestamp = timeNow;
-            }
-        });
+        saveGameList.setItemClickListener(this::handleSaveGameClick);
         stage.addActor(saveGameList.getMainTable());
 
         var backToMainMenuButton = new VisTextButton("Back");
@@ -84,5 +74,17 @@ public final class LoadGameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
+    }
+
+    public void handleSaveGameClick(SaveGame saveGame) {
+        var timeNow = System.currentTimeMillis();
+        var timePassed = timeNow - lastClickTimestamp;
+
+        if (saveGame == lastClickedSaveGame && timePassed <= 500) {
+            // TODO: Load game
+        } else {
+            lastClickedSaveGame = saveGame;
+            lastClickTimestamp = timeNow;
+        }
     }
 }
