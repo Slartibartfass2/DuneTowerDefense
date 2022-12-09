@@ -5,12 +5,12 @@ import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
-import java.util.Objects;
 import java.util.UUID;
 
 import static io.swapastack.dunetd.game.CardinalDirection.NORTH;
@@ -25,11 +25,13 @@ import static io.swapastack.dunetd.assets.controller.HostileUnitController.*;
  * - a boss unit: strong but slow ground unit. <br>
  * A hostile unit consists of a position, speed, health, slowing effect variables and a cardinal direction.
  */
+@EqualsAndHashCode
 public abstract class HostileUnit {
 
     /**
      * Unique identifier for storing this hostile unit in a map
      */
+    @Getter
     private final UUID uuid;
 
     /**
@@ -232,29 +234,4 @@ public abstract class HostileUnit {
      * @return Spice reward for killing this hostile unit
      */
     public abstract int getSpiceReward();
-
-    /**
-     * @param o The reference object with which to compare.
-     * @return True if this object is the same as the obj argument; false otherwise.
-     * @see Object#equals(Object)
-     */
-    @Override
-    public final boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        } else if (!(o instanceof HostileUnit other)) {
-            return false;
-        } else {
-            return Objects.equals(this.uuid, other.uuid);
-        }
-    }
-
-    /**
-     * @return A hash code value for this object.
-     * @see Object#hashCode()
-     */
-    @Override
-    public final int hashCode() {
-        return 59 + (this.uuid == null ? 43 : this.uuid.hashCode());
-    }
 }

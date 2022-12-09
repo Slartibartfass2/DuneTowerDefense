@@ -1,7 +1,6 @@
 package io.swapastack.dunetd.assets.controller;
 
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ObjectMap;
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.game.GameModelData;
@@ -11,6 +10,8 @@ import net.mgsx.gltf.scene3d.scene.SceneManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.UUID;
 
 import static io.swapastack.dunetd.assets.AssetLoader.*;
 import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
@@ -28,12 +29,12 @@ public final class HostileUnitController implements PropertyChangeListener {
 
     private final SceneManager sceneManager;
     private final AssetLoader assetLoader;
-    private final ObjectMap<HostileUnit, GameModelSingle> hostileUnitModelMap;
+    private final HashMap<UUID, GameModelSingle> hostileUnitModelMap;
 
     public HostileUnitController(@NonNull SceneManager sceneManager, @NonNull AssetLoader assetLoader) {
         this.sceneManager = sceneManager;
         this.assetLoader = assetLoader;
-        hostileUnitModelMap = new ObjectMap<>();
+        hostileUnitModelMap = new HashMap<>();
     }
 
     /**
@@ -80,23 +81,23 @@ public final class HostileUnitController implements PropertyChangeListener {
         var newHostileUnitPosition = new Vector3(newHostileUnitData.position().x, 0f, newHostileUnitData.position().y);
         gameModel.rePosition(newHostileUnitPosition);
         gameModel.setAnimation(animationName, -1);
-        hostileUnitModelMap.put(hostileUnit, gameModel);
+        hostileUnitModelMap.put(hostileUnit.getUuid(), gameModel);
     }
 
     private void handleShowEvent(@NonNull HostileUnit hostileUnit) throws IllegalArgumentException {
-        if (!hostileUnitModelMap.containsKey(hostileUnit)) {
+        if (!hostileUnitModelMap.containsKey(hostileUnit.getUuid())) {
             throw new IllegalStateException(HOSTILE_UNIT_NOT_REGISTERED_MESSAGE);
         }
 
         // Add scene of game model to scene manager
-        var gameModel = hostileUnitModelMap.get(hostileUnit);
+        var gameModel = hostileUnitModelMap.get(hostileUnit.getUuid());
         sceneManager.addScene(gameModel.getScene());
     }
 
     private void handleUpdateEvent(@NonNull Object oldValue, @NonNull Object newValue,
                                    @NonNull HostileUnit hostileUnit)
             throws IllegalStateException, IllegalArgumentException {
-        if (!hostileUnitModelMap.containsKey(hostileUnit)) {
+        if (!hostileUnitModelMap.containsKey(hostileUnit.getUuid())) {
             throw new IllegalStateException(HOSTILE_UNIT_NOT_REGISTERED_MESSAGE);
         }
         if (!(newValue instanceof GameModelData newGameModelData)) {
@@ -107,23 +108,23 @@ public final class HostileUnitController implements PropertyChangeListener {
         }
 
         // Update game models position, rotation and animation
-        var gameModel = hostileUnitModelMap.get(hostileUnit);
+        var gameModel = hostileUnitModelMap.get(hostileUnit.getUuid());
         var newHostileUnitPosition = new Vector3(newGameModelData.position().x, 0f, newGameModelData.position().y);
         gameModel.rePositionAndRotate(newHostileUnitPosition, newGameModelData.rotation());
         gameModel.updateAnimation(deltaTime);
-        hostileUnitModelMap.put(hostileUnit, gameModel);
+        hostileUnitModelMap.put(hostileUnit.getUuid(), gameModel);
     }
 
     private void handleDestroyEvent(@NonNull HostileUnit hostileUnit) {
-        if (!hostileUnitModelMap.containsKey(hostileUnit)) {
+        if (!hostileUnitModelMap.containsKey(hostileUnit.getUuid())) {
             throw new IllegalStateException(HOSTILE_UNIT_NOT_REGISTERED_MESSAGE);
         }
 
         // Remove scene of game model from scene manager and remove hostile unit from hash map
-        var gameModel = hostileUnitModelMap.get(hostileUnit);
+        var gameModel = hostileUnitModelMap.get(hostileUnit.getUuid());
         sceneManager.removeScene(gameModel.getScene());
         gameModel.getScene().modelInstance.model.dispose();
-        hostileUnitModelMap.remove(hostileUnit);
+        hostileUnitModelMap.remove(hostileUnit.getUuid());
     }
 
     /**
@@ -132,13 +133,13 @@ public final class HostileUnitController implements PropertyChangeListener {
      * @param paused If true the animations will be paused, otherwise unpaused.
      */
     public void pauseAnimations(boolean paused) {
-        for (var gameModel : new ObjectMap.Values<>(hostileUnitModelMap).iterator()) {
+        for (var gameModel : hostileUnitModelMap.values()) {
             gameModel.pauseAnimation(paused);
         }
     }
 
     public void dispose() {
-        for (var gameModel : new ObjectMap.Values<>(hostileUnitModelMap).iterator()) {
+        for (var gameModel : hostileUnitModelMap.values()) {
             gameModel.getScene().modelInstance.model.dispose();
         }
     }
