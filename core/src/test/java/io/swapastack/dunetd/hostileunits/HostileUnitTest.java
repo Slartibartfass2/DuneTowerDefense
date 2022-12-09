@@ -6,16 +6,10 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 import io.swapastack.dunetd.pathfinding.Path;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HostileUnitTest {
 
@@ -35,7 +29,7 @@ class HostileUnitTest {
                 var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
                 var position = hostileUnit.position.cpy();
                 hostileUnit.move(path, 0.016f);
-                assertNotEquals(position, hostileUnit.position);
+                Assertions.assertNotEquals(position, hostileUnit.position);
             }
         }
     }
@@ -49,7 +43,7 @@ class HostileUnitTest {
                 var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
                 var position = hostileUnit.position.cpy();
                 hostileUnit.move(path, 0f);
-                assertEquals(position, hostileUnit.position);
+                Assertions.assertEquals(position, hostileUnit.position);
             }
         }
     }
@@ -63,7 +57,7 @@ class HostileUnitTest {
                 var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
                 var position = hostileUnit.position.cpy();
                 hostileUnit.move(path, 20f);
-                assertNotEquals(position, hostileUnit.position);
+                Assertions.assertNotEquals(position, hostileUnit.position);
             }
         }
     }
@@ -73,7 +67,7 @@ class HostileUnitTest {
         var startPosition = Vector2.Zero;
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(new Vector2(-1f, -1f), 1, 100);
-        assertThrows(IllegalStateException.class, () -> hostileUnit.move(path, 0.016f));
+        Assertions.assertThrows(IllegalStateException.class, () -> hostileUnit.move(path, 0.016f));
     }
 
     @Test
@@ -82,13 +76,13 @@ class HostileUnitTest {
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
         hostileUnit.slowingEffectDurationInMs = 1000;
-        assertDoesNotThrow(() -> hostileUnit.move(path, 0.016f));
+        Assertions.assertDoesNotThrow(() -> hostileUnit.move(path, 0.016f));
     }
 
     @Test
     void testMoveWithInvalidArguments() {
         var hostileUnit = getRandomHostileUnit();
-        assertThrows(IllegalArgumentException.class, () -> hostileUnit.move(null, 0f));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> hostileUnit.move(null, 0f));
     }
 
     @Test
@@ -96,14 +90,14 @@ class HostileUnitTest {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         var health = hostileUnit.health;
         hostileUnit.dealDamage(10);
-        assertEquals(health - 10, hostileUnit.health);
+        Assertions.assertEquals(health - 10, hostileUnit.health);
     }
 
     @Test
     void testDealDamageWithValidArgumentsAndSoMuchDamageThatHostileUnitDies() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         hostileUnit.dealDamage(Integer.MAX_VALUE);
-        assertEquals(0, hostileUnit.health);
+        Assertions.assertEquals(0, hostileUnit.health);
     }
 
     @Test
@@ -111,73 +105,73 @@ class HostileUnitTest {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 0);
         var health = hostileUnit.health;
         hostileUnit.dealDamage(10);
-        assertEquals(health, hostileUnit.health);
+        Assertions.assertEquals(health, hostileUnit.health);
     }
 
     @Test
     void testDealDamageWithInvalidArguments() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
-        assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(0));
-        assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-1));
-        assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-100));
-        assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-1000));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-100));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> hostileUnit.dealDamage(-1000));
     }
 
     @Test
     void testKillWhenHostileUnitIsAlive() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
         hostileUnit.kill();
-        assertEquals(0, hostileUnit.health);
+        Assertions.assertEquals(0, hostileUnit.health);
     }
 
     @Test
     void testKillWhenHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 0);
         hostileUnit.kill();
-        assertEquals(0, hostileUnit.health);
+        Assertions.assertEquals(0, hostileUnit.health);
     }
 
     @Test
     void testIsDeadWhenHostileUnitIsAlive() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 100);
-        assertFalse(hostileUnit.isDead());
+        Assertions.assertFalse(hostileUnit.isDead());
     }
 
     @Test
     void testIsDeadWhenHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.Zero, 1, 0);
-        assertTrue(hostileUnit.isDead());
+        Assertions.assertTrue(hostileUnit.isDead());
     }
 
     @Test
     void testGetPosition() {
         var hostileUnit = getRandomHostileUnit();
-        assertEquals(hostileUnit.position, hostileUnit.getPosition());
+        Assertions.assertEquals(hostileUnit.position, hostileUnit.getPosition());
     }
 
     @Test
     void testEqualsAndHashCode() {
         var hostileUnit = getRandomHostileUnit();
         var hostileUnit1 = getRandomHostileUnit();
-        assertNotEquals(hostileUnit, hostileUnit1);
-        assertNotEquals(hostileUnit.hashCode(), hostileUnit1.hashCode());
-        assertEquals(hostileUnit, hostileUnit);
-        assertEquals(hostileUnit.hashCode(), hostileUnit.hashCode());
+        Assertions.assertNotEquals(hostileUnit, hostileUnit1);
+        Assertions.assertNotEquals(hostileUnit.hashCode(), hostileUnit1.hashCode());
+        Assertions.assertEquals(hostileUnit, hostileUnit);
+        Assertions.assertEquals(hostileUnit.hashCode(), hostileUnit.hashCode());
 
         var hostileUnit2 = getNewHostileUnit(Vector2.Zero, 0, 0);
         var hostileUnit3 = getNewHostileUnit(Vector2.Zero, 0, 0);
-        assertNotEquals(hostileUnit2, hostileUnit3);
-        assertNotEquals(hostileUnit2.hashCode(), hostileUnit3.hashCode());
+        Assertions.assertNotEquals(hostileUnit2, hostileUnit3);
+        Assertions.assertNotEquals(hostileUnit2.hashCode(), hostileUnit3.hashCode());
 
         var tower = new GuardTower(0, 0);
-        assertNotEquals(hostileUnit, tower);
-        assertNotEquals(hostileUnit.hashCode(), tower.hashCode());
+        Assertions.assertNotEquals(hostileUnit, tower);
+        Assertions.assertNotEquals(hostileUnit.hashCode(), tower.hashCode());
     }
 
     @Test
     void testGetHealth() {
         var hostileUnit = getRandomHostileUnit();
-        assertEquals(hostileUnit.health, hostileUnit.getHealth());
+        Assertions.assertEquals(hostileUnit.health, hostileUnit.getHealth());
     }
 
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {

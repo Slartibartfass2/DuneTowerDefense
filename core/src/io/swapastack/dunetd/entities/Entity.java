@@ -12,8 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.beans.PropertyChangeSupport;
 import java.util.UUID;
 
-import static io.swapastack.dunetd.assets.controller.EntityController.CREATE_EVENT_NAME;
-
 /**
  * An entity representing a part of the game grid. An entity can be: <br>
  * - a portal: start or end portal, where hostile units appear or disappear <br>
@@ -65,7 +63,8 @@ public abstract class Entity {
 
             // Add entity controller as observer and call create event
             support.addPropertyChangeListener(entityController);
-            support.firePropertyChange(CREATE_EVENT_NAME, null, new GameModelData(startRotation, new Vector2(x, y)));
+            var gameModelData = new GameModelData(startRotation, new Vector2(x, y));
+            support.firePropertyChange(EntityController.CREATE_EVENT_NAME, null, gameModelData);
         } else {
             support = null;
         }

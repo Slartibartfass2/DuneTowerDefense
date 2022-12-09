@@ -14,10 +14,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import static io.swapastack.dunetd.entities.towers.TowerEnum.BOMB_TOWER;
-import static io.swapastack.dunetd.entities.towers.TowerEnum.GUARD_TOWER;
-import static io.swapastack.dunetd.entities.towers.TowerEnum.SOUND_TOWER;
-
 @SuppressWarnings("squid:S110")
 public final class ToolBar extends VisTable {
 
@@ -84,13 +80,13 @@ public final class ToolBar extends VisTable {
         // Tower selection
         guardTowerButton = new TowerSelectButton("Guard Tower", GUARD_TOWER_BUILD_COST, GUARD_TOWER_RANGE,
                 GUARD_TOWER_RELOAD_TIME_IN_MS, GUARD_TOWER_DAMAGE, guardTowerDrawable);
-        guardTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(GUARD_TOWER)));
+        guardTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(TowerEnum.GUARD_TOWER)));
         bombTowerButton = new TowerSelectButton("Bomb Tower", BOMB_TOWER_BUILD_COST, BOMB_TOWER_RANGE,
                 BOMB_TOWER_RELOAD_TIME_IN_MS, BOMB_TOWER_DAMAGE, bombTowerDrawable);
-        bombTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(BOMB_TOWER)));
+        bombTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(TowerEnum.BOMB_TOWER)));
         soundTowerButton = new TowerSelectButton("Sound Tower", SOUND_TOWER_BUILD_COST, SOUND_TOWER_RANGE,
                 SOUND_TOWER_RELOAD_TIME_IN_MS, SLOWING_EFFECT_MULTIPLIER, soundTowerDrawable);
-        soundTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(SOUND_TOWER)));
+        soundTowerButton.addListener(new ClickInputListener(() -> setSelectedTower(TowerEnum.SOUND_TOWER)));
 
         // Shai hulud selection
         shaiHuludButton = new ShaiHuludSelectButton(shaiHuludDrawable);

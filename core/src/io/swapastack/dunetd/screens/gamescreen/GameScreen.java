@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cubemap;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,7 +18,9 @@ import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.Tower;
 import io.swapastack.dunetd.game.GameHandler;
+import io.swapastack.dunetd.game.GamePhase;
 import io.swapastack.dunetd.hud.Hud;
+import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.screens.AbstractScreen;
 import lombok.NonNull;
 import lombok.Setter;
@@ -27,16 +30,6 @@ import net.mgsx.gltf.scene3d.lights.DirectionalLightEx;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
 import net.mgsx.gltf.scene3d.scene.SceneSkybox;
 import net.mgsx.gltf.scene3d.utils.IBLBuilder;
-
-import static com.badlogic.gdx.graphics.GL20.GL_BLEND;
-import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static com.badlogic.gdx.graphics.GL20.GL_DEPTH_BUFFER_BIT;
-import static com.badlogic.gdx.graphics.GL20.GL_ONE_MINUS_SRC_ALPHA;
-import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
-import static io.swapastack.dunetd.game.GamePhase.GAME_LOST_PHASE;
-import static io.swapastack.dunetd.game.GamePhase.GAME_WON_PHASE;
-import static io.swapastack.dunetd.math.DuneTDMath.isPositionInsideGrid;
 
 /**
  * The GameScreen class.
@@ -177,10 +170,10 @@ public final class GameScreen extends AbstractScreen {
         gameGround.updatePath(gameHandler.getPath());
 
         // Display game lost or game won window when phase is reached
-        if (gameHandler.getGamePhase() == GAME_WON_PHASE) {
+        if (gameHandler.getGamePhase() == GamePhase.GAME_WON_PHASE) {
             hud.showGameWonWindow();
             freezeInput = true;
-        } else if (gameHandler.getGamePhase() == GAME_LOST_PHASE) {
+        } else if (gameHandler.getGamePhase() == GamePhase.GAME_LOST_PHASE) {
             hud.showGameLostWindow();
             freezeInput = true;
         }
@@ -189,7 +182,7 @@ public final class GameScreen extends AbstractScreen {
 
         // Clear Screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         var selectedTile3d = getSelectedTile();
         var selectedTile2d = new Vector2(selectedTile3d.x, selectedTile3d.z);
@@ -201,9 +194,9 @@ public final class GameScreen extends AbstractScreen {
         // Set up shape renderer
         var correctedProjectionMatrix = camera.combined.cpy().rotate(new Vector3(1f, 0f, 0f), 90);
         shapeRenderer.setProjectionMatrix(correctedProjectionMatrix);
-        Gdx.graphics.getGL20().glEnable(GL_BLEND);
-        Gdx.gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.begin(Filled);
+        Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Draw mouse selection (selected tile or selected tower
         if (!freezeInput) {
@@ -221,7 +214,7 @@ public final class GameScreen extends AbstractScreen {
         }
 
         shapeRenderer.end();
-        Gdx.gl.glDisable(GL_BLEND);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         // Render towers, portals, hostile units and shai hulud
         sceneManager.update(deltaTime);
@@ -232,7 +225,7 @@ public final class GameScreen extends AbstractScreen {
     }
 
     private void drawMouseSelection(int x, int y) {
-        if (!isPositionInsideGrid(grid, x, y) || hud.isMouseOnToolBar()) {
+        if (!DuneTDMath.isPositionInsideGrid(grid, x, y) || hud.isMouseOnToolBar()) {
             return;
         }
 

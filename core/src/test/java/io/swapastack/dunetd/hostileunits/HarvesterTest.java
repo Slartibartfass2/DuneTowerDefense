@@ -4,10 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HarvesterTest {
 
@@ -27,14 +25,14 @@ class HarvesterTest {
             var slowingEffectMultiplier = 0.1f * i;
             harvester.slowDown(slowingEffectMultiplier, 100);
             var tmp = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
-            assertEquals(harvester.speed * tmp, harvester.currentSpeed, 0f);
-            assertTrue(harvester.speed >= harvester.currentSpeed);
+            Assertions.assertEquals(harvester.speed * tmp, harvester.currentSpeed, 0f);
+            Assertions.assertTrue(harvester.speed >= harvester.currentSpeed);
         }
     }
 
     @Test
     void testGetSpiceReward() {
         var harvester = new Harvester(Vector2.Zero);
-        assertEquals(HARVESTER_SPICE_REWARD, harvester.getSpiceReward());
+        Assertions.assertEquals(HARVESTER_SPICE_REWARD, harvester.getSpiceReward());
     }
 }

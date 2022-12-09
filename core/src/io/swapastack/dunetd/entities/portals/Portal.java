@@ -4,8 +4,6 @@ import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import org.jetbrains.annotations.Nullable;
 
-import static io.swapastack.dunetd.assets.controller.EntityController.SHOW_EVENT_NAME;
-
 /**
  * A portal representing a part of the game grid. A portal can be: <br>
  * - a start portal: where hostile units appear <br>
@@ -23,6 +21,6 @@ public abstract class Portal extends Entity {
     protected Portal(int x, int y, @Nullable EntityController entityController) {
         super(x, y, entityController, 0f);
         if (entityController != null)
-            support.firePropertyChange(SHOW_EVENT_NAME, null, null);
+            support.firePropertyChange(EntityController.SHOW_EVENT_NAME, null, null);
     }
 }

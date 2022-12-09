@@ -5,6 +5,7 @@ import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
+import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
 
@@ -12,11 +13,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.UUID;
-
-import static io.swapastack.dunetd.assets.AssetLoader.BOSS_UNIT_WALK_ANIMATION;
-import static io.swapastack.dunetd.assets.AssetLoader.HARVESTER_WALK_ANIMATION;
-import static io.swapastack.dunetd.assets.AssetLoader.INFANTRY_WALK_ANIMATION;
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
 
 public final class HostileUnitController implements PropertyChangeListener {
 
@@ -74,14 +70,14 @@ public final class HostileUnitController implements PropertyChangeListener {
         }
 
         // Get animation name from hostile unit type
-        var animationName = switch (fromHostileUnit(hostileUnit)) {
-            case INFANTRY -> INFANTRY_WALK_ANIMATION;
-            case HARVESTER -> HARVESTER_WALK_ANIMATION;
-            case BOSS_UNIT -> BOSS_UNIT_WALK_ANIMATION;
+        var animationName = switch (HostileUnitEnum.fromHostileUnit(hostileUnit)) {
+            case INFANTRY -> AssetLoader.INFANTRY_WALK_ANIMATION;
+            case HARVESTER -> AssetLoader.HARVESTER_WALK_ANIMATION;
+            case BOSS_UNIT -> AssetLoader.BOSS_UNIT_WALK_ANIMATION;
         };
 
         // Set game models initial position and store both hostile unit and game model in the hashMap
-        var gameModel = assetLoader.getHostileUnitGameModel(fromHostileUnit(hostileUnit));
+        var gameModel = assetLoader.getHostileUnitGameModel(HostileUnitEnum.fromHostileUnit(hostileUnit));
         var newHostileUnitPosition = new Vector3(newHostileUnitData.position().x, 0f, newHostileUnitData.position().y);
         gameModel.rePosition(newHostileUnitPosition);
         gameModel.setAnimation(animationName, -1);

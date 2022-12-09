@@ -23,9 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.HARVESTER;
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.INFANTRY;
-
 public final class AssetLoader implements Disposable {
 
     private static final String GAME_ASSETS_NOT_LOADED_MESSAGE = "Game assets weren't loaded";
@@ -252,12 +249,12 @@ public final class AssetLoader implements Disposable {
         };
 
         var offsetY = 0f;
-        if (hostileUnitEnum == HARVESTER) {
+        if (hostileUnitEnum == HostileUnitEnum.HARVESTER) {
             offsetY = 0.3f;
         }
 
         var offsetRotation = 0f;
-        if (hostileUnitEnum == INFANTRY) {
+        if (hostileUnitEnum == HostileUnitEnum.INFANTRY) {
             offsetRotation = 180f;
         }
 

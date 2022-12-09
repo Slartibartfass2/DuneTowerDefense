@@ -3,10 +3,8 @@ package io.swapastack.dunetd.hostileunits;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BossUnitTest {
 
@@ -23,14 +21,14 @@ class BossUnitTest {
             var bossUnit = new BossUnit(Vector2.Zero);
             var slowingEffectMultiplier = 0.1f * i;
             bossUnit.slowDown(slowingEffectMultiplier, 100);
-            assertEquals(bossUnit.speed * slowingEffectMultiplier, bossUnit.currentSpeed, 0f);
-            assertTrue(bossUnit.speed >= bossUnit.currentSpeed);
+            Assertions.assertEquals(bossUnit.speed * slowingEffectMultiplier, bossUnit.currentSpeed, 0f);
+            Assertions.assertTrue(bossUnit.speed >= bossUnit.currentSpeed);
         }
     }
 
     @Test
     void testGetSpiceReward() {
         var bossUnit = new BossUnit(Vector2.Zero);
-        assertEquals(BOSS_UNIT_SPICE_REWARD, bossUnit.getSpiceReward());
+        Assertions.assertEquals(BOSS_UNIT_SPICE_REWARD, bossUnit.getSpiceReward());
     }
 }

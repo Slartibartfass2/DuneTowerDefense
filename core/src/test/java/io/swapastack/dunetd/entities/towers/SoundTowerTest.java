@@ -7,16 +7,11 @@ import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SoundTowerTest {
 
@@ -29,7 +24,7 @@ class SoundTowerTest {
     @Test
     void testTargetWithInvalidArguments() {
         var soundTower = getRandomSoundTower();
-        assertThrows(IllegalArgumentException.class, () -> soundTower.target(null, false));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> soundTower.target(null, false));
     }
 
     @Test
@@ -41,10 +36,10 @@ class SoundTowerTest {
             new BossUnit(Vector2.Zero)
         }).toList();
 
-        assertFalse(soundTower.target(hostileUnits, false));
+        Assertions.assertFalse(soundTower.target(hostileUnits, false));
 
         for (var hostileUnit : hostileUnits) {
-            assertEquals(getSpeed(hostileUnit), getCurrentSpeed(hostileUnit), 0f);
+            Assertions.assertEquals(getSpeed(hostileUnit), getCurrentSpeed(hostileUnit), 0f);
         }
     }
 
@@ -63,14 +58,14 @@ class SoundTowerTest {
             new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f))
         }).toList();
 
-        assertTrue(soundTower.target(hostileUnits, true));
+        Assertions.assertTrue(soundTower.target(hostileUnits, true));
 
         for (int i = 0; i < hostileUnits.size(); i++) {
             var hostileUnit = hostileUnits.get(i);
             if (i < 6) {
-                assertNotEquals(getSpeed(hostileUnit), getCurrentSpeed(hostileUnit), 0f);
+                Assertions.assertNotEquals(getSpeed(hostileUnit), getCurrentSpeed(hostileUnit), 0f);
             } else {
-                assertEquals(getSpeed(hostileUnit), getCurrentSpeed(hostileUnit), 0f);
+                Assertions.assertEquals(getSpeed(hostileUnit), getCurrentSpeed(hostileUnit), 0f);
             }
         }
     }

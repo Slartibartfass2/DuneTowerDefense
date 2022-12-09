@@ -1,10 +1,9 @@
 package io.swapastack.dunetd.entities;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EntityTest {
 
@@ -16,11 +15,11 @@ class EntityTest {
         var entity = new Entity(x, y) {
         };
 
-        assertEquals(x, entity.x);
-        assertEquals(x, entity.getX());
+        Assertions.assertEquals(x, entity.x);
+        Assertions.assertEquals(x, entity.getX());
 
-        assertEquals(y, entity.y);
-        assertEquals(y, entity.getY());
+        Assertions.assertEquals(y, entity.y);
+        Assertions.assertEquals(y, entity.getY());
     }
 
     @Test
@@ -32,9 +31,9 @@ class EntityTest {
         };
         var gridPosition3d = entity.getGridPosition3d();
 
-        assertEquals(x, gridPosition3d.x, 0f);
-        assertEquals(0f, gridPosition3d.y, 0f);
-        assertEquals(y, gridPosition3d.z, 0f);
+        Assertions.assertEquals(x, gridPosition3d.x, 0f);
+        Assertions.assertEquals(0f, gridPosition3d.y, 0f);
+        Assertions.assertEquals(y, gridPosition3d.z, 0f);
     }
 
     @Test
@@ -46,7 +45,7 @@ class EntityTest {
         };
         var gridPosition3d = entity.getGridPosition2d();
 
-        assertEquals(x, gridPosition3d.x, 0f);
-        assertEquals(y, gridPosition3d.y, 0f);
+        Assertions.assertEquals(x, gridPosition3d.x, 0f);
+        Assertions.assertEquals(y, gridPosition3d.y, 0f);
     }
 }
