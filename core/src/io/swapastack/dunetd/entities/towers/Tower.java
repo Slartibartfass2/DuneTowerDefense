@@ -5,6 +5,7 @@ import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ import static io.swapastack.dunetd.math.DuneTDMath.getAngle;
  * - a damage tower: a tower which deals damage to hostile units in range. <br>
  * It consists of a position, range, build cost and reload time.
  */
-@SuppressWarnings("squid:S2160")
+@EqualsAndHashCode(callSuper = true)
 public abstract class Tower extends Entity {
 
     /**

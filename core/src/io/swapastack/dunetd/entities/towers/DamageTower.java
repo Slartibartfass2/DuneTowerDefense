@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.game.GameModelData;
+import lombok.EqualsAndHashCode;
 import org.jetbrains.annotations.Nullable;
 
 import static io.swapastack.dunetd.assets.controller.EntityController.UPDATE_EVENT_NAME;
@@ -14,7 +15,7 @@ import static io.swapastack.dunetd.assets.controller.EntityController.UPDATE_EVE
  * - a bomb tower: a tower which deals area damage to at least one hostile unit in range. <br>
  * It consists of the same properties as a tower plus the amount of damage it deals to hostile units.
  */
-@SuppressWarnings("squid:S2160")
+@EqualsAndHashCode(callSuper = true)
 public abstract class DamageTower extends Tower {
 
     /**
