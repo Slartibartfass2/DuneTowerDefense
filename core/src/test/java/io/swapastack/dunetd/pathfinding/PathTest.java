@@ -48,8 +48,10 @@ class PathTest {
         assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][1], null, null));
         assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][1], null, Vector2.Zero));
         assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][1], Vector2.Zero, null));
-        assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[0][1], Vector2.Zero, Vector2.Zero));
-        assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][0], Vector2.Zero, Vector2.Zero));
+        assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[0][1], Vector2.Zero,
+                Vector2.Zero));
+        assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][0], Vector2.Zero,
+                Vector2.Zero));
     }
 
     @Test

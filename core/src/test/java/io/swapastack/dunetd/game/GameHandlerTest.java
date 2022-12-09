@@ -20,7 +20,8 @@ class GameHandlerTest {
 
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
-    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance().getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
 
     @Test
     void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {

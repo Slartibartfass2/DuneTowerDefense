@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * Wrapper for entity which stores the nullable entity, the position and the index, used for the <code>EntityGraph</code>
- * class. Inspired by
+ * Wrapper for entity which stores the nullable entity, the position and the index, used for the
+ * <code>EntityGraph</code> class. Inspired by
  * <a href="https://happycoding.io/tutorials/libgdx/pathfinding">https://happycoding.io/tutorials/libgdx/pathfinding</a>
  */
 @EqualsAndHashCode

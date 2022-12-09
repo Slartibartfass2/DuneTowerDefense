@@ -130,8 +130,8 @@ class TowerTest {
     }
 
     Tower getNewRandomTower() {
-        return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(), new Random().nextInt(),
-                new Random().nextInt(), null, 0f) {
+        return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(),
+                new Random().nextInt(), new Random().nextInt(), null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;

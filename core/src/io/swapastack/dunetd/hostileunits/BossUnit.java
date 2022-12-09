@@ -20,12 +20,14 @@ public final class BossUnit extends HostileUnit {
     /**
      * @see HostileUnit#health
      */
-    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
+    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
 
     /**
      * @see HostileUnit#getSpiceReward()
      */
-    private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance().getIntProperty("BOSS_UNIT_SPICE_REWARD");
+    private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_SPICE_REWARD");
 
     /**
      * Creates a new boss unit with a specified position.

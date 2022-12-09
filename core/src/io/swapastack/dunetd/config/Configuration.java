@@ -28,7 +28,8 @@ public final class Configuration {
 
     /**
      * Create new Configuration and loads properties.
-     * Suppresses S3010, because properties gets manually initialized in <code>TestHelper</code> class, for test purposes only.
+     * Suppresses S3010, because properties gets manually initialized in <code>TestHelper</code> class, for test
+     * purposes only.
      */
     @SuppressWarnings("squid:S3010")
     private Configuration() {

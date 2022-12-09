@@ -5,7 +5,6 @@ import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
-import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
 import org.junit.jupiter.api.Test;
 
@@ -178,20 +177,6 @@ class HostileUnitTest {
 
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
         return new HostileUnit(position, speed, health, null) {
-            @Override
-            public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
-
-            }
-
-            @Override
-            public int getSpiceReward() {
-                return 0;
-            }
-        };
-    }
-
-    HostileUnit getNewHostileUnit(Vector2 position, float speed, int health, HostileUnitController hostileUnitController) {
-        return new HostileUnit(position, speed, health, hostileUnitController) {
             @Override
             public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
 

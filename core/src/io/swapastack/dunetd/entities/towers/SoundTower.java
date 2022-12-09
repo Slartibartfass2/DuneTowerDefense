@@ -23,22 +23,26 @@ public final class SoundTower extends Tower {
     /**
      * @see Tower#buildCost
      */
-    private static final int SOUND_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("SOUND_TOWER_BUILD_COST");
+    private static final int SOUND_TOWER_BUILD_COST = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_BUILD_COST");
 
     /**
      * @see Tower#reloadTimeInMs
      */
-    private static final int SOUND_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MS");
+    private static final int SOUND_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MS");
 
     /**
      * Value between zero and one, multiplied with the speed result in the slowed down speed
      */
-    private static final float SLOWING_EFFECT_MULTIPLIER = Configuration.getInstance().getFloatProperty("SOUND_TOWER_SLOWING_EFFECT_MULTIPLIER");
+    private static final float SLOWING_EFFECT_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("SOUND_TOWER_SLOWING_EFFECT_MULTIPLIER");
 
     /**
      * Duration of the slowing effect in milliseconds
      */
-    private static final int SLOWING_EFFECT_DURATION_IN_MS = Configuration.getInstance().getIntProperty("SOUND_TOWER_SLOWING_EFFECT_DURATION_IN_MS");
+    private static final int SLOWING_EFFECT_DURATION_IN_MS = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_SLOWING_EFFECT_DURATION_IN_MS");
 
     /**
      * Creates a new sound tower with a specified position.

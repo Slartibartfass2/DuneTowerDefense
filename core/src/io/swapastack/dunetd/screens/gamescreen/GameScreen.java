@@ -89,7 +89,8 @@ public final class GameScreen extends AbstractScreen {
         shaiHuludController = new ShaiHuludController(sceneManager, game.getAssetLoader());
 
         // Initialise GameHandler
-        gameHandler = new GameHandler(gridWidth, gridHeight, entityController, hostileUnitController, shaiHuludController);
+        gameHandler = new GameHandler(gridWidth, gridHeight, entityController, hostileUnitController,
+                shaiHuludController);
         grid = gameHandler.getGrid();
 
         hud = new Hud(this, gameHandler, stage);

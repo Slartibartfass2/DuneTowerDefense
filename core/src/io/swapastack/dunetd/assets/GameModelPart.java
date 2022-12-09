@@ -33,7 +33,8 @@ public final class GameModelPart {
         update();
     }
 
-    public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation, @NonNull Vector3 position) {
+    public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation,
+                         @NonNull Vector3 position) {
         scene = new Scene(sceneModel);
         this.scale = scale.cpy();
         this.rotation = rotation;
@@ -44,8 +45,8 @@ public final class GameModelPart {
         update();
     }
 
-    public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation, @NonNull Vector3 position,
-                         float offsetRotation, @NonNull Vector3 offsetPosition) {
+    public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation,
+                         @NonNull Vector3 position, float offsetRotation, @NonNull Vector3 offsetPosition) {
         scene = new Scene(sceneModel);
         this.scale = scale.cpy();
         this.rotation = rotation;

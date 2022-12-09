@@ -25,7 +25,8 @@ public final class HostileUnitController implements PropertyChangeListener {
     public static final String DESTROY_EVENT_NAME = "destroy";
 
     // Exception messages
-    private static final String HOSTILE_UNIT_NOT_REGISTERED_MESSAGE = "Hostile unit is not registered in hostile unit controller";
+    private static final String HOSTILE_UNIT_NOT_REGISTERED_MESSAGE = "Hostile unit is not registered in hostile unit" +
+            " controller";
 
     private final SceneManager sceneManager;
     private final AssetLoader assetLoader;
@@ -47,7 +48,8 @@ public final class HostileUnitController implements PropertyChangeListener {
     public void propertyChange(@NonNull PropertyChangeEvent event) throws IllegalArgumentException {
         if (event.getPropertyName() == null || event.getSource() == null
                 || !(event.getSource() instanceof HostileUnit hostileUnit)) {
-            throw new IllegalArgumentException("Property name and source must be non null and source must be a hostile unit");
+            throw new IllegalArgumentException("Property name and source must be non null and source must be a " +
+                    "hostile unit");
         }
 
         switch (event.getPropertyName()) {

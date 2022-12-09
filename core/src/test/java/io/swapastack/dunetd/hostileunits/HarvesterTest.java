@@ -14,8 +14,10 @@ class HarvesterTest {
         TestHelper.readConfigFile();
     }
 
-    private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance().getIntProperty("HARVESTER_SPICE_REWARD");
-    private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance().getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
+    private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("HARVESTER_SPICE_REWARD");
+    private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
 
     @Test
     void testSlowDown() {

@@ -14,7 +14,8 @@ import lombok.NonNull;
 public final class GamePhaseBar extends VisTable {
 
     // Configuration values
-    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance().getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
     private static final int MAX_WAVE_COUNT = Configuration.getInstance().getIntProperty("MAX_WAVE_COUNT");
 
     private final GameHandler gameHandler;

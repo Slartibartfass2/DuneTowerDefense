@@ -40,10 +40,14 @@ public final class EscapeMenu extends VisWindow {
         var padHorizontal = PixelsConverter.getX(PADDING_HORIZONTAL);
         var padVertical = PixelsConverter.getY(PADDING_VERTICAL);
         var spacing = PixelsConverter.getY(SPACING);
-        add(backToGameButton).pad(padVertical - getTitleTable().getHeight(), padHorizontal, spacing, padHorizontal).row();
+        add(backToGameButton)
+                .pad(padVertical - getTitleTable().getHeight(), padHorizontal, spacing, padHorizontal)
+                .row();
         //add(saveGameButton).pad(0f, padHorizontal, spacing, padHorizontal).row();
         //add(settingsButton).pad(0f, padHorizontal, spacing, padHorizontal).row();
-        add(menuButton).pad(0f, padHorizontal, padVertical, padHorizontal).row();
+        add(menuButton)
+                .pad(0f, padHorizontal, padVertical, padHorizontal)
+                .row();
         pack();
         centerWindow();
         setVisible(false);

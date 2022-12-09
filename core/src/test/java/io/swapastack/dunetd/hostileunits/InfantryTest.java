@@ -13,7 +13,8 @@ class InfantryTest {
         TestHelper.readConfigFile();
     }
 
-    private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance().getIntProperty("INFANTRY_SPICE_REWARD");
+    private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("INFANTRY_SPICE_REWARD");
 
     @Test
     void testSlowDown() {

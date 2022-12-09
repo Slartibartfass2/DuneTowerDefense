@@ -32,7 +32,8 @@ import static io.swapastack.dunetd.game.GamePhase.WAVE_PHASE;
 public final class Hud implements Disposable {
 
     // Constants
-    private static final int SHAI_HULUD_COOLDOWN_IN_MS = Configuration.getInstance().getIntProperty("SHAI_HULUD_COOLDOWN_IN_MS");
+    private static final int SHAI_HULUD_COOLDOWN_IN_MS = Configuration.getInstance()
+            .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MS");
     private static final float CAMERA_ROTATION_ANGLE = 0.8f;
     private static final float CAMERA_MOVEMENT_SPEED = 0.3f;
     private static final float CAMERA_BORDER_OFFSET = 4f;
@@ -102,11 +103,13 @@ public final class Hud implements Disposable {
         var bombTowerDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_BOMB_TOWER_NAME);
         var soundTowerDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_SOUND_TOWER_NAME);
         var shaiHuludDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_SHAI_HULUD_NAME);
-        toolBar = new ToolBar(gameHandler, background, guardTowerDrawable, bombTowerDrawable, soundTowerDrawable, shaiHuludDrawable);
+        toolBar = new ToolBar(gameHandler, background, guardTowerDrawable, bombTowerDrawable, soundTowerDrawable,
+                shaiHuludDrawable);
         mainStage.addActor(toolBar);
 
         // Add Listeners to Stage
-        mainStage.addListener(new HudInputListener(this::handleMouseClickEvent, this::handleScrollEvent, this::handleKeyDownEvent));
+        mainStage.addListener(
+                new HudInputListener(this::handleMouseClickEvent, this::handleScrollEvent, this::handleKeyDownEvent));
     }
 
     public void update(float deltaTime, @NonNull Vector2 mousePos, @NonNull PerspectiveCamera camera) {

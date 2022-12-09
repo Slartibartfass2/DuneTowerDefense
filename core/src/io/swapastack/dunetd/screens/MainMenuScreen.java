@@ -50,7 +50,8 @@ public final class MainMenuScreen extends AbstractScreen {
         var duneTD = "Dune TD";
 
         // Initialize FreeTypeFontGenerator for BitmapFont generation
-        bitmapFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/NotoSansCJKtc_ttf/NotoSansCJKtc-Bold.ttf"));
+        var fontFileHandle = Gdx.files.internal("fonts/NotoSansCJKtc_ttf/NotoSansCJKtc-Bold.ttf");
+        bitmapFontGenerator = new FreeTypeFontGenerator(fontFileHandle);
         var japaneseLatinLabelStyle = getLabelStyle(duneTD);
 
         // Create a Label with the main menu title string

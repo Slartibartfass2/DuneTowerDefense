@@ -20,12 +20,14 @@ public final class Infantry extends HostileUnit {
     /**
      * @see HostileUnit#health
      */
-    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("INFANTRY_INITIAL_HEALTH");
+    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("INFANTRY_INITIAL_HEALTH");
 
     /**
      * @see HostileUnit#getSpiceReward()
      */
-    private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance().getIntProperty("INFANTRY_SPICE_REWARD");
+    private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("INFANTRY_SPICE_REWARD");
 
     /**
      * Creates a new infantry with a specified position.
@@ -47,8 +49,8 @@ public final class Infantry extends HostileUnit {
     }
 
     /**
-     * Slows down the infantry by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>. The effect
-     * lasts as long as the specified <code>slowingEffectDurationInMs</code>.
+     * Slows down the infantry by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>.
+     * The effect lasts as long as the specified <code>slowingEffectDurationInMs</code>.
      *
      * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
      * @param slowingEffectDurationInMs Duration of slowing effect.
