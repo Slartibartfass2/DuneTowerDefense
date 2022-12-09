@@ -1,8 +1,10 @@
 package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.assets.controller.EntityController;
-import lombok.NonNull;
+
 import org.jetbrains.annotations.NotNull;
+
+import lombok.NonNull;
 
 /**
  * Represents a selection of the towers the user can build in the game.

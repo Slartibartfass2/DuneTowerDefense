@@ -5,9 +5,11 @@ import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
 import com.kotcrab.vis.ui.widget.VisTable;
+
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.game.GameHandler;
 import io.swapastack.dunetd.math.PixelsConverter;
+
 import lombok.NonNull;
 
 @SuppressWarnings("squid:S110")

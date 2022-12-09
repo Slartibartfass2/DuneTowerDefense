@@ -4,10 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.kotcrab.vis.ui.util.adapter.ArrayListAdapter;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
+
 import io.swapastack.dunetd.savegame.SaveGame;
-import lombok.NonNull;
 
 import java.util.ArrayList;
+
+import lombok.NonNull;
 
 public class ListViewAdapter extends ArrayListAdapter<SaveGame, VisTable> {
 

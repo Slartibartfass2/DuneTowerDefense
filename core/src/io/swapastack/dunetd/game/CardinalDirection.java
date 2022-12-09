@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
+
 import lombok.Getter;
 import lombok.NonNull;
 

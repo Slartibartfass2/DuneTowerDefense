@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
+
 import lombok.NonNull;
 
 public final class HighscoreScreen extends AbstractScreen {

@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.assets.controller;
 
 import com.badlogic.gdx.math.Vector3;
+
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelInterface;
 import io.swapastack.dunetd.assets.GameModelTower;
@@ -9,14 +10,15 @@ import io.swapastack.dunetd.entities.portals.Portal;
 import io.swapastack.dunetd.entities.towers.Tower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.game.GameModelData;
-import lombok.NonNull;
-import net.mgsx.gltf.scene3d.scene.SceneManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
+
+import lombok.NonNull;
+import net.mgsx.gltf.scene3d.scene.SceneManager;
 
 public final class EntityController implements PropertyChangeListener {
 

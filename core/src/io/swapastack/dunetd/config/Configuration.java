@@ -1,10 +1,10 @@
 package io.swapastack.dunetd.config;
 
-import lombok.NonNull;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
+
+import lombok.NonNull;
 
 /**
  * Reader for config.properties file. Uses singleton pattern to only read config once.

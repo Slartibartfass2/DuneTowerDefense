@@ -12,8 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import imgui.ImGui;
-import imgui.flag.ImGuiWindowFlags;
+
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.game.GameHandler;
@@ -24,6 +23,9 @@ import io.swapastack.dunetd.screens.gamescreen.GameScreen;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 import io.swapastack.dunetd.screens.listeners.HudInputListener;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
+
+import imgui.ImGui;
+import imgui.flag.ImGuiWindowFlags;
 import lombok.Getter;
 import lombok.NonNull;
 

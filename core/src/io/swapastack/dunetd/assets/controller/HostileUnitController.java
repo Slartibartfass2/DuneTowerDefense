@@ -1,18 +1,20 @@
 package io.swapastack.dunetd.assets.controller;
 
 import com.badlogic.gdx.math.Vector3;
+
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
-import lombok.NonNull;
-import net.mgsx.gltf.scene3d.scene.SceneManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.UUID;
+
+import lombok.NonNull;
+import net.mgsx.gltf.scene3d.scene.SceneManager;
 
 public final class HostileUnitController implements PropertyChangeListener {
 

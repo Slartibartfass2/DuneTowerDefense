@@ -1,14 +1,17 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.DamageTower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
-import lombok.NonNull;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import lombok.NonNull;
 
 class GameHandlerTest {
 

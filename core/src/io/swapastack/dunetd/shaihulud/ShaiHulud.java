@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.shaihulud;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
@@ -12,13 +13,15 @@ import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import io.swapastack.dunetd.math.DuneTDMath;
-import lombok.Getter;
-import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.Getter;
+import lombok.NonNull;
 
 public final class ShaiHulud {
 

@@ -1,9 +1,9 @@
 package io.swapastack.dunetd.pathfinding;
 
+import java.util.Random;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Random;
 
 class EntityHeuristicTest {
 

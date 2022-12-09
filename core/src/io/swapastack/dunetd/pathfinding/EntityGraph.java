@@ -8,11 +8,14 @@ import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.Tower;
-import lombok.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import lombok.NonNull;
 
 /**
  * A graph for the {@link IndexedAStarPathFinder}.

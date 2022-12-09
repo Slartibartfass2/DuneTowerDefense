@@ -2,11 +2,13 @@ package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
-import lombok.NonNull;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import lombok.NonNull;
 
 class TowerEnumTest {
 

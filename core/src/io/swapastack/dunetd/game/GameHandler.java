@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.assets.controller.ShaiHuludController;
@@ -15,15 +16,17 @@ import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.pathfinding.Path;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 public final class GameHandler {
 

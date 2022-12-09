@@ -1,19 +1,22 @@
 package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.math.DuneTDMath;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * A tower representing a part of the game grid. A tower can be: <br>

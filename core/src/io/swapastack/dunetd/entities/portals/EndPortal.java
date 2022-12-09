@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.entities.portals;
 
 import io.swapastack.dunetd.assets.controller.EntityController;
+
 import org.jetbrains.annotations.Nullable;
 
 /**

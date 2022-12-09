@@ -2,9 +2,11 @@ package io.swapastack.dunetd.game;
 
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
+
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
+
 import lombok.NonNull;
 import lombok.ToString;
 

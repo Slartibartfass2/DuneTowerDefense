@@ -1,10 +1,13 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.config.Configuration;
-import lombok.NonNull;
+
 import org.jetbrains.annotations.Nullable;
+
+import lombok.NonNull;
 
 /**
  * An infantry representing an enemy in this game.

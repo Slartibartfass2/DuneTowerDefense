@@ -3,6 +3,7 @@ package io.swapastack.dunetd;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.kotcrab.vis.ui.VisUI;
+
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.screens.CreditsScreen;
 import io.swapastack.dunetd.screens.HighscoreScreen;
@@ -14,6 +15,7 @@ import io.swapastack.dunetd.screens.ScreenEnum;
 import io.swapastack.dunetd.screens.SettingsScreen;
 import io.swapastack.dunetd.screens.gamescreen.GameScreen;
 import io.swapastack.dunetd.settings.GameSettings;
+
 import lombok.Getter;
 import lombok.NonNull;
 

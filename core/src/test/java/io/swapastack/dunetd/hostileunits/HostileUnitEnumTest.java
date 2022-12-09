@@ -1,7 +1,9 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.TestHelper;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

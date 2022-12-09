@@ -2,6 +2,7 @@ package io.swapastack.dunetd.screens.listeners;
 
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.screens.ScreenEnum;
+
 import lombok.NonNull;
 
 public final class ChangeScreenInputListener extends ClickInputListener {

@@ -3,11 +3,13 @@ package io.swapastack.dunetd.screens.gamescreen;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.assets.GroundTileEnum;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.pathfinding.Path;
+
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
 

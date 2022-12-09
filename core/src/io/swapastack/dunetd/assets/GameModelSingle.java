@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.assets;
 
 import com.badlogic.gdx.math.Vector3;
+
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.Scene;
 
