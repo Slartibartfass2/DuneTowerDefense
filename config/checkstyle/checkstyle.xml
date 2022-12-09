@@ -12,7 +12,7 @@
         <property name="files" value="config.properties"/>
     </module>
     <module name="SuppressionSingleFilter"> <!-- TODO Remove -->
-        <property name="checks" value="MethodLength"/>
+        <property name="checks" value="(MethodLength|ExecutableStatementCount)"/>
         <property name="files" value="Statistics.java"/>
     </module>
 
@@ -185,7 +185,9 @@
 
         <!-- Size Violations -->
         <module name="AnonInnerLength"/>
-<!--        <module name="ExecutableStatementCount"/>-->
+        <module name="ExecutableStatementCount">
+            <property name="max" value="35"/>
+        </module>
         <module name="LambdaBodyLength"/>
         <module name="MethodCount">
             <property name="maxTotal" value="25"/>
