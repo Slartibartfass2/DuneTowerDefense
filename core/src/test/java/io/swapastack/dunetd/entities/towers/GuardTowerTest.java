@@ -1,18 +1,19 @@
 package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
-import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class GuardTowerTest {
 
@@ -30,7 +31,7 @@ class GuardTowerTest {
     @Test
     void testTargetWithInvalidArguments() {
         var guardTower = getNewRandomGuardTower();
-        assertThrows(IllegalArgumentException.class, () -> guardTower.target(null, false));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> guardTower.target(null, false));
     }
 
     @Test
@@ -42,11 +43,11 @@ class GuardTowerTest {
             new BossUnit(Vector2.Zero)
         }).toList();
 
-        assertFalse(guardTower.target(hostileUnits, false));
+        Assertions.assertFalse(guardTower.target(hostileUnits, false));
 
-        assertEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(0)), 0f);
-        assertEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(1)), 0f);
-        assertEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(2)), 0f);
+        Assertions.assertEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(0)), 0f);
+        Assertions.assertEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(1)), 0f);
+        Assertions.assertEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(2)), 0f);
     }
 
     @Test
@@ -58,11 +59,11 @@ class GuardTowerTest {
             new BossUnit(Vector2.Zero)
         }).toList();
 
-        assertTrue(guardTower.target(hostileUnits, true));
+        Assertions.assertTrue(guardTower.target(hostileUnits, true));
 
-        assertNotEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(0)), 0f);
-        assertEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(1)), 0f);
-        assertEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(2)), 0f);
+        Assertions.assertNotEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(0)), 0f);
+        Assertions.assertEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(1)), 0f);
+        Assertions.assertEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(2)), 0f);
     }
 
     GuardTower getNewRandomGuardTower() {

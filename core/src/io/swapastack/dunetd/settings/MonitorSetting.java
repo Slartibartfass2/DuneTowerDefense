@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.settings;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics.Lwjgl3DisplayMode;
+
 import lombok.Getter;
 import lombok.NonNull;
 

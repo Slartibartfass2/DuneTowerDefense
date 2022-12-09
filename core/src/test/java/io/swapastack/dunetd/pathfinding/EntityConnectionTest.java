@@ -1,8 +1,7 @@
 package io.swapastack.dunetd.pathfinding;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class EntityConnectionTest {
 
@@ -11,7 +10,7 @@ class EntityConnectionTest {
         var entityNodeFrom = new EntityNode(null, 0, 0, 0);
         var entityNodeTo = new EntityNode(null, 0, 0, 0);
         var entityConnection = new EntityConnection(entityNodeFrom, entityNodeTo);
-        assertNotNull(entityConnection);
+        Assertions.assertNotNull(entityConnection);
     }
 
     @Test
@@ -19,9 +18,9 @@ class EntityConnectionTest {
         var entityNodeFrom = new EntityNode(null, 0, 0, 0);
         var entityNodeTo = new EntityNode(null, 0, 0, 0);
 
-        assertThrows(IllegalArgumentException.class, () -> new EntityConnection(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new EntityConnection(null, entityNodeTo));
-        assertThrows(IllegalArgumentException.class, () -> new EntityConnection(entityNodeFrom, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityConnection(null, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityConnection(null, entityNodeTo));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityConnection(entityNodeFrom, null));
     }
 
     @Test
@@ -31,8 +30,8 @@ class EntityConnectionTest {
                 new EntityNode(null, 0, 0, 0)
         );
 
-        assertTrue(entityConnection.getCost() >= 1);
-        assertNotNull(entityConnection.getFromNode());
-        assertNotNull(entityConnection.getToNode());
+        Assertions.assertTrue(entityConnection.getCost() >= 1);
+        Assertions.assertNotNull(entityConnection.getFromNode());
+        Assertions.assertNotNull(entityConnection.getToNode());
     }
 }

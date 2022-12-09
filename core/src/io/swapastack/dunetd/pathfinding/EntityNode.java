@@ -1,7 +1,9 @@
 package io.swapastack.dunetd.pathfinding;
 
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
+
 import io.swapastack.dunetd.entities.Entity;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

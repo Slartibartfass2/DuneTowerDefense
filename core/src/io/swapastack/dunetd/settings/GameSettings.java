@@ -3,6 +3,7 @@ package io.swapastack.dunetd.settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.MathUtils;
+
 import io.swapastack.dunetd.config.Configuration;
 
 public final class GameSettings {

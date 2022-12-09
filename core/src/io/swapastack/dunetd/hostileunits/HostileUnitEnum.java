@@ -1,10 +1,13 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
-import lombok.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import lombok.NonNull;
 
 /**
  * Represents a selection of hostile units.

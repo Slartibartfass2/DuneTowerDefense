@@ -1,11 +1,11 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
-import io.swapastack.dunetd.TestHelper;
-import org.junit.jupiter.api.Test;
 
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
-import static org.junit.jupiter.api.Assertions.*;
+import io.swapastack.dunetd.TestHelper;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class HostileUnitEnumTest {
 
@@ -16,44 +16,44 @@ class HostileUnitEnumTest {
     @Test
     void testFromHostileUnitWithValidArguments() {
         var infantry = new Infantry(Vector2.Zero);
-        assertEquals(HostileUnitEnum.INFANTRY, fromHostileUnit(infantry));
+        Assertions.assertEquals(HostileUnitEnum.INFANTRY, HostileUnitEnum.fromHostileUnit(infantry));
 
         var harvester = new Harvester(Vector2.Zero);
-        assertEquals(HostileUnitEnum.HARVESTER, fromHostileUnit(harvester));
+        Assertions.assertEquals(HostileUnitEnum.HARVESTER, HostileUnitEnum.fromHostileUnit(harvester));
 
         var bossUnit = new BossUnit(Vector2.Zero);
-        assertEquals(HostileUnitEnum.BOSS_UNIT, fromHostileUnit(bossUnit));
+        Assertions.assertEquals(HostileUnitEnum.BOSS_UNIT, HostileUnitEnum.fromHostileUnit(bossUnit));
     }
 
     @Test
     void testFromHostileUnitWithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> fromHostileUnit(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> HostileUnitEnum.fromHostileUnit(null));
     }
 
     @Test
     void testToHostileUnitWithValidArguments() {
         var infantryEnum = HostileUnitEnum.INFANTRY;
         var infantry = infantryEnum.toHostileUnit(Vector2.Zero, null);
-        assertNotNull(infantry);
+        Assertions.assertNotNull(infantry);
 
         var harvesterEnum = HostileUnitEnum.HARVESTER;
         var harvester = harvesterEnum.toHostileUnit(Vector2.Zero, null);
-        assertNotNull(harvester);
+        Assertions.assertNotNull(harvester);
 
         var bossUnitEnum = HostileUnitEnum.BOSS_UNIT;
         var bossUnit = bossUnitEnum.toHostileUnit(Vector2.Zero, null);
-        assertNotNull(bossUnit);
+        Assertions.assertNotNull(bossUnit);
     }
 
     @Test
     void testToHostileUnitWithInvalidArguments() {
         var infantryEnum = HostileUnitEnum.INFANTRY;
-        assertThrows(IllegalArgumentException.class, () -> infantryEnum.toHostileUnit(null, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> infantryEnum.toHostileUnit(null, null));
 
         var harvesterEnum = HostileUnitEnum.HARVESTER;
-        assertThrows(IllegalArgumentException.class, () -> harvesterEnum.toHostileUnit(null, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> harvesterEnum.toHostileUnit(null, null));
 
         var bossUnitEnum = HostileUnitEnum.BOSS_UNIT;
-        assertThrows(IllegalArgumentException.class, () -> bossUnitEnum.toHostileUnit(null, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> bossUnitEnum.toHostileUnit(null, null));
     }
 }

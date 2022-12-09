@@ -2,18 +2,19 @@ package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
-import lombok.NonNull;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import lombok.NonNull;
 
 class TowerEnumTest {
 
     @Test
     void testFromTowerWithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> TowerEnum.fromTower(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> TowerEnum.fromTower(null));
 
         var tower = new Tower(0, 0, 0, 0, 0, null, 0f) {
             @Override
@@ -22,19 +23,19 @@ class TowerEnumTest {
             }
         };
 
-        assertThrows(IllegalStateException.class, () -> TowerEnum.fromTower(tower));
+        Assertions.assertThrows(IllegalStateException.class, () -> TowerEnum.fromTower(tower));
     }
 
     @Test
     void testFromTowerWithValidArguments() {
         var guardTower = new GuardTower(0, 0);
-        assertEquals(TowerEnum.GUARD_TOWER, TowerEnum.fromTower(guardTower));
+        Assertions.assertEquals(TowerEnum.GUARD_TOWER, TowerEnum.fromTower(guardTower));
 
         var bombTower = new BombTower(0, 0);
-        assertEquals(TowerEnum.BOMB_TOWER, TowerEnum.fromTower(bombTower));
+        Assertions.assertEquals(TowerEnum.BOMB_TOWER, TowerEnum.fromTower(bombTower));
 
         var soundTower = new SoundTower(0, 0);
-        assertEquals(TowerEnum.SOUND_TOWER, TowerEnum.fromTower(soundTower));
+        Assertions.assertEquals(TowerEnum.SOUND_TOWER, TowerEnum.fromTower(soundTower));
     }
 
     @Test
@@ -43,15 +44,15 @@ class TowerEnumTest {
 
         var towerEnum0 = TowerEnum.GUARD_TOWER;
         var tower = towerEnum0.toTower(0, 0, null);
-        assertTrue(tower instanceof GuardTower);
+        Assertions.assertTrue(tower instanceof GuardTower);
 
         var towerEnum1 = TowerEnum.BOMB_TOWER;
         tower = towerEnum1.toTower(0, 0, null);
-        assertTrue(tower instanceof BombTower);
+        Assertions.assertTrue(tower instanceof BombTower);
 
         var towerEnum2 = TowerEnum.SOUND_TOWER;
         tower = towerEnum2.toTower(0, 0, null);
-        assertTrue(tower instanceof SoundTower);
+        Assertions.assertTrue(tower instanceof SoundTower);
     }
 
     @Test
@@ -60,7 +61,7 @@ class TowerEnumTest {
         for (int i = 0; i < TowerEnum.values().length; i++) {
             var towerEnum = TowerEnum.values()[i];
             towerEnum = towerEnum.next();
-            assertEquals(towerEnum.ordinal(), (i + 1) % TowerEnum.values().length);
+            Assertions.assertEquals(towerEnum.ordinal(), (i + 1) % TowerEnum.values().length);
         }
     }
 
@@ -70,7 +71,8 @@ class TowerEnumTest {
         for (int i = 0; i < TowerEnum.values().length; i++) {
             var towerEnum = TowerEnum.values()[i];
             towerEnum = towerEnum.previous();
-            assertEquals((i - 1 + TowerEnum.values().length) % TowerEnum.values().length, towerEnum.ordinal());
+            Assertions.assertEquals((i - 1 + TowerEnum.values().length) % TowerEnum.values().length,
+                    towerEnum.ordinal());
         }
     }
 }

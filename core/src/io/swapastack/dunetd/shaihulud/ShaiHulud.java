@@ -1,27 +1,27 @@
 package io.swapastack.dunetd.shaihulud;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.Tower;
+import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
-import lombok.Getter;
-import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
+import io.swapastack.dunetd.math.DuneTDMath;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import static io.swapastack.dunetd.assets.controller.ShaiHuludController.*;
-import static io.swapastack.dunetd.entities.towers.TowerEnum.fromTower;
-import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
-import static io.swapastack.dunetd.math.DuneTDMath.isPositionInsideGrid;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.Getter;
+import lombok.NonNull;
 
 public final class ShaiHulud {
 
@@ -54,7 +54,7 @@ public final class ShaiHulud {
 
             // Add shai hulud controller as observer and call create event
             support.addPropertyChangeListener(shaiHuludController);
-            support.firePropertyChange(CREATE_EVENT_NAME, null, null);
+            support.firePropertyChange(ShaiHuludController.CREATE_EVENT_NAME, null, null);
         } else {
             support = null;
         }
@@ -78,7 +78,7 @@ public final class ShaiHulud {
             gridPosition.add(direction.scl(moveDistance));
 
             // Reset shai hulud if he reached the edge of the grid
-            if (!isPositionInsideGrid(grid, gridPosition.x, gridPosition.y)) {
+            if (!DuneTDMath.isPositionInsideGrid(grid, gridPosition.x, gridPosition.y)) {
                 reset(false);
             } else {
                 updateGameModel();
@@ -96,7 +96,7 @@ public final class ShaiHulud {
         if (support != null) {
             var gameModelData = new GameModelData(movingDirection.getDegrees(),
                     new Vector2(gridPosition.x, gridPosition.y));
-            support.firePropertyChange(UPDATE_EVENT_NAME, null, gameModelData);
+            support.firePropertyChange(ShaiHuludController.UPDATE_EVENT_NAME, null, gameModelData);
         }
     }
 
@@ -105,7 +105,7 @@ public final class ShaiHulud {
         var entity = grid[(int) gridPosition.x][(int) gridPosition.y];
         if (entity instanceof Tower tower && !tower.isDebris()) {
             tower.setToDebris();
-            statistics.destroyedTowerByShaiHulud(fromTower(tower));
+            statistics.destroyedTowerByShaiHulud(TowerEnum.fromTower(tower));
         }
     }
 
@@ -115,7 +115,7 @@ public final class ShaiHulud {
             var hostileUnitPosition = hostileUnit.getPosition();
             if (gridPosition.dst2(hostileUnitPosition) <= RANGE) {
                 hostileUnit.kill();
-                statistics.killedHostileUnitByShaiHulud(fromHostileUnit(hostileUnit));
+                statistics.killedHostileUnitByShaiHulud(HostileUnitEnum.fromHostileUnit(hostileUnit));
             }
         }
     }
@@ -123,7 +123,7 @@ public final class ShaiHulud {
     private void summonShaiHulud() {
         // Calculate moving direction by using the vector between both thumpers
         var directionVector = secondThumper.cpy().sub(firstThumper).nor();
-        movingDirection = fromDirection(directionVector);
+        movingDirection = CardinalDirection.fromDirection(directionVector);
 
         // Set initial grid position
         gridPosition = getSpawnPoint();
@@ -132,7 +132,7 @@ public final class ShaiHulud {
 
         // Make game model visible at right position if existing
         if (support != null) {
-            support.firePropertyChange(SHOW_EVENT_NAME, null,
+            support.firePropertyChange(ShaiHuludController.SHOW_EVENT_NAME, null,
                     new GameModelData(movingDirection.getDegrees(), new Vector2(gridPosition.x, gridPosition.y)));
         }
     }
@@ -151,7 +151,7 @@ public final class ShaiHulud {
         }
 
         // The user can't set a thumper outside the grid
-        if (!isPositionInsideGrid(grid, position.x, position.y)) {
+        if (!DuneTDMath.isPositionInsideGrid(grid, position.x, position.y)) {
             return false;
         }
 
@@ -206,7 +206,7 @@ public final class ShaiHulud {
             alreadySummoned = false;
         }
         if (support != null) {
-            support.firePropertyChange(VANISH_EVENT_NAME, null, null);
+            support.firePropertyChange(ShaiHuludController.VANISH_EVENT_NAME, null, null);
         }
     }
 

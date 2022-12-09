@@ -1,10 +1,9 @@
 package io.swapastack.dunetd.entities.portals;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class EndPortalTest {
 
@@ -15,7 +14,7 @@ class EndPortalTest {
 
         var endPortal = new EndPortal(x, y, null);
 
-        assertEquals(x, endPortal.getX());
-        assertEquals(y, endPortal.getY());
+        Assertions.assertEquals(x, endPortal.getX());
+        Assertions.assertEquals(y, endPortal.getY());
     }
 }

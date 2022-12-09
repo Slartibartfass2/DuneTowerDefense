@@ -3,6 +3,7 @@ package io.swapastack.dunetd.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,23 +12,22 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import imgui.ImGui;
-import imgui.flag.ImGuiWindowFlags;
+
+import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.game.GameHandler;
+import io.swapastack.dunetd.game.GamePhase;
 import io.swapastack.dunetd.screens.gamescreen.EscapeMenu;
 import io.swapastack.dunetd.screens.gamescreen.GameEndWindow;
 import io.swapastack.dunetd.screens.gamescreen.GameScreen;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 import io.swapastack.dunetd.screens.listeners.HudInputListener;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
+
+import imgui.ImGui;
+import imgui.flag.ImGuiWindowFlags;
 import lombok.Getter;
 import lombok.NonNull;
-
-import static com.badlogic.gdx.graphics.GL20.*;
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
-import static io.swapastack.dunetd.assets.AssetLoader.*;
-import static io.swapastack.dunetd.game.GamePhase.WAVE_PHASE;
 
 public final class Hud implements Disposable {
 
@@ -98,11 +98,11 @@ public final class Hud implements Disposable {
         mainStage.addActor(gamePhaseBar);
 
         // In the bottom center of the screen spice, health and towers are displayed
-        var background = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_BACKGROUND_NAME);
-        var guardTowerDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_GUARD_TOWER_NAME);
-        var bombTowerDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_BOMB_TOWER_NAME);
-        var soundTowerDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_SOUND_TOWER_NAME);
-        var shaiHuludDrawable = screen.getGame().getAssetLoader().getDrawable(DRAWABLE_SHAI_HULUD_NAME);
+        var background = screen.getGame().getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
+        var guardTowerDrawable = screen.getGame().getAssetLoader().getDrawable(AssetLoader.DRAWABLE_GUARD_TOWER_NAME);
+        var bombTowerDrawable = screen.getGame().getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BOMB_TOWER_NAME);
+        var soundTowerDrawable = screen.getGame().getAssetLoader().getDrawable(AssetLoader.DRAWABLE_SOUND_TOWER_NAME);
+        var shaiHuludDrawable = screen.getGame().getAssetLoader().getDrawable(AssetLoader.DRAWABLE_SHAI_HULUD_NAME);
         toolBar = new ToolBar(gameHandler, background, guardTowerDrawable, bombTowerDrawable, soundTowerDrawable,
                 shaiHuludDrawable);
         mainStage.addActor(toolBar);
@@ -139,13 +139,13 @@ public final class Hud implements Disposable {
                 var y = toolBar.getShaiHuludButton().getCenterY() + toolBar.getY();
                 var radius = toolBar.getShaiHuludButton().getButtonRadius() / 2f;
                 var degrees = shaiHulud.getRemainingCooldownInMs() / (float) SHAI_HULUD_COOLDOWN_IN_MS * 360f;
-                Gdx.graphics.getGL20().glEnable(GL_BLEND);
-                Gdx.gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
                 shapeRenderer.setColor(REMAINING_COOLDOWN_COLOR);
-                shapeRenderer.begin(Filled);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.arc(x, y, radius, 90f, degrees, 50);
                 shapeRenderer.end();
-                Gdx.gl.glDisable(GL_BLEND);
+                Gdx.gl.glDisable(GL20.GL_BLEND);
             }
         }
 
@@ -154,13 +154,13 @@ public final class Hud implements Disposable {
     }
 
     private void drawDarkBackground() {
-        Gdx.graphics.getGL20().glEnable(GL_BLEND);
-        Gdx.gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setColor(ESCAPE_MENU_BACKGROUND_COLOR);
-        shapeRenderer.begin(Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shapeRenderer.end();
-        Gdx.gl.glDisable(GL_BLEND);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     public void debug(@NonNull PerspectiveCamera camera) {
@@ -202,7 +202,7 @@ public final class Hud implements Disposable {
                 var selectedTower = toolBar.getSelectedTower();
                 if (selectedTower != null) {
                     gameHandler.buildTower(selectedTower, selectedX, selectedY);
-                } else if (toolBar.isShaiHuludSelected() && gameHandler.getGamePhase() == WAVE_PHASE) {
+                } else if (toolBar.isShaiHuludSelected() && gameHandler.getGamePhase() == GamePhase.WAVE_PHASE) {
                     shaiHulud.setThumper(selectedTilePosition);
                 }
             }

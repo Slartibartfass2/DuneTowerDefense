@@ -2,7 +2,9 @@ package io.swapastack.dunetd.math;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.entities.Entity;
+
 import lombok.NonNull;
 
 /**

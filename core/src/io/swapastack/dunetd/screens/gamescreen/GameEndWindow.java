@@ -3,11 +3,13 @@ package io.swapastack.dunetd.screens.gamescreen;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+
 import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.math.PixelsConverter;
 import io.swapastack.dunetd.screens.AbstractScreen;
 import io.swapastack.dunetd.screens.ScreenEnum;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
+
 import lombok.NonNull;
 
 @SuppressWarnings("squid:S110")

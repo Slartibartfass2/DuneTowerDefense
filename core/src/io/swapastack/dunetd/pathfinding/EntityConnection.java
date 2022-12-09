@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.pathfinding;
 
 import com.badlogic.gdx.ai.pfa.Connection;
+
 import lombok.NonNull;
 
 /**

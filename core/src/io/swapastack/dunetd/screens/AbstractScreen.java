@@ -3,8 +3,10 @@ package io.swapastack.dunetd.screens;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.settings.GameSettings;
+
 import lombok.Getter;
 import lombok.NonNull;
 

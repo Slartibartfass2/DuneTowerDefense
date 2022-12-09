@@ -2,6 +2,7 @@ package io.swapastack.dunetd.screens.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+
 import lombok.NonNull;
 
 public final class HudInputListener extends InputListener {

@@ -1,6 +1,7 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.assets.controller.ShaiHuludController;
@@ -12,23 +13,20 @@ import io.swapastack.dunetd.entities.towers.Tower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
+import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.pathfinding.Path;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static io.swapastack.dunetd.game.GamePhase.*;
-import static io.swapastack.dunetd.game.TimeFactor.NORMAL;
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.*;
-import static io.swapastack.dunetd.math.DuneTDMath.isPositionAvailable;
-import static io.swapastack.dunetd.math.DuneTDMath.isPositionInsideGrid;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 public final class GameHandler {
 
@@ -188,11 +186,11 @@ public final class GameHandler {
         bossUnitWaveBudget = BOSS_UNIT_INITIAL_WAVE_BUDGET;
         waveNumber = 1;
         remainingHostileUnitReleaseDelayInMs = 0;
-        gamePhase = BUILD_PHASE;
+        gamePhase = GamePhase.BUILD_PHASE;
         remainingBuildPhaseDurationInMs = GAME_BUILD_PHASE_DURATION_IN_MS;
         gameStarted = false;
         gamePaused = false;
-        timeFactor = NORMAL;
+        timeFactor = TimeFactor.NORMAL;
 
         shaiHulud = new ShaiHulud(grid, shaiHuludController);
         statistics = new Statistics();
@@ -228,7 +226,7 @@ public final class GameHandler {
 
         // End of build phase, create new wave
         if (remainingBuildPhaseDurationInMs <= 0) {
-            gamePhase = WAVE_PHASE;
+            gamePhase = GamePhase.WAVE_PHASE;
             hostileUnitsQueue = createNewWave(infantryWaveBudget, harvesterWaveBudget, bossUnitWaveBudget);
             remainingHostileUnitReleaseDelayInMs = 0;
             hostileUnitReleaseDelayInMs *= HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER;
@@ -256,17 +254,17 @@ public final class GameHandler {
         // If too many HostileUnits reached the end portal, the player has lost
         // Otherwise check if the wave phase is finished (all HostileUnits dead or reached portal)
         if (playerHealth <= 0) {
-            gamePhase = GAME_LOST_PHASE;
+            gamePhase = GamePhase.GAME_LOST_PHASE;
             pauseGame(true);
 
         } else if (hostileUnitsQueue.isEmpty() && hostileUnitsOnGrid.isEmpty()) {
             removeDebris();
-            timeFactor = NORMAL;
+            timeFactor = TimeFactor.NORMAL;
 
             // If the last wave was completed the player has won
             // Otherwise change to build phase
             if (waveNumber == MAX_WAVE_COUNT) {
-                gamePhase = GAME_WON_PHASE;
+                gamePhase = GamePhase.GAME_WON_PHASE;
                 pauseGame(true);
 
             } else {
@@ -281,7 +279,7 @@ public final class GameHandler {
                 bossUnitWaveBudget *= BOSS_UNIT_BUDGET_MULTIPLIER;
 
                 // Set phase to build phase
-                gamePhase = BUILD_PHASE;
+                gamePhase = GamePhase.BUILD_PHASE;
                 remainingBuildPhaseDurationInMs = GAME_BUILD_PHASE_DURATION_IN_MS;
             }
         }
@@ -297,7 +295,7 @@ public final class GameHandler {
      */
     public boolean buildTower(@NonNull TowerEnum towerEnum, int x, int y) {
         // If the game is not in the build phase or the position is occupied, the tower cannot be built
-        if (gamePhase != BUILD_PHASE || !isPositionAvailable(grid, x, y)) {
+        if (gamePhase != GamePhase.BUILD_PHASE || !DuneTDMath.isPositionAvailable(grid, x, y)) {
             return false;
         }
 
@@ -319,7 +317,8 @@ public final class GameHandler {
     private boolean buildTower(@NonNull Tower tower, int x, int y) {
         // If the game is not in the build phase, the position is occupied or the player has not enough spice, the
         // tower cannot be built
-        if (gamePhase != BUILD_PHASE || !isPositionAvailable(grid, x, y) || playerSpice < tower.getBuildCost()) {
+        if (gamePhase != GamePhase.BUILD_PHASE || !DuneTDMath.isPositionAvailable(grid, x, y)
+                || playerSpice < tower.getBuildCost()) {
             tower.destroy();
             return false;
         }
@@ -375,17 +374,17 @@ public final class GameHandler {
      */
     public boolean tearDownTower(int x, int y) {
         // The player can tear down a tower only in the build phase or
-        if (gamePhase != BUILD_PHASE) {
+        if (gamePhase != GamePhase.BUILD_PHASE) {
             return false;
         }
 
         // If the position is available, there's no tower to tear down
-        if (isPositionAvailable(grid, x, y)) {
+        if (DuneTDMath.isPositionAvailable(grid, x, y)) {
             return false;
         }
 
         // If position is outside the grid, there's no tower to tear down
-        if (!isPositionInsideGrid(grid, x, y)) {
+        if (!DuneTDMath.isPositionInsideGrid(grid, x, y)) {
             return false;
         }
 
@@ -426,17 +425,17 @@ public final class GameHandler {
         var spawnPoint = new Vector2(startPortal.getX(), startPortal.getY());
 
         // Add infantry to wave queue
-        int remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, INFANTRY,
+        int remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.INFANTRY,
                 infantryWaveBudget, INFANTRY_PURCHASE_PRICE, spawnPoint, INFANTRY_MAX_COUNT);
         harvesterWaveBudget += remainingBudget;
 
         // Add harvesters to wave queue
-        remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HARVESTER,
+        remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.HARVESTER,
                 harvesterWaveBudget, HARVESTER_PURCHASE_PRICE, spawnPoint, HARVESTER_MAX_COUNT);
         bossUnitWaveBudget += remainingBudget;
 
         // Add boss units to wave queue
-        getHostileUnitsFromBudget(hostileUnitsQueueTmp, BOSS_UNIT, bossUnitWaveBudget,
+        getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.BOSS_UNIT, bossUnitWaveBudget,
                 BOSS_UNIT_PURCHASE_PRICE, spawnPoint, Integer.MAX_VALUE);
 
         waveHostileUnitCount = hostileUnitsQueueTmp.size();
@@ -500,14 +499,14 @@ public final class GameHandler {
             if (hostileUnit.isDead()) {
                 playerSpice += hostileUnit.getSpiceReward();
                 hostileUnitsOnGrid.remove(hostileUnit);
-                statistics.killedHostileUnitByTower(fromHostileUnit(hostileUnit));
+                statistics.killedHostileUnitByTower(HostileUnitEnum.fromHostileUnit(hostileUnit));
 
                 // Remove hostile unit if at end portal
             } else if (hostileUnit.getPosition().equals(endPortal.getGridPosition2d())) {
                 playerHealth -= hostileUnit.getHealth();
                 hostileUnit.kill();
                 hostileUnitsOnGrid.remove(hostileUnit);
-                statistics.hostileUnitReachedEndPortal(fromHostileUnit(hostileUnit));
+                statistics.hostileUnitReachedEndPortal(HostileUnitEnum.fromHostileUnit(hostileUnit));
 
                 // Otherwise, move hostile unit
             } else {
@@ -573,7 +572,7 @@ public final class GameHandler {
      * Skips the build phase by setting the remaining duration to zero.
      */
     public void skipBuildPhase() {
-        if (gamePhase == BUILD_PHASE) {
+        if (gamePhase == GamePhase.BUILD_PHASE) {
             remainingBuildPhaseDurationInMs = 0;
         }
     }

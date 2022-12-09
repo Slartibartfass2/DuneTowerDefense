@@ -4,14 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.kotcrab.vis.ui.widget.ListView;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+
 import io.swapastack.dunetd.DuneTD;
+import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.savegame.SaveGame;
 import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 
 import java.util.ArrayList;
-
-import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_BACKGROUND_NAME;
-import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_SELECTION_NAME;
 
 public final class LoadGameScreen extends AbstractScreen {
 
@@ -36,8 +35,8 @@ public final class LoadGameScreen extends AbstractScreen {
         array.add(new SaveGame("SaveGame1", 12083091));
         array.add(new SaveGame("SaveGame2", 12083091));
 
-        var backgroundDrawable = game.getAssetLoader().getDrawable(DRAWABLE_BACKGROUND_NAME);
-        var selectionDrawable = game.getAssetLoader().getDrawable(DRAWABLE_SELECTION_NAME);
+        var backgroundDrawable = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
+        var selectionDrawable = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_SELECTION_NAME);
         var adapter = new ListViewAdapter(array, backgroundDrawable, selectionDrawable);
         var saveGameList = new ListView<>(adapter);
 

@@ -3,10 +3,12 @@ package io.swapastack.dunetd.entities.towers;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
-import lombok.NonNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
+import lombok.NonNull;
 
 /**
  * A sound tower representing a part of the game grid. A sound tower slows down hostile units in range. <br>

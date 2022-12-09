@@ -1,54 +1,52 @@
 package io.swapastack.dunetd.game;
 
 import com.badlogic.gdx.math.Vector2;
-import org.junit.jupiter.api.Test;
 
-import static io.swapastack.dunetd.game.CardinalDirection.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class CardinalDirectionTest {
 
     @Test
     void testFromDirectionWithValidArguments() {
         var northVector = new Vector2(0f, 1f);
-        assertEquals(NORTH, fromDirection(northVector));
+        Assertions.assertEquals(CardinalDirection.NORTH, CardinalDirection.fromDirection(northVector));
 
         var eastVector = new Vector2(1f, 0f);
-        assertEquals(EAST, fromDirection(eastVector));
+        Assertions.assertEquals(CardinalDirection.EAST, CardinalDirection.fromDirection(eastVector));
 
         var southVector = new Vector2(0f, -1f);
-        assertEquals(SOUTH, fromDirection(southVector));
+        Assertions.assertEquals(CardinalDirection.SOUTH, CardinalDirection.fromDirection(southVector));
 
         var westVector = new Vector2(-1f, 0f);
-        assertEquals(WEST, fromDirection(westVector));
+        Assertions.assertEquals(CardinalDirection.WEST, CardinalDirection.fromDirection(westVector));
     }
 
     @Test
     void testFromDirectionWithInvalidArguments() {
-        assertThrows(IllegalArgumentException.class, () -> fromDirection(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CardinalDirection.fromDirection(null));
     }
 
     @Test
     void testGetDirection() {
         var northVector = new Vector2(0f, 1f);
-        assertEquals(NORTH.getDirection(), northVector);
+        Assertions.assertEquals(CardinalDirection.NORTH.getDirection(), northVector);
 
         var eastVector = new Vector2(1f, 0f);
-        assertEquals(EAST.getDirection(), eastVector);
+        Assertions.assertEquals(CardinalDirection.EAST.getDirection(), eastVector);
 
         var southVector = new Vector2(0f, -1f);
-        assertEquals(SOUTH.getDirection(), southVector);
+        Assertions.assertEquals(CardinalDirection.SOUTH.getDirection(), southVector);
 
         var westVector = new Vector2(-1f, 0f);
-        assertEquals(WEST.getDirection(), westVector);
+        Assertions.assertEquals(CardinalDirection.WEST.getDirection(), westVector);
     }
 
     @Test
     void testGetDegrees() {
-        assertEquals(0f, NORTH.getDegrees(), 0f);
-        assertEquals(90f, EAST.getDegrees(), 0f);
-        assertEquals(180f, SOUTH.getDegrees(), 0f);
-        assertEquals(270f, WEST.getDegrees(), 0f);
+        Assertions.assertEquals(0f, CardinalDirection.NORTH.getDegrees(), 0f);
+        Assertions.assertEquals(90f, CardinalDirection.EAST.getDegrees(), 0f);
+        Assertions.assertEquals(180f, CardinalDirection.SOUTH.getDegrees(), 0f);
+        Assertions.assertEquals(270f, CardinalDirection.WEST.getDegrees(), 0f);
     }
 }

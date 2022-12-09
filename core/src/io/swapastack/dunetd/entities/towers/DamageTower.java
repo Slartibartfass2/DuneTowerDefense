@@ -1,9 +1,12 @@
 package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.MathUtils;
+
 import io.swapastack.dunetd.assets.controller.EntityController;
-import lombok.EqualsAndHashCode;
+
 import org.jetbrains.annotations.Nullable;
+
+import lombok.EqualsAndHashCode;
 
 /**
  * A damage tower representing a part of the game grid. A damage tower can be: <br>

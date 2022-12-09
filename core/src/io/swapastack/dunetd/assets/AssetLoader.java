@@ -10,21 +10,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.kotcrab.vis.ui.VisUI;
+
 import io.swapastack.dunetd.entities.portals.Portal;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import io.swapastack.dunetd.math.PixelsConverter;
+
+import java.util.HashMap;
+
+import org.jetbrains.annotations.NotNull;
+
 import lombok.Getter;
 import lombok.NonNull;
 import net.mgsx.gltf.loaders.glb.GLBAssetLoader;
 import net.mgsx.gltf.loaders.gltf.GLTFAssetLoader;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.HARVESTER;
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.INFANTRY;
 
 public final class AssetLoader implements Disposable {
 
@@ -252,12 +252,12 @@ public final class AssetLoader implements Disposable {
         };
 
         var offsetY = 0f;
-        if (hostileUnitEnum == HARVESTER) {
+        if (hostileUnitEnum == HostileUnitEnum.HARVESTER) {
             offsetY = 0.3f;
         }
 
         var offsetRotation = 0f;
-        if (hostileUnitEnum == INFANTRY) {
+        if (hostileUnitEnum == HostileUnitEnum.INFANTRY) {
             offsetRotation = 180f;
         }
 

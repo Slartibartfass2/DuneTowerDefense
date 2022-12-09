@@ -10,18 +10,19 @@ import com.kotcrab.vis.ui.widget.LinkLabel;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
-import io.swapastack.dunetd.DuneTD;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
-import lombok.NonNull;
 
-import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_BACKGROUND_NAME;
+import io.swapastack.dunetd.DuneTD;
+import io.swapastack.dunetd.assets.AssetLoader;
+import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
+
+import lombok.NonNull;
 
 public class CreditsScreen extends AbstractScreen {
 
     public CreditsScreen(@NonNull DuneTD game) {
         super(game);
 
-        var background = game.getAssetLoader().getDrawable(DRAWABLE_BACKGROUND_NAME);
+        var background = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
 
         var table = new VisTable(true);
         table.setFillParent(true);

@@ -5,12 +5,19 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics.Lwjgl3DisplayMode;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.kotcrab.vis.ui.widget.*;
+import com.kotcrab.vis.ui.widget.VisCheckBox;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisSlider;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
+
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.math.PixelsConverter;
 import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 import io.swapastack.dunetd.settings.MonitorSetting;
+
 import lombok.NonNull;
 
 public final class SettingsScreen extends AbstractScreen {

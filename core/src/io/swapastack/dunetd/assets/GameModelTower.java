@@ -2,9 +2,11 @@ package io.swapastack.dunetd.assets;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+
+import org.jetbrains.annotations.Nullable;
+
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.Scene;
-import org.jetbrains.annotations.Nullable;
 
 public final class GameModelTower implements GameModelInterface {
 

@@ -1,21 +1,22 @@
 package io.swapastack.dunetd.entities.towers;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import io.swapastack.dunetd.math.DuneTDMath;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.swapastack.dunetd.assets.controller.EntityController.*;
-import static io.swapastack.dunetd.math.DuneTDMath.getAngle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * A tower representing a part of the game grid. A tower can be: <br>
@@ -87,7 +88,7 @@ public abstract class Tower extends Entity {
      */
     public void show() {
         if (support != null) {
-            support.firePropertyChange(SHOW_EVENT_NAME, null, null);
+            support.firePropertyChange(EntityController.SHOW_EVENT_NAME, null, null);
         }
     }
 
@@ -179,7 +180,8 @@ public abstract class Tower extends Entity {
         this.y = y;
 
         if (support != null) {
-            support.firePropertyChange(UPDATE_EVENT_NAME, null, new GameModelData(-1f, new Vector2(x, y)));
+            var gameModelData = new GameModelData(-1f, new Vector2(x, y));
+            support.firePropertyChange(EntityController.UPDATE_EVENT_NAME, null, gameModelData);
         }
     }
 
@@ -193,8 +195,9 @@ public abstract class Tower extends Entity {
             return;
         }
 
-        float rotation = getAngle(hostileUnit.getPosition(), new Vector2(x, y));
-        support.firePropertyChange(UPDATE_EVENT_NAME, null, new GameModelData(rotation, new Vector2(x, y)));
+        float rotation = DuneTDMath.getAngle(hostileUnit.getPosition(), new Vector2(x, y));
+        var gameModelData = new GameModelData(rotation, new Vector2(x, y));
+        support.firePropertyChange(EntityController.UPDATE_EVENT_NAME, null, gameModelData);
     }
 
     /**
@@ -203,7 +206,7 @@ public abstract class Tower extends Entity {
     public final void setToDebris() {
         isDebris = true;
         if (support != null) {
-            support.firePropertyChange(TO_DEBRIS_EVENT_NAME, null, true);
+            support.firePropertyChange(EntityController.TO_DEBRIS_EVENT_NAME, null, true);
         }
     }
 
@@ -212,7 +215,7 @@ public abstract class Tower extends Entity {
      */
     public void destroy() {
         if (support != null) {
-            support.firePropertyChange(DESTROY_EVENT_NAME, null, null);
+            support.firePropertyChange(EntityController.DESTROY_EVENT_NAME, null, null);
         }
     }
 }

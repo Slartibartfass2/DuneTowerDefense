@@ -1,11 +1,14 @@
 package io.swapastack.dunetd.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
+
 import io.swapastack.dunetd.entities.Entity;
-import lombok.Getter;
-import lombok.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Class to store and calculate paths on an entity grid. Waypoints are stored in an array. If path is blocked the

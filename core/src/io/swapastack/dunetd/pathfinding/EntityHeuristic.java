@@ -2,6 +2,7 @@ package io.swapastack.dunetd.pathfinding;
 
 import com.badlogic.gdx.ai.pfa.Heuristic;
 import com.badlogic.gdx.math.Vector2;
+
 import lombok.NonNull;
 
 /**

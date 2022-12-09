@@ -1,21 +1,20 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
+
+import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
-import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeSupport;
 import java.util.UUID;
 
-import static io.swapastack.dunetd.game.CardinalDirection.NORTH;
-import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
-import static io.swapastack.dunetd.assets.controller.HostileUnitController.*;
+import org.jetbrains.annotations.Nullable;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * A hostile unit representing the enemy in this game. It moves along a path on the grid until it reaches the end
@@ -86,14 +85,14 @@ public abstract class HostileUnit {
         this.health = health;
         currentSpeed = speed;
         slowingEffectDurationInMs = 0;
-        cardinalDirection = NORTH;
+        cardinalDirection = CardinalDirection.NORTH;
 
         if (hostileUnitController != null) {
             support = new PropertyChangeSupport(this);
 
             // Add hostile unit controller as observer and call create event
             support.addPropertyChangeListener(hostileUnitController);
-            support.firePropertyChange(CREATE_EVENT_NAME, null,
+            support.firePropertyChange(HostileUnitController.CREATE_EVENT_NAME, null,
                     new GameModelData(cardinalDirection.getDegrees(), position.cpy()));
         } else {
             support = null;
@@ -105,7 +104,7 @@ public abstract class HostileUnit {
      */
     public final void show() {
         if (support != null) {
-            support.firePropertyChange(SHOW_EVENT_NAME, null, null);
+            support.firePropertyChange(HostileUnitController.SHOW_EVENT_NAME, null, null);
         }
     }
 
@@ -151,7 +150,7 @@ public abstract class HostileUnit {
 
             // Get normalized direction vector to set orientation of game model
             var direction = nextWaypoint.cpy().sub(positionTmp).nor();
-            cardinalDirection = fromDirection(direction);
+            cardinalDirection = CardinalDirection.fromDirection(direction);
 
             // Move either to next waypoint or as long as possible
             var moveDistance = Math.min(maxMoveDistance, distanceToNextWaypoint);
@@ -164,7 +163,7 @@ public abstract class HostileUnit {
 
         // Update game model if existing
         if (support != null) {
-            support.firePropertyChange(UPDATE_EVENT_NAME, deltaTime,
+            support.firePropertyChange(HostileUnitController.UPDATE_EVENT_NAME, deltaTime,
                     new GameModelData(cardinalDirection.getDegrees(), positionTmp.cpy()));
         }
     }
@@ -206,7 +205,7 @@ public abstract class HostileUnit {
         health = 0;
         // Remove HostileUnit from grid
         if (support != null) {
-            support.firePropertyChange(DESTROY_EVENT_NAME, null, null);
+            support.firePropertyChange(HostileUnitController.DESTROY_EVENT_NAME, null, null);
         }
     }
 

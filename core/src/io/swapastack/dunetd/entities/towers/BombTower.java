@@ -3,10 +3,12 @@ package io.swapastack.dunetd.entities.towers;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
-import lombok.NonNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
+import lombok.NonNull;
 
 /**
  * A bomb tower representing a part of the game grid. A bomb tower attacks all hostile units in a specified range

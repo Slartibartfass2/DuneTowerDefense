@@ -6,10 +6,12 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel;
 import com.kotcrab.vis.ui.widget.spinner.Spinner;
+
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
+
 import lombok.NonNull;
 
 public final class NewGameScreen extends AbstractScreen {
