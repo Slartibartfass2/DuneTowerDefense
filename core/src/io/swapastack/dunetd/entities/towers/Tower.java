@@ -109,15 +109,9 @@ public abstract class Tower extends Entity {
         }
 
         // Attack as long as current reload time is less than or equal to zero (if delta time > reload time)
-        var attacked = false;
         while (target(hostileUnits, currentReloadTimeInMs <= 0)) {
             currentReloadTimeInMs += reloadTimeInMs;
-            attacked = true;
         }
-
-        // If the tower didn't attack anything just idle
-        //if (!attacked)
-        //    idle(deltaTime);
     }
 
     /**
@@ -129,13 +123,6 @@ public abstract class Tower extends Entity {
      * @return True if attack was successful (tower attacked at least one hostile unit)
      */
     protected abstract boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder);
-
-    /**
-     * Randomly rotates to simulate searching for hostile units, when none are in range.
-     *
-     * @param deltaTime The time in seconds since the last update
-     */
-    protected abstract void idle(float deltaTime);
 
     /**
      * Checks if there are hostile units in <code>hostileUnits</code>, which are in range of this tower and returns

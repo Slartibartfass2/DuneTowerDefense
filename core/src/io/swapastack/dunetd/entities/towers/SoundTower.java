@@ -84,14 +84,4 @@ public final class SoundTower extends Tower {
 
         return true;
     }
-
-    /**
-     * Randomly rotates to simulate searching for hostile units, when none are in range.
-     *
-     * @param deltaTime The time in seconds since the last update
-     */
-    @Override
-    protected void idle(float deltaTime) {
-        // The sound tower doesn't rotate, so it won't do anything while idling.
-    }
 }

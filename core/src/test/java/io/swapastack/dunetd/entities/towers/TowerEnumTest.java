@@ -20,11 +20,6 @@ class TowerEnumTest {
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
             }
-
-            @Override
-            protected void idle(float deltaTime) {
-
-            }
         };
 
         assertThrows(IllegalStateException.class, () -> TowerEnum.fromTower(tower));
