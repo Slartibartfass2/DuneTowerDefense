@@ -21,19 +21,26 @@ public final class ToolBar extends VisTable {
 
     // Tower constants
     private static final float GUARD_TOWER_RANGE = Configuration.getInstance().getFloatProperty("GUARD_TOWER_RANGE");
-    private static final int GUARD_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("GUARD_TOWER_BUILD_COST");
+    private static final int GUARD_TOWER_BUILD_COST = Configuration.getInstance()
+            .getIntProperty("GUARD_TOWER_BUILD_COST");
     private static final int GUARD_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("GUARD_TOWER_DAMAGE");
-    private static final int GUARD_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("GUARD_TOWER_RELOAD_TIME_IN_MS");
+    private static final int GUARD_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
+            .getIntProperty("GUARD_TOWER_RELOAD_TIME_IN_MS");
 
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
-    private static final int BOMB_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("BOMB_TOWER_BUILD_COST");
+    private static final int BOMB_TOWER_BUILD_COST = Configuration.getInstance()
+            .getIntProperty("BOMB_TOWER_BUILD_COST");
     private static final int BOMB_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("BOMB_TOWER_DAMAGE");
-    private static final int BOMB_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MS");
+    private static final int BOMB_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
+            .getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MS");
 
     private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
-    private static final int SOUND_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("SOUND_TOWER_BUILD_COST");
-    private static final int SOUND_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MS");
-    private static final float SLOWING_EFFECT_MULTIPLIER = Configuration.getInstance().getFloatProperty("SOUND_TOWER_SLOWING_EFFECT_MULTIPLIER");
+    private static final int SOUND_TOWER_BUILD_COST = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_BUILD_COST");
+    private static final int SOUND_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MS");
+    private static final float SLOWING_EFFECT_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("SOUND_TOWER_SLOWING_EFFECT_MULTIPLIER");
 
     private static final float BORDER_WIDTH = 125f;
     private static final float BORDER_HEIGHT = 21.5f;

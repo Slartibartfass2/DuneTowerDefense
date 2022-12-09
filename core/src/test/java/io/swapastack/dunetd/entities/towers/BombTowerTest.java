@@ -20,11 +20,15 @@ class BombTowerTest {
         TestHelper.readConfigFile();
     }
 
-    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("INFANTRY_INITIAL_HEALTH");
-    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("HARVESTER_INITIAL_HEALTH");
-    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
+    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("INFANTRY_INITIAL_HEALTH");
+    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("HARVESTER_INITIAL_HEALTH");
+    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
-    private static final float BOMB_TOWER_AREA_DAMAGE_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
+    private static final float BOMB_TOWER_AREA_DAMAGE_RANGE = Configuration.getInstance()
+            .getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
 
     @Test
     void testTargetWithInvalidArguments() {

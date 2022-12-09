@@ -19,6 +19,15 @@ public final class SettingsScreen extends AbstractScreen {
         super(game);
     }
 
+    /*
+    Setting Ideas:
+    different audio sliders when there are more audio sources (master, music, GUI, Game effects)
+    controls
+    autosave on off
+    delete highscores button
+    more graphic settings (animation on off, extra graphics)
+     */
+
     /**
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
@@ -33,34 +42,10 @@ public final class SettingsScreen extends AbstractScreen {
         var monitorSelectBox = new VisSelectBox<MonitorSetting>();
 
         // Get all available monitors
-        var monitors = Gdx.graphics.getMonitors();
-        var monitorSettings = new MonitorSetting[monitors.length];
-        for (int i = 0; i < monitors.length; i++)
-            monitorSettings[i] = new MonitorSetting(i, (Lwjgl3DisplayMode) Gdx.graphics.getDisplayMode(monitors[i]));
-        monitorSelectBox.setItems(monitorSettings);
-        monitorSelectBox.setSelectedIndex(settings.getMonitorIndex());
+        addMonitorSettings(monitorSelectBox);
 
         // Volume sliders
-        float masterVolume = settings.getMasterVolume() * 100f;
-        var masterVolumeLabel = new VisLabel("Master volume: ");
-        var masterVolumeSlider = new VisSlider(0f, 100f, 1f, false);
-        masterVolumeSlider.setValue(masterVolume);
-        var masterVolumePercentage = new VisLabel(String.format(" %3.0f%%", masterVolume));
-        masterVolumeSlider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                masterVolumePercentage.setText(String.format(" %3.0f%%", masterVolumeSlider.getValue()));
-            }
-        });
-        
-        /*
-        Setting Ideas:
-        different audio sliders when there are more audio sources (master, music, GUI, Game effects)
-        controls
-        autosave on off
-        delete highscores button
-        more graphic settings (animation on off, extra graphics)
-         */
+        var masterVolumeSlider = createMasterVolumeSlider();
 
         // Buttons
         var backToMainMenuButton = new VisTextButton("Back");
@@ -89,10 +74,7 @@ public final class SettingsScreen extends AbstractScreen {
         table.add(monitorSelectionTable).left().row();
 
         // Volume sliders
-        var masterVolumeTable = new VisTable(true);
-        masterVolumeTable.add(masterVolumeLabel).left();
-        masterVolumeTable.add(masterVolumeSlider).grow().left();
-        masterVolumeTable.add(masterVolumePercentage).left();
+        var masterVolumeTable = createMasterVolumeTable(masterVolumeSlider);
         table.add(masterVolumeTable).grow().left().row();
 
         // Buttons
@@ -105,6 +87,40 @@ public final class SettingsScreen extends AbstractScreen {
         stage.addActor(table);
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void addMonitorSettings(@NonNull VisSelectBox<MonitorSetting> monitorSelectBox) {
+        var monitors = Gdx.graphics.getMonitors();
+        var monitorSettings = new MonitorSetting[monitors.length];
+        for (int i = 0; i < monitors.length; i++)
+            monitorSettings[i] = new MonitorSetting(i, (Lwjgl3DisplayMode) Gdx.graphics.getDisplayMode(monitors[i]));
+        monitorSelectBox.setItems(monitorSettings);
+        monitorSelectBox.setSelectedIndex(settings.getMonitorIndex());
+    }
+
+    private VisSlider createMasterVolumeSlider() {
+        float masterVolume = settings.getMasterVolume() * 100f;
+        var masterVolumeSlider = new VisSlider(0f, 100f, 1f, false);
+        masterVolumeSlider.setValue(masterVolume);
+
+        return masterVolumeSlider;
+    }
+
+    private static VisTable createMasterVolumeTable(@NonNull VisSlider masterVolumeSlider) {
+        var masterVolumeLabel = new VisLabel("Master volume: ");
+        var masterVolumeTable = new VisTable(true);
+        var masterVolumePercentage = new VisLabel(String.format(" %3.0f%%", masterVolumeSlider.getValue()));
+        masterVolumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                masterVolumePercentage.setText(String.format(" %3.0f%%", masterVolumeSlider.getValue()));
+            }
+        });
+
+        masterVolumeTable.add(masterVolumeLabel).left();
+        masterVolumeTable.add(masterVolumeSlider).grow().left();
+        masterVolumeTable.add(masterVolumePercentage).left();
+        return masterVolumeTable;
     }
 
     /**

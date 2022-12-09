@@ -73,7 +73,8 @@ class EntityGraphTest {
         assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(null, Vector2.Zero));
         assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(positionOutsideGrid, null));
         assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(null, positionOutsideGrid));
-        assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(positionOutsideGrid, positionOutsideGrid));
+        assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(positionOutsideGrid,
+                positionOutsideGrid));
     }
 
     @Test

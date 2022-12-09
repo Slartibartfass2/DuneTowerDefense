@@ -24,7 +24,8 @@ public final class BombTower extends DamageTower {
     /**
      * @see Tower#buildCost
      */
-    private static final int BOMB_TOWER_BUILD_COST = Configuration.getInstance().getIntProperty("BOMB_TOWER_BUILD_COST");
+    private static final int BOMB_TOWER_BUILD_COST = Configuration.getInstance()
+            .getIntProperty("BOMB_TOWER_BUILD_COST");
 
     /**
      * @see Tower#reloadTimeInMs
@@ -34,12 +35,14 @@ public final class BombTower extends DamageTower {
     /**
      * @see DamageTower#damage
      */
-    private static final int BOMB_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance().getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MS");
+    private static final int BOMB_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
+            .getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MS");
 
     /**
      * Range around first found hostile unit, in which any other hostile units are attacked
      */
-    private static final float AREA_DAMAGE_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
+    private static final float AREA_DAMAGE_RANGE = Configuration.getInstance()
+            .getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
 
     /**
      * Creates a new bomb tower with a specified position.
@@ -59,7 +62,8 @@ public final class BombTower extends DamageTower {
      * @param entityController Controller for towers
      */
     public BombTower(int x, int y, @Nullable EntityController entityController) {
-        super(x, y, BOMB_TOWER_RANGE, BOMB_TOWER_BUILD_COST, BOMB_TOWER_DAMAGE, BOMB_TOWER_RELOAD_TIME_IN_MS, entityController);
+        super(x, y, BOMB_TOWER_RANGE, BOMB_TOWER_BUILD_COST, BOMB_TOWER_DAMAGE, BOMB_TOWER_RELOAD_TIME_IN_MS,
+                entityController);
     }
 
     /**
@@ -82,7 +86,8 @@ public final class BombTower extends DamageTower {
 
             if (killOrder) {
                 // Get hostile units in area damage range around found hostile unit
-                var hostileUnitsInAreaDamageRange = getHostileUnitsInRange(hostileUnits, hostileUnitInRange.getPosition(), AREA_DAMAGE_RANGE);
+                var hostileUnitsInAreaDamageRange = getHostileUnitsInRange(hostileUnits,
+                        hostileUnitInRange.getPosition(), AREA_DAMAGE_RANGE);
 
                 // Deal damage to each hostile unit
                 for (var hostileUnit : hostileUnitsInAreaDamageRange) {

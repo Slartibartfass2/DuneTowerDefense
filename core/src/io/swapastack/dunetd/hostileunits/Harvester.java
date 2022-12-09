@@ -21,17 +21,20 @@ public final class Harvester extends HostileUnit {
     /**
      * @see HostileUnit#health
      */
-    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("HARVESTER_INITIAL_HEALTH");
+    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("HARVESTER_INITIAL_HEALTH");
 
     /**
      * @see HostileUnit#getSpiceReward()
      */
-    private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance().getIntProperty("HARVESTER_SPICE_REWARD");
+    private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("HARVESTER_SPICE_REWARD");
 
     /**
      * Multiplier to resist the slowing effect of the sound tower.
      */
-    private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance().getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
+    private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
 
     /**
      * Creates a new harvester with a specified position.
@@ -54,8 +57,8 @@ public final class Harvester extends HostileUnit {
 
     /**
      * Slows down the harvester by decreasing the speed to the value of <code>speed * slowingEffectMultiplier *
-     * SLOWING_EFFECT_RESISTANCE_MULTIPLIER</code>. The effect lasts as long as the specified <code>slowingEffectDurationInMs</code>.
-     * The slowing effect can't exceed the range [0, 1].
+     * SLOWING_EFFECT_RESISTANCE_MULTIPLIER</code>. The effect lasts as long as the specified
+     * <code>slowingEffectDurationInMs</code>. The slowing effect can't exceed the range [0, 1].
      *
      * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
      * @param slowingEffectDurationInMs Duration of slowing effect.

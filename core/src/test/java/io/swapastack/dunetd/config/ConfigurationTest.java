@@ -37,6 +37,7 @@ class ConfigurationTest {
     void testGetFloatPropertyWithInvalidArgument() {
         var config = Configuration.getInstance();
         assertThrows(IllegalArgumentException.class, () -> config.getFloatProperty(null));
-        assertThrows(IllegalArgumentException.class, () -> config.getFloatProperty("SPASS_AM_STUDIEREN_WÄHREND_CORONA"));
+        assertThrows(IllegalArgumentException.class,
+                () -> config.getFloatProperty("SPASS_AM_STUDIEREN_WÄHREND_CORONA"));
     }
 }

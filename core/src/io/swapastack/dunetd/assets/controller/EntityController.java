@@ -50,7 +50,8 @@ public final class EntityController implements PropertyChangeListener {
     public void propertyChange(@NonNull PropertyChangeEvent event) throws IllegalArgumentException {
         if (event.getPropertyName() == null || event.getSource() == null
                 || !(event.getSource() instanceof Entity entity)) {
-            throw new IllegalArgumentException("Property name and source must be non null and source must be an entity");
+            throw new IllegalArgumentException("Property name and source must be non null and source must be an " +
+                    "entity");
         }
 
         switch (event.getPropertyName()) {

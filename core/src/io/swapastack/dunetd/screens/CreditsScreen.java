@@ -49,19 +49,8 @@ public class CreditsScreen extends AbstractScreen {
                 "https://sketchfab.com/3d-models/spaceship-orion-41de9d0d0eb74650b5fd98175d72fe71",
                 "Rishav Gupta", "https://sketchfab.com/Rishav_Gupta", background);
 
-        var kenneyTable = new VisTable(true);
-        kenneyTable.setBackground(background);
-        var kenneyLabel = new VisLabel("Tower assets by ");
-        var kenneyLinkLabel = new LinkLabel("Kenney", "https://www.kenney.nl/assets/tower-defense-top-down");
-        kenneyTable.add(kenneyLabel);
-        kenneyTable.add(kenneyLinkLabel);
-
-        var kayKitTable = new VisTable(true);
-        kayKitTable.setBackground(background);
-        var kayKitLabel = new VisLabel("Ground tile assets by ");
-        var kayKitLinkLabel = new LinkLabel("KayKit", "https://kaylousberg.itch.io/kaykit-medieval-builder-pack");
-        kayKitTable.add(kayKitLabel);
-        kayKitTable.add(kayKitLinkLabel);
+        var kenneyTable = createKenneyTable(background);
+        var kayKitTable = createKayKitTable(background);
 
         // Button to get back to the main menu
         var backToMainMenuButton = new VisTextButton("Back");
@@ -77,6 +66,26 @@ public class CreditsScreen extends AbstractScreen {
         stack.add(creditsTable);
         table.add(stack);
         stage.addActor(table);
+    }
+
+    private VisTable createKenneyTable(@NonNull Drawable background) {
+        var kenneyTable = new VisTable(true);
+        kenneyTable.setBackground(background);
+        var kenneyLabel = new VisLabel("Tower assets by ");
+        var kenneyLinkLabel = new LinkLabel("Kenney", "https://www.kenney.nl/assets/tower-defense-top-down");
+        kenneyTable.add(kenneyLabel);
+        kenneyTable.add(kenneyLinkLabel);
+        return kenneyTable;
+    }
+
+    private VisTable createKayKitTable(@NonNull Drawable background) {
+        var kayKitTable = new VisTable(true);
+        kayKitTable.setBackground(background);
+        var kayKitLabel = new VisLabel("Ground tile assets by ");
+        var kayKitLinkLabel = new LinkLabel("KayKit", "https://kaylousberg.itch.io/kaykit-medieval-builder-pack");
+        kayKitTable.add(kayKitLabel);
+        kayKitTable.add(kayKitLinkLabel);
+        return kayKitTable;
     }
 
     /**

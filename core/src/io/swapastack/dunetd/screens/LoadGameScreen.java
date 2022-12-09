@@ -35,24 +35,6 @@ public final class LoadGameScreen extends AbstractScreen {
         var array = new ArrayList<SaveGame>();
         array.add(new SaveGame("SaveGame1", 12083091));
         array.add(new SaveGame("SaveGame2", 12083091));
-        array.add(new SaveGame("SaveGame3", 12083091));
-        array.add(new SaveGame("SaveGame4", 12083091));
-        array.add(new SaveGame("SaveGame5", 12083091));
-        array.add(new SaveGame("SaveGame6", 12083091));
-        array.add(new SaveGame("SaveGame7", 12083091));
-        array.add(new SaveGame("SaveGame8", 12083091));
-        array.add(new SaveGame("SaveGame9", 12083091));
-        array.add(new SaveGame("SaveGame10", 12083091));
-        array.add(new SaveGame("SaveGame11", 12083091));
-        array.add(new SaveGame("SaveGame12", 12083091));
-        array.add(new SaveGame("SaveGame13", 12083091));
-        array.add(new SaveGame("SaveGame14", 12083091));
-        array.add(new SaveGame("SaveGame15", 12083091));
-        array.add(new SaveGame("SaveGame16", 12083091));
-        array.add(new SaveGame("SaveGame17", 12083091));
-        array.add(new SaveGame("SaveGame18", 12083091));
-        array.add(new SaveGame("SaveGame19", 12083091));
-        array.add(new SaveGame("SaveGame20", 12083091));
 
         var backgroundDrawable = game.getAssetLoader().getDrawable(DRAWABLE_BACKGROUND_NAME);
         var selectionDrawable = game.getAssetLoader().getDrawable(DRAWABLE_SELECTION_NAME);
@@ -64,17 +46,7 @@ public final class LoadGameScreen extends AbstractScreen {
         var saveGameListX = width / 2f - saveGameList.getMainTable().getWidth() / 2f;
         var saveGameListY = height / 2f - saveGameList.getMainTable().getHeight() / 2f;
         saveGameList.getMainTable().setPosition(saveGameListX, saveGameListY);
-        saveGameList.setItemClickListener(item -> {
-            var timeNow = System.currentTimeMillis();
-            var timePassed = timeNow - lastClickTimestamp;
-
-            if (item == lastClickedSaveGame && timePassed <= 500) {
-                // Load game
-            } else {
-                lastClickedSaveGame = item;
-                lastClickTimestamp = timeNow;
-            }
-        });
+        saveGameList.setItemClickListener(this::handleSaveGameClick);
         stage.addActor(saveGameList.getMainTable());
 
         var backToMainMenuButton = new VisTextButton("Back");
@@ -102,5 +74,17 @@ public final class LoadGameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
+    }
+
+    public void handleSaveGameClick(SaveGame saveGame) {
+        var timeNow = System.currentTimeMillis();
+        var timePassed = timeNow - lastClickTimestamp;
+
+        if (saveGame == lastClickedSaveGame && timePassed <= 500) {
+            // TODO: Load game
+        } else {
+            lastClickedSaveGame = saveGame;
+            lastClickTimestamp = timeNow;
+        }
     }
 }

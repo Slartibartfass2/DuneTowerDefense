@@ -20,9 +20,12 @@ class GuardTowerTest {
         TestHelper.readConfigFile();
     }
 
-    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("INFANTRY_INITIAL_HEALTH");
-    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("HARVESTER_INITIAL_HEALTH");
-    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
+    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("INFANTRY_INITIAL_HEALTH");
+    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("HARVESTER_INITIAL_HEALTH");
+    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
 
     @Test
     void testTargetWithInvalidArguments() {

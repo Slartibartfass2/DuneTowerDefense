@@ -13,7 +13,8 @@ class BossUnitTest {
         TestHelper.readConfigFile();
     }
 
-    private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance().getIntProperty("BOSS_UNIT_SPICE_REWARD");
+    private static final int BOSS_UNIT_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_SPICE_REWARD");
 
     @Test
     void testSlowDown() {

@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NonNull;
 
 /**
- * Represents cardinal directions, including the degrees and the normalized direction vector. The possible values are:<br>
+ * Represents cardinal directions, including the degrees and the normalized direction vector. The possible values are:
+ * <br>
  * NORTH(0°, [0, 1])<br>
  * EAST(90°, [1, 0])<br>
  * SOUTH(180°, [0, -1])<br>

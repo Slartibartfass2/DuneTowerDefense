@@ -35,23 +35,38 @@ public final class GameHandler {
     // Constants
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
-    private static final int PLAYER_INITIAL_HEALTH = Configuration.getInstance().getIntProperty("PLAYER_INITIAL_HEALTH");
+    private static final int PLAYER_INITIAL_HEALTH = Configuration.getInstance()
+            .getIntProperty("PLAYER_INITIAL_HEALTH");
     private static final int PLAYER_INITIAL_SPICE = Configuration.getInstance().getIntProperty("PLAYER_INITIAL_SPICE");
-    private static final int INFANTRY_INITIAL_WAVE_BUDGET = Configuration.getInstance().getIntProperty("INFANTRY_INITIAL_WAVE_BUDGET");
-    private static final int HARVESTER_INITIAL_WAVE_BUDGET = Configuration.getInstance().getIntProperty("HARVESTER_INITIAL_WAVE_BUDGET");
-    private static final int BOSS_UNIT_INITIAL_WAVE_BUDGET = Configuration.getInstance().getIntProperty("BOSS_UNIT_INITIAL_WAVE_BUDGET");
-    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance().getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+    private static final int INFANTRY_INITIAL_WAVE_BUDGET = Configuration.getInstance()
+            .getIntProperty("INFANTRY_INITIAL_WAVE_BUDGET");
+    private static final int HARVESTER_INITIAL_WAVE_BUDGET = Configuration.getInstance()
+            .getIntProperty("HARVESTER_INITIAL_WAVE_BUDGET");
+    private static final int BOSS_UNIT_INITIAL_WAVE_BUDGET = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_INITIAL_WAVE_BUDGET");
+    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
     private static final int MAX_WAVE_COUNT = Configuration.getInstance().getIntProperty("MAX_WAVE_COUNT");
-    private static final int END_OF_WAVE_SPICE_REWARD = Configuration.getInstance().getIntProperty("END_OF_WAVE_SPICE_REWARD");
-    private static final float INFANTRY_BUDGET_MULTIPLIER = Configuration.getInstance().getFloatProperty("INFANTRY_BUDGET_MULTIPLIER");
-    private static final float HARVESTER_BUDGET_MULTIPLIER = Configuration.getInstance().getFloatProperty("HARVESTER_BUDGET_MULTIPLIER");
-    private static final float BOSS_UNIT_BUDGET_MULTIPLIER = Configuration.getInstance().getFloatProperty("BOSS_UNIT_BUDGET_MULTIPLIER");
-    private static final float TOWER_TEAR_DOWN_REFUND = Configuration.getInstance().getFloatProperty("TOWER_TEAR_DOWN_REFUND");
-    private static final int INFANTRY_PURCHASE_PRICE = Configuration.getInstance().getIntProperty("INFANTRY_PURCHASE_PRICE");
-    private static final int HARVESTER_PURCHASE_PRICE = Configuration.getInstance().getIntProperty("HARVESTER_PURCHASE_PRICE");
-    private static final int BOSS_UNIT_PURCHASE_PRICE = Configuration.getInstance().getIntProperty("BOSS_UNIT_PURCHASE_PRICE");
-    private static final int HOSTILE_UNIT_RELEASE_DELAY_IN_MS = Configuration.getInstance().getIntProperty("HOSTILE_UNIT_RELEASE_DELAY_IN_MS");
-    private static final float HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER = Configuration.getInstance().getFloatProperty("HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER");
+    private static final int END_OF_WAVE_SPICE_REWARD = Configuration.getInstance()
+            .getIntProperty("END_OF_WAVE_SPICE_REWARD");
+    private static final float INFANTRY_BUDGET_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("INFANTRY_BUDGET_MULTIPLIER");
+    private static final float HARVESTER_BUDGET_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("HARVESTER_BUDGET_MULTIPLIER");
+    private static final float BOSS_UNIT_BUDGET_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("BOSS_UNIT_BUDGET_MULTIPLIER");
+    private static final float TOWER_TEAR_DOWN_REFUND = Configuration.getInstance()
+            .getFloatProperty("TOWER_TEAR_DOWN_REFUND");
+    private static final int INFANTRY_PURCHASE_PRICE = Configuration.getInstance()
+            .getIntProperty("INFANTRY_PURCHASE_PRICE");
+    private static final int HARVESTER_PURCHASE_PRICE = Configuration.getInstance()
+            .getIntProperty("HARVESTER_PURCHASE_PRICE");
+    private static final int BOSS_UNIT_PURCHASE_PRICE = Configuration.getInstance()
+            .getIntProperty("BOSS_UNIT_PURCHASE_PRICE");
+    private static final int HOSTILE_UNIT_RELEASE_DELAY_IN_MS = Configuration.getInstance()
+            .getIntProperty("HOSTILE_UNIT_RELEASE_DELAY_IN_MS");
+    private static final float HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER = Configuration.getInstance()
+            .getFloatProperty("HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER");
     private static final int INFANTRY_MAX_COUNT = Configuration.getInstance().getIntProperty("INFANTRY_MAX_COUNT");
     private static final int HARVESTER_MAX_COUNT = Configuration.getInstance().getIntProperty("HARVESTER_MAX_COUNT");
 
