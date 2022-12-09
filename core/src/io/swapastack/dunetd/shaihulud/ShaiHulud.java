@@ -17,7 +17,10 @@ import org.jetbrains.annotations.Nullable;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import static io.swapastack.dunetd.assets.controller.ShaiHuludController.*;
+import static io.swapastack.dunetd.assets.controller.ShaiHuludController.CREATE_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.ShaiHuludController.SHOW_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.ShaiHuludController.UPDATE_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.ShaiHuludController.VANISH_EVENT_NAME;
 import static io.swapastack.dunetd.entities.towers.TowerEnum.fromTower;
 import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
 import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;

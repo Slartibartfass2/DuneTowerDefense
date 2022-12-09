@@ -14,7 +14,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.swapastack.dunetd.assets.controller.EntityController.*;
+import static io.swapastack.dunetd.assets.controller.EntityController.DESTROY_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.EntityController.SHOW_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.EntityController.TO_DEBRIS_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.EntityController.UPDATE_EVENT_NAME;
 import static io.swapastack.dunetd.math.DuneTDMath.getAngle;
 
 /**

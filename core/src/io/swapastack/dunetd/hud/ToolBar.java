@@ -14,7 +14,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import static io.swapastack.dunetd.entities.towers.TowerEnum.*;
+import static io.swapastack.dunetd.entities.towers.TowerEnum.BOMB_TOWER;
+import static io.swapastack.dunetd.entities.towers.TowerEnum.GUARD_TOWER;
+import static io.swapastack.dunetd.entities.towers.TowerEnum.SOUND_TOWER;
 
 @SuppressWarnings("squid:S110")
 public final class ToolBar extends VisTable {

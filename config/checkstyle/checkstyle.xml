@@ -125,7 +125,7 @@
 <!--        <module name="RegexpHeader"/>-->
 
         <!-- Imports -->
-<!--        <module name="AvoidStarImport"/>-->
+        <module name="AvoidStarImport"/>
 <!--        <module name="AvoidStaticImport"/>-->
         <module name="IllegalImport"/>
 <!--        <module name="ImportOrder"/>-->

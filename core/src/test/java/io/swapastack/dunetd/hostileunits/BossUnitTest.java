@@ -5,7 +5,8 @@ import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BossUnitTest {
 

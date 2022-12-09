@@ -24,9 +24,15 @@ import io.swapastack.dunetd.shaihulud.ShaiHulud;
 import lombok.Getter;
 import lombok.NonNull;
 
-import static com.badlogic.gdx.graphics.GL20.*;
+import static com.badlogic.gdx.graphics.GL20.GL_BLEND;
+import static com.badlogic.gdx.graphics.GL20.GL_ONE_MINUS_SRC_ALPHA;
+import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
-import static io.swapastack.dunetd.assets.AssetLoader.*;
+import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_BACKGROUND_NAME;
+import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_BOMB_TOWER_NAME;
+import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_GUARD_TOWER_NAME;
+import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_SHAI_HULUD_NAME;
+import static io.swapastack.dunetd.assets.AssetLoader.DRAWABLE_SOUND_TOWER_NAME;
 import static io.swapastack.dunetd.game.GamePhase.WAVE_PHASE;
 
 public final class Hud implements Disposable {

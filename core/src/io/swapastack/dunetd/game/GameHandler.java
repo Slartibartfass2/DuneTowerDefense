@@ -24,9 +24,15 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static io.swapastack.dunetd.game.GamePhase.*;
+import static io.swapastack.dunetd.game.GamePhase.BUILD_PHASE;
+import static io.swapastack.dunetd.game.GamePhase.GAME_LOST_PHASE;
+import static io.swapastack.dunetd.game.GamePhase.GAME_WON_PHASE;
+import static io.swapastack.dunetd.game.GamePhase.WAVE_PHASE;
 import static io.swapastack.dunetd.game.TimeFactor.NORMAL;
-import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.*;
+import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.BOSS_UNIT;
+import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.HARVESTER;
+import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.INFANTRY;
+import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
 import static io.swapastack.dunetd.math.DuneTDMath.isPositionAvailable;
 import static io.swapastack.dunetd.math.DuneTDMath.isPositionInsideGrid;
 

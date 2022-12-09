@@ -3,7 +3,11 @@ package io.swapastack.dunetd.game;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.Test;
 
-import static io.swapastack.dunetd.game.CardinalDirection.*;
+import static io.swapastack.dunetd.game.CardinalDirection.EAST;
+import static io.swapastack.dunetd.game.CardinalDirection.NORTH;
+import static io.swapastack.dunetd.game.CardinalDirection.SOUTH;
+import static io.swapastack.dunetd.game.CardinalDirection.WEST;
+import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,9 +1,9 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.Vector2;
+import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
-import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.pathfinding.Path;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,9 +13,12 @@ import org.jetbrains.annotations.Nullable;
 import java.beans.PropertyChangeSupport;
 import java.util.UUID;
 
+import static io.swapastack.dunetd.assets.controller.HostileUnitController.CREATE_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.HostileUnitController.DESTROY_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.HostileUnitController.SHOW_EVENT_NAME;
+import static io.swapastack.dunetd.assets.controller.HostileUnitController.UPDATE_EVENT_NAME;
 import static io.swapastack.dunetd.game.CardinalDirection.NORTH;
 import static io.swapastack.dunetd.game.CardinalDirection.fromDirection;
-import static io.swapastack.dunetd.assets.controller.HostileUnitController.*;
 
 /**
  * A hostile unit representing the enemy in this game. It moves along a path on the grid until it reaches the end

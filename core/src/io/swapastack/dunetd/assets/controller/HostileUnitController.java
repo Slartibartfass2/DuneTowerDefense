@@ -13,7 +13,9 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static io.swapastack.dunetd.assets.AssetLoader.*;
+import static io.swapastack.dunetd.assets.AssetLoader.BOSS_UNIT_WALK_ANIMATION;
+import static io.swapastack.dunetd.assets.AssetLoader.HARVESTER_WALK_ANIMATION;
+import static io.swapastack.dunetd.assets.AssetLoader.INFANTRY_WALK_ANIMATION;
 import static io.swapastack.dunetd.hostileunits.HostileUnitEnum.fromHostileUnit;
 
 public final class HostileUnitController implements PropertyChangeListener {

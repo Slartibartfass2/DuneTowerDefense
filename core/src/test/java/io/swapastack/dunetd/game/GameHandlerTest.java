@@ -9,8 +9,17 @@ import lombok.NonNull;
 import org.junit.jupiter.api.Test;
 
 import static io.swapastack.dunetd.entities.towers.TowerEnum.GUARD_TOWER;
-import static io.swapastack.dunetd.game.GamePhase.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static io.swapastack.dunetd.game.GamePhase.BUILD_PHASE;
+import static io.swapastack.dunetd.game.GamePhase.GAME_LOST_PHASE;
+import static io.swapastack.dunetd.game.GamePhase.GAME_WON_PHASE;
+import static io.swapastack.dunetd.game.GamePhase.WAVE_PHASE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameHandlerTest {
 
