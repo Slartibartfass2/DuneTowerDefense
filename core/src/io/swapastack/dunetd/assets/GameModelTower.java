@@ -123,7 +123,7 @@ public final class GameModelTower implements GameModelInterface {
         }
         return new Scene[]{
                 baseTowerPart.getScene(),
-                topTowerPart.getScene()
+                topTowerPart.getScene(),
         };
     }
 

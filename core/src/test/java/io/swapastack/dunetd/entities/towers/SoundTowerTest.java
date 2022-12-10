@@ -35,7 +35,7 @@ class SoundTowerTest {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
             new Infantry(Vector2.Zero),
             new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero)
+            new BossUnit(Vector2.Zero),
         }).toList();
 
         Assertions.assertFalse(soundTower.target(hostileUnits, false));
@@ -57,7 +57,7 @@ class SoundTowerTest {
             new BossUnit(new Vector2(SOUND_TOWER_RANGE, 0f)),
             new Infantry(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
             new Harvester(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
-            new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f))
+            new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
         }).toList();
 
         Assertions.assertTrue(soundTower.target(hostileUnits, true));

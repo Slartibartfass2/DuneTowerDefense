@@ -40,7 +40,7 @@ class GuardTowerTest {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
             new Infantry(Vector2.Zero),
             new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero)
+            new BossUnit(Vector2.Zero),
         }).toList();
 
         Assertions.assertFalse(guardTower.target(hostileUnits, false));
@@ -56,7 +56,7 @@ class GuardTowerTest {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
             new Infantry(Vector2.Zero),
             new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero)
+            new BossUnit(Vector2.Zero),
         }).toList();
 
         Assertions.assertTrue(guardTower.target(hostileUnits, true));

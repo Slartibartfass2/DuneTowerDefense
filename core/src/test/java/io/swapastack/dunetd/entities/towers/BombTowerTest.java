@@ -43,7 +43,7 @@ class BombTowerTest {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
             new Infantry(Vector2.Zero),
             new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero)
+            new BossUnit(Vector2.Zero),
         }).toList();
 
         Assertions.assertFalse(bombTower.target(hostileUnits, false));
@@ -65,7 +65,7 @@ class BombTowerTest {
             new BossUnit(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
             new Infantry(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
             new Harvester(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-            new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f))
+            new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
         }).toList();
 
         Assertions.assertTrue(bombTower.target(hostileUnits, true));
