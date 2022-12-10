@@ -8,9 +8,6 @@ import io.swapastack.dunetd.config.Configuration;
 
 public final class GameSettings {
 
-    private final Preferences settings;
-    private final int maxMonitorIndex;
-
     private static final int MIN_GRID_DIMENSION = 2;
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
@@ -27,6 +24,9 @@ public final class GameSettings {
     private static final String MASTER_VOLUME_SETTING_KEY = "masterVolume";
     private static final String GRID_WIDTH_SETTING_KEY = "gridWidth";
     private static final String GRID_HEIGHT_SETTING_KEY = "gridHeight";
+
+    private final Preferences settings;
+    private final int maxMonitorIndex;
 
     public GameSettings() {
         settings = Gdx.app.getPreferences("io.swapastack.dunetd.settings");

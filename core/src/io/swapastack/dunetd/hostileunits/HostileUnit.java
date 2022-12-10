@@ -28,12 +28,6 @@ import lombok.NonNull;
 public abstract class HostileUnit {
 
     /**
-     * Unique identifier for storing this hostile unit in a map
-     */
-    @Getter
-    private final UUID uuid;
-
-    /**
      * Position of this hostile unit
      */
     protected Vector2 position;
@@ -58,6 +52,12 @@ public abstract class HostileUnit {
      * Duration how long the slowing effect will last
      */
     protected int slowingEffectDurationInMs;
+
+    /**
+     * Unique identifier for storing this hostile unit in a map
+     */
+    @Getter
+    private final UUID uuid;
 
     /**
      * Cardinal direction of this hostile unit

@@ -38,6 +38,8 @@ public final class Hud implements Disposable {
     private static final float CAMERA_MOVEMENT_SPEED = 0.3f;
     private static final float CAMERA_BORDER_OFFSET = 4f;
     private static final Vector3 Y_AXIS = new Vector3(0f, 1f, 0f);
+    private static final Color ESCAPE_MENU_BACKGROUND_COLOR = new Color(0, 0, 0, 0.6f);
+    private static final Color REMAINING_COOLDOWN_COLOR = new Color(0, 0, 0, 0.5f);
 
     private final GameScreen screen;
     private final GameHandler gameHandler;
@@ -51,8 +53,6 @@ public final class Hud implements Disposable {
     private EscapeMenu escapeMenu;
     @Getter
     private boolean escapeMenuVisible;
-    private static final Color ESCAPE_MENU_BACKGROUND_COLOR = new Color(0, 0, 0, 0.6f);
-    private static final Color REMAINING_COOLDOWN_COLOR = new Color(0, 0, 0, 0.5f);
 
     // Toolbar
     private ToolBar toolBar;
@@ -70,8 +70,8 @@ public final class Hud implements Disposable {
     private int zoomFactor = 5;
 
     // Debugging
-    Vector2 selectedTilePosition;
-    String logText = "";
+    private Vector2 selectedTilePosition;
+    private String logText = "";
 
     public Hud(@NonNull GameScreen screen, @NonNull GameHandler gameHandler, @NonNull Stage mainStage) {
         this.screen = screen;

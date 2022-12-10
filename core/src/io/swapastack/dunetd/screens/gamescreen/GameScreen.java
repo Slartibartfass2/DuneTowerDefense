@@ -38,6 +38,10 @@ import net.mgsx.gltf.scene3d.utils.IBLBuilder;
  */
 public final class GameScreen extends AbstractScreen {
 
+    private static final Color SELECTION_COLOR = new Color(0, 0, 0, 0.5f);
+    private static final Color THUMPER_OUTER_COLOR = new Color(0, 0, 0, 0.5f);
+    private static final Color THUMPER_INNER_COLOR = new Color(1, 1, 1, 0.3f);
+
     private final GameHandler gameHandler;
     private final EntityController entityController;
     private final HostileUnitController hostileUnitController;
@@ -61,10 +65,6 @@ public final class GameScreen extends AbstractScreen {
 
     // libGDX
     private PerspectiveCamera camera;
-
-    private static final Color SELECTION_COLOR = new Color(0, 0, 0, 0.5f);
-    private static final Color THUMPER_OUTER_COLOR = new Color(0, 0, 0, 0.5f);
-    private static final Color THUMPER_INNER_COLOR = new Color(1, 1, 1, 0.3f);
 
     // HUD
     private final Hud hud;
