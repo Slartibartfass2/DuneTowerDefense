@@ -158,9 +158,9 @@ public final class ShaiHulud {
         // Set first thumper if there's none, if there was already one, so set second one
         if (firstThumper == null) {
             firstThumper = position.cpy();
-        }
-        // If the second thumper is not in the same row or column, or it's the same position the thumper can't be set
-        else if (position.x != firstThumper.x && position.y != firstThumper.y || position.equals(firstThumper)) {
+        } else if (position.x != firstThumper.x && position.y != firstThumper.y || position.equals(firstThumper)) {
+            // If the second thumper is not in the same row or column, or it's the same position the thumper can't be
+            // set
             return false;
         } else {
             secondThumper = position.cpy();

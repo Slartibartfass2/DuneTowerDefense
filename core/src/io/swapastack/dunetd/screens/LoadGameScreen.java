@@ -79,11 +79,10 @@ public final class LoadGameScreen extends AbstractScreen {
         var timeNow = System.currentTimeMillis();
         var timePassed = timeNow - lastClickTimestamp;
 
-        if (saveGame == lastClickedSaveGame && timePassed <= 500) {
-            // TODO: Load game
-        } else {
+        if (saveGame != lastClickedSaveGame || timePassed > 500) {
             lastClickedSaveGame = saveGame;
             lastClickTimestamp = timeNow;
         }
+        // TODO: else -> Load game
     }
 }

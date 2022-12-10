@@ -220,8 +220,9 @@ public final class Hud implements Disposable {
     }
 
     private void handleScrollEvent(int amount) {
-        if (escapeMenuVisible)
+        if (escapeMenuVisible) {
             return;
+        }
 
         // TODO: Zoom
     }
