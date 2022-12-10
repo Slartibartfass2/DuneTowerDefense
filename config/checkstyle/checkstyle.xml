@@ -160,9 +160,8 @@
         <module name="UpperEll"/>
 
         <!-- Modifiers -->
-<!--        <module name="ClassMemberImpliedModifier"/>-->
         <module name="ModifierOrder"/>
-<!--        <module name="RedundantModifier"/>-->
+        <module name="RedundantModifier"/>
 
         <!-- Naming Conventions -->
         <module name="AbbreviationAsWordInName"/>
