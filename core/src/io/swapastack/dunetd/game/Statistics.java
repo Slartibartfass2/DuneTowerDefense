@@ -38,29 +38,47 @@ public final class Statistics {
             .getIntProperty("POINTS_FOR_REMAINING_HEALTH");
 
     // Counters for how many towers were build
-    private int guardTowersBuilt = 0;
-    private int bombTowersBuilt = 0;
-    private int soundTowersBuilt = 0;
+    private int guardTowersBuilt;
+    private int bombTowersBuilt;
+    private int soundTowersBuilt;
 
     // Counters for how many hostile units were killed by towers
-    private int infantriesKilledByTowers = 0;
-    private int harvestersKilledByTowers = 0;
-    private int bossUnitsKilledByTowers = 0;
+    private int infantriesKilledByTowers;
+    private int harvestersKilledByTowers;
+    private int bossUnitsKilledByTowers;
 
     // Counters for how many hostile units were killed by the shai hulud
-    private int infantriesKilledByShaiHulud = 0;
-    private int harvestersKilledByShaiHulud = 0;
-    private int bossUnitsKilledByShaiHulud = 0;
+    private int infantriesKilledByShaiHulud;
+    private int harvestersKilledByShaiHulud;
+    private int bossUnitsKilledByShaiHulud;
 
     // Counters for how many towers were destroyed by the shai hulud
-    private int guardTowersDestroyedByShaiHulud = 0;
-    private int bombTowersDestroyedByShaiHulud = 0;
-    private int soundTowersDestroyedByShaiHulud = 0;
+    private int guardTowersDestroyedByShaiHulud;
+    private int bombTowersDestroyedByShaiHulud;
+    private int soundTowersDestroyedByShaiHulud;
 
     // Counters for how many hostile units reached the end portal
-    private int infantriesReachedEndPortal = 0;
-    private int harvestersReachedEndPortal = 0;
-    private int bossUnitsReachedEndPortal = 0;
+    private int infantriesReachedEndPortal;
+    private int harvestersReachedEndPortal;
+    private int bossUnitsReachedEndPortal;
+
+    public Statistics() {
+        bossUnitsReachedEndPortal = 0;
+        harvestersReachedEndPortal = 0;
+        infantriesReachedEndPortal = 0;
+        soundTowersDestroyedByShaiHulud = 0;
+        bombTowersDestroyedByShaiHulud = 0;
+        guardTowersDestroyedByShaiHulud = 0;
+        bossUnitsKilledByShaiHulud = 0;
+        harvestersKilledByShaiHulud = 0;
+        infantriesKilledByShaiHulud = 0;
+        bossUnitsKilledByTowers = 0;
+        harvestersKilledByTowers = 0;
+        infantriesKilledByTowers = 0;
+        soundTowersBuilt = 0;
+        bombTowersBuilt = 0;
+        guardTowersBuilt = 0;
+    }
 
     public void builtTower(@NonNull TowerEnum towerEnum) {
         switch (towerEnum) {
