@@ -207,11 +207,11 @@ public final class GameHandler {
         }
 
         // speed up or slow down time
-        deltaTimeInMilliseconds *= timeFactor.getFactor();
+        var factoredDeltaTimeInMilliseconds = deltaTimeInMilliseconds * timeFactor.getFactor();
 
         switch (gamePhase) {
-            case BUILD_PHASE -> executeBuildPhase(deltaTimeInMilliseconds);
-            case WAVE_PHASE -> executeWavePhase(deltaTimeInMilliseconds);
+            case BUILD_PHASE -> executeBuildPhase(factoredDeltaTimeInMilliseconds);
+            case WAVE_PHASE -> executeWavePhase(factoredDeltaTimeInMilliseconds);
             default -> { /* Do nothing because game is finished */ }
         }
     }
@@ -427,15 +427,15 @@ public final class GameHandler {
         // Add infantry to wave queue
         int remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.INFANTRY,
                 infantryWaveBudget, INFANTRY_PURCHASE_PRICE, spawnPoint, INFANTRY_MAX_COUNT);
-        harvesterWaveBudget += remainingBudget;
+        var remainingHarvesterWaveBudget = harvesterWaveBudget + remainingBudget;
 
         // Add harvesters to wave queue
         remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.HARVESTER,
-                harvesterWaveBudget, HARVESTER_PURCHASE_PRICE, spawnPoint, HARVESTER_MAX_COUNT);
-        bossUnitWaveBudget += remainingBudget;
+                remainingHarvesterWaveBudget, HARVESTER_PURCHASE_PRICE, spawnPoint, HARVESTER_MAX_COUNT);
+        var remainingBossUnitWaveBudget = bossUnitWaveBudget + remainingBudget;
 
         // Add boss units to wave queue
-        getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.BOSS_UNIT, bossUnitWaveBudget,
+        getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.BOSS_UNIT, remainingBossUnitWaveBudget,
                 BOSS_UNIT_PURCHASE_PRICE, spawnPoint, Integer.MAX_VALUE);
 
         waveHostileUnitCount = hostileUnitsQueueTmp.size();
@@ -457,14 +457,15 @@ public final class GameHandler {
     private int getHostileUnitsFromBudget(@NonNull Queue<HostileUnit> hostileUnitsQueue,
                                           @NonNull HostileUnitEnum hostileUnitEnum, int budget, int purchasePrice,
                                           @NonNull Vector2 spawnPoint, int maxCount) {
+        int remainingBudget = budget;
         int count = 0;
-        while (budget >= purchasePrice && count < maxCount) {
+        while (remainingBudget >= purchasePrice && count < maxCount) {
             var hostileUnit = hostileUnitEnum.toHostileUnit(spawnPoint.cpy(), hostileUnitController);
-            budget -= purchasePrice;
+            remainingBudget -= purchasePrice;
             hostileUnitsQueue.add(hostileUnit);
             count++;
         }
-        return budget;
+        return remainingBudget;
     }
 
     /**

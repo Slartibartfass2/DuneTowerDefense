@@ -117,8 +117,8 @@
         <module name="OneStatementPerLine"/>
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="PackageDeclaration"/>
-<!--        <module name="ParameterAssignment"/>-->
-<!--        <module name="RequireThis"/>-->
+        <module name="ParameterAssignment"/>
+        <module name="RequireThis"/>
 <!--        <module name="ReturnCount"/>-->
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>

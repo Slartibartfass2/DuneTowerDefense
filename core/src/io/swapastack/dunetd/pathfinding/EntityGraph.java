@@ -66,25 +66,27 @@ public final class EntityGraph implements IndexedGraph<EntityNode> {
     private int createNodeAndConnectionForTile(@NonNull Entity[][] grid, int gridWidth, int gridHeight, int nodeIndex,
                                                EntityNode[][] nodeGrid, int x, int y) {
         var currentNode = nodeGrid[x][y];
+        var newNodeIndex = nodeIndex;
 
         // Add entity node at position x y, if not already created
         if (currentNode == null) {
-            currentNode = new EntityNode(grid[x][y], x, y, nodeIndex++);
+            currentNode = new EntityNode(grid[x][y], x, y, nodeIndex);
+            newNodeIndex++;
             nodeGrid[x][y] = currentNode;
             entityNodes.add(currentNode);
         }
 
         // Add horizontal connection
         if (x < gridWidth - 1) {
-            nodeIndex = addConnection(grid, nodeGrid, currentNode, x + 1, y, nodeIndex);
+            newNodeIndex = addConnection(grid, nodeGrid, currentNode, x + 1, y, newNodeIndex);
         }
 
         // Add vertical connection
         if (y < gridHeight - 1) {
-            nodeIndex = addConnection(grid, nodeGrid, currentNode, x, y + 1, nodeIndex);
+            newNodeIndex = addConnection(grid, nodeGrid, currentNode, x, y + 1, newNodeIndex);
         }
 
-        return nodeIndex;
+        return newNodeIndex;
     }
 
     /**
@@ -102,16 +104,19 @@ public final class EntityGraph implements IndexedGraph<EntityNode> {
      */
     private int addConnection(@NonNull Entity[][] grid, @NonNull EntityNode[][] nodeGrid,
                               @NonNull EntityNode currentNode, int nextX, int nextY, int nodeIndex) {
+        int newNodeIndex = nodeIndex;
+
         // If node not already exists create one
         if (nodeGrid[nextX][nextY] == null) {
-            var newEntityNode = new EntityNode(grid[nextX][nextY], nextX, nextY, nodeIndex++);
+            var newEntityNode = new EntityNode(grid[nextX][nextY], nextX, nextY, nodeIndex);
+            newNodeIndex++;
             nodeGrid[nextX][nextY] = newEntityNode;
             entityNodes.add(newEntityNode);
         }
         // Add connection to node
         addConnection(currentNode, nodeGrid[nextX][nextY]);
 
-        return nodeIndex;
+        return newNodeIndex;
     }
 
     /**
