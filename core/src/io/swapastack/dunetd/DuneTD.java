@@ -41,7 +41,9 @@ public final class DuneTD extends Game {
     @Override
     public void dispose() {
         // If screen is not null dispose all resources from screen
-        if (screen != null) screen.dispose();
+        if (screen != null) {
+            screen.dispose();
+        }
 
         // Free all resources allocated by the asset loader
         assetLoader.dispose();

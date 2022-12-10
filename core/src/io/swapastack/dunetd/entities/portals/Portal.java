@@ -21,7 +21,8 @@ public abstract class Portal extends Entity {
      */
     protected Portal(int x, int y, @Nullable EntityController entityController) {
         super(x, y, entityController, 0f);
-        if (entityController != null)
+        if (entityController != null) {
             support.firePropertyChange(EntityController.SHOW_EVENT_NAME, null, null);
+        }
     }
 }

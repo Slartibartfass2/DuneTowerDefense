@@ -99,8 +99,9 @@ public final class SettingsScreen extends AbstractScreen {
     private void addMonitorSettings(@NonNull VisSelectBox<MonitorSetting> monitorSelectBox) {
         var monitors = Gdx.graphics.getMonitors();
         var monitorSettings = new MonitorSetting[monitors.length];
-        for (int i = 0; i < monitors.length; i++)
+        for (int i = 0; i < monitors.length; i++) {
             monitorSettings[i] = new MonitorSetting(i, (Lwjgl3DisplayMode) Gdx.graphics.getDisplayMode(monitors[i]));
+        }
         monitorSelectBox.setItems(monitorSettings);
         monitorSelectBox.setSelectedIndex(settings.getMonitorIndex());
     }
