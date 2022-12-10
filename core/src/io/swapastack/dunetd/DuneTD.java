@@ -26,6 +26,10 @@ public final class DuneTD extends Game {
     @Getter
     private AssetLoader assetLoader;
 
+    public DuneTD() {
+        // Initialization is done in create method
+    }
+
     @Override
     public void create() {
         // Load settings

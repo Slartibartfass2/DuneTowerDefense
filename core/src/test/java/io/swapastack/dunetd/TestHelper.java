@@ -5,7 +5,11 @@ import io.swapastack.dunetd.config.Configuration;
 import java.io.IOException;
 import java.util.Properties;
 
-public class TestHelper {
+public final class TestHelper {
+
+    private TestHelper() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 
     public static void readConfigFile() {
         try {

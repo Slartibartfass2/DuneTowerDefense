@@ -15,6 +15,10 @@
         <property name="checks" value="(MethodLength|ExecutableStatementCount)"/>
         <property name="files" value="Statistics.java"/>
     </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MissingCtor"/>
+        <property name="files" value=".*Test.java"/>
+    </module>
 
     <!-- Miscellaneous -->
     <module name="NewlineAtEndOfFile"/>
@@ -88,11 +92,10 @@
         <module name="IllegalThrows"/>
         <module name="IllegalToken"/>
 <!--        <module name="IllegalTokenText"/> TODO NO EFFECT -->
-<!--        <module name="IllegalType"/>-->
         <module name="InnerAssignment"/>
 <!--        <module name="MagicNumber"/>-->
 <!--        <module name="MatchXpath"/> TODO NO EFFECT -->
-<!--        <module name="MissingCtor"/>-->
+        <module name="MissingCtor"/>
 <!--        <module name="MissingSwitchDefault"/>-->
         <module name="ModifiedControlVariable"/>
 <!--        <module name="MultipleStringLiterals"/> TODO maybe higher tolerance e.g. 2 -->
