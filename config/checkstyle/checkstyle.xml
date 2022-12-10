@@ -96,7 +96,7 @@
 <!--        <module name="MagicNumber"/>-->
 <!--        <module name="MatchXpath"/> TODO NO EFFECT -->
         <module name="MissingCtor"/>
-<!--        <module name="MissingSwitchDefault"/>-->
+        <module name="MissingSwitchDefault"/>
         <module name="ModifiedControlVariable"/>
 <!--        <module name="MultipleStringLiterals"/> TODO maybe higher tolerance e.g. 2 -->
         <module name="MultipleVariableDeclarations"/>

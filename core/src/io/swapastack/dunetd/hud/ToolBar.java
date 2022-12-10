@@ -155,6 +155,7 @@ public final class ToolBar extends VisTable {
                 soundTowerButton.setChecked(true);
                 shaiHuludButton.setChecked(false);
             }
+            default -> throw new IllegalStateException("Unexpected value: " + towerEnum);
         }
         shaiHuludSelected = false;
     }

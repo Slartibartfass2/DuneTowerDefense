@@ -73,6 +73,7 @@ public final class GamePhaseBar extends VisTable {
                     phaseLabel.setText("Game won!");
                     progressBarVisibility = false;
                 }
+                default -> throw new IllegalStateException("Unexpected value: " + gamePhase);
             }
         }
 

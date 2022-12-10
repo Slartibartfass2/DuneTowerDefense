@@ -36,6 +36,7 @@ public final class Statistics {
             .getIntProperty("POINTS_FOR_REMAINING_SPICE");
     private static final int POINTS_FOR_REMAINING_HEALTH = Configuration.getInstance()
             .getIntProperty("POINTS_FOR_REMAINING_HEALTH");
+    private static final String UNEXPECTED_VALUE = "Unexpected value: %s";
 
     // Counters for how many towers were build
     private int guardTowersBuilt;
@@ -85,6 +86,7 @@ public final class Statistics {
             case GUARD_TOWER -> guardTowersBuilt++;
             case BOMB_TOWER -> bombTowersBuilt++;
             case SOUND_TOWER -> soundTowersBuilt++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(towerEnum));
         }
     }
 
@@ -93,6 +95,7 @@ public final class Statistics {
             case INFANTRY -> infantriesKilledByTowers++;
             case HARVESTER -> harvestersKilledByTowers++;
             case BOSS_UNIT -> bossUnitsKilledByTowers++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(hostileUnitEnum));
         }
     }
 
@@ -101,6 +104,7 @@ public final class Statistics {
             case INFANTRY -> infantriesKilledByShaiHulud++;
             case HARVESTER -> harvestersKilledByShaiHulud++;
             case BOSS_UNIT -> bossUnitsKilledByShaiHulud++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(hostileUnitEnum));
         }
     }
 
@@ -109,6 +113,7 @@ public final class Statistics {
             case GUARD_TOWER -> guardTowersDestroyedByShaiHulud++;
             case BOMB_TOWER -> bombTowersDestroyedByShaiHulud++;
             case SOUND_TOWER -> soundTowersDestroyedByShaiHulud++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(towerEnum));
         }
     }
 
@@ -117,6 +122,7 @@ public final class Statistics {
             case INFANTRY -> infantriesReachedEndPortal++;
             case HARVESTER -> harvestersReachedEndPortal++;
             case BOSS_UNIT -> bossUnitsReachedEndPortal++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(hostileUnitEnum));
         }
     }
 

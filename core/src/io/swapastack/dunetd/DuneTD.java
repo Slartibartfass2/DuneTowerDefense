@@ -81,6 +81,7 @@ public final class DuneTD extends Game {
             case SETTINGS -> setScreen(new SettingsScreen(this));
             case HIGHSCORE -> setScreen(new HighscoreScreen(this));
             case CREDITS -> setScreen(new CreditsScreen(this));
+            default -> throw new IllegalStateException("Unexpected value: " + screen);
         }
     }
 
