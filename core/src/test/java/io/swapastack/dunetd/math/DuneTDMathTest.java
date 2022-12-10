@@ -158,10 +158,7 @@ class DuneTDMathTest {
             int x = (int) towerPosition.x;
             int y = (int) towerPosition.y;
 
-            try {
-                grid[x][y] = new GuardTower(x, y);
-            } catch (Exception ignored) {
-            }
+            grid[x][y] = new GuardTower(x, y);
         }
         return grid;
     }
