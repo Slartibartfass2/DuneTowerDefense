@@ -28,6 +28,8 @@ public final class HostileUnitController implements PropertyChangeListener {
     private static final String HOSTILE_UNIT_NOT_REGISTERED_MESSAGE = "Hostile unit is not registered in hostile unit" +
             " controller";
 
+    private static final float SECONDS_TO_MILLISECONDS_RATIO = 1000f;
+
     private final SceneManager sceneManager;
     private final AssetLoader assetLoader;
     private final HashMap<UUID, GameModelSingle> hostileUnitModelMap;
@@ -105,7 +107,7 @@ public final class HostileUnitController implements PropertyChangeListener {
         if (!(newValue instanceof GameModelData newGameModelData)) {
             throw new IllegalArgumentException("newValue must be a GameModelData object");
         }
-        if (!(oldValue instanceof Float deltaTime)) {
+        if (!(oldValue instanceof Float deltaTimeInMilliseconds)) {
             throw new IllegalArgumentException("newValue must be a float");
         }
 
@@ -113,7 +115,7 @@ public final class HostileUnitController implements PropertyChangeListener {
         var gameModel = hostileUnitModelMap.get(hostileUnit.getUuid());
         var newHostileUnitPosition = new Vector3(newGameModelData.position().x, 0f, newGameModelData.position().y);
         gameModel.rePositionAndRotate(newHostileUnitPosition, newGameModelData.rotation());
-        gameModel.updateAnimation(deltaTime);
+        gameModel.updateAnimation(deltaTimeInMilliseconds / SECONDS_TO_MILLISECONDS_RATIO);
         hostileUnitModelMap.put(hostileUnit.getUuid(), gameModel);
     }
 

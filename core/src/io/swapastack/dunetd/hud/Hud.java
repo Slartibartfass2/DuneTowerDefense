@@ -33,7 +33,7 @@ public final class Hud implements Disposable {
 
     // Constants
     private static final int SHAI_HULUD_COOLDOWN_IN_MS = Configuration.getInstance()
-            .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MS");
+            .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MILLISECONDS");
     private static final float CAMERA_ROTATION_ANGLE = 0.8f;
     private static final float CAMERA_MOVEMENT_SPEED = 0.3f;
     private static final float CAMERA_BORDER_OFFSET = 4f;
@@ -112,7 +112,7 @@ public final class Hud implements Disposable {
                 new HudInputListener(this::handleMouseClickEvent, this::handleScrollEvent, this::handleKeyDownEvent));
     }
 
-    public void update(float deltaTime, @NonNull Vector2 mousePos, @NonNull PerspectiveCamera camera) {
+    public void update(float deltaTimeInSeconds, @NonNull Vector2 mousePos, @NonNull PerspectiveCamera camera) {
         // Update facing direction of the camera
         var cameraPositionFlat = new Vector3(camera.position.x, 0f, camera.position.z);
         cameraFacingDirection = cameraFocusPosition.cpy().sub(cameraPositionFlat).nor();
@@ -130,15 +130,15 @@ public final class Hud implements Disposable {
             // Make whole screen darker
             drawDarkBackground();
         } else {
-            mainStage.act(deltaTime);
+            mainStage.act(deltaTimeInSeconds);
             mainStage.draw();
 
             // Draw Cooldown on top of button
-            if (shaiHulud.getRemainingCooldownInMs() > 0) {
+            if (shaiHulud.getRemainingCooldownInMilliseconds() > 0) {
                 var x = toolBar.getShaiHuludButton().getCenterX() + toolBar.getX();
                 var y = toolBar.getShaiHuludButton().getCenterY() + toolBar.getY();
                 var radius = toolBar.getShaiHuludButton().getButtonRadius() / 2f;
-                var degrees = shaiHulud.getRemainingCooldownInMs() / (float) SHAI_HULUD_COOLDOWN_IN_MS * 360f;
+                var degrees = shaiHulud.getRemainingCooldownInMilliseconds() / (float) SHAI_HULUD_COOLDOWN_IN_MS * 360f;
                 Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
                 shapeRenderer.setColor(REMAINING_COOLDOWN_COLOR);
@@ -149,7 +149,7 @@ public final class Hud implements Disposable {
             }
         }
 
-        escapeMenuStage.act(deltaTime);
+        escapeMenuStage.act(deltaTimeInSeconds);
         escapeMenuStage.draw();
     }
 

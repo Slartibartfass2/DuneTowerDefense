@@ -41,6 +41,18 @@ public final class GameScreen extends AbstractScreen {
     private static final Color SELECTION_COLOR = new Color(0, 0, 0, 0.5f);
     private static final Color THUMPER_OUTER_COLOR = new Color(0, 0, 0, 0.5f);
     private static final Color THUMPER_INNER_COLOR = new Color(1, 1, 1, 0.3f);
+    private static final float NEAR_PLANE_DISTANCE = 0.1f;
+    private static final float FAR_PLANE_DISTANCE = 300f;
+    private static final int MAX_BONES = 128;
+    private static final int CIRCLE_RENDER_SEGMENTS = 50;
+    private static final float THUMPER_X_OFFSET = 0.07f;
+    private static final float THUMPER_Y_OFFSET = 0.25f;
+    private static final float THUMPER_OUTER_RADIUS = 0.5f;
+    private static final float THUMPER_INNER_RADIUS = 0.3f;
+    private static final int ENVIRONMENT_MAP_BASE_SIZE = 1024;
+    private static final int CAMERA_FIELD_OF_VIEW = 60;
+    private static final int IRRADIANCE_MAP_BASE_SIZE = 256;
+    private static final int RADIANCE_MIP_MAP_LEVELS = 10;
 
     private final GameHandler gameHandler;
     private final EntityController entityController;
@@ -79,8 +91,8 @@ public final class GameScreen extends AbstractScreen {
         gridHeight = settings.getGridHeight();
 
         // GDX GLTF - Scene Manager
-        sceneManager = new SceneManager(128);
-        groundSceneManager = new SceneManager(128);
+        sceneManager = new SceneManager(MAX_BONES);
+        groundSceneManager = new SceneManager(MAX_BONES);
         shapeRenderer = new ShapeRenderer();
 
         entityController = new EntityController(sceneManager, game.getAssetLoader());
@@ -107,11 +119,11 @@ public final class GameScreen extends AbstractScreen {
         var cameraPosition = new Vector3(gridWidth / 2f, Math.max(gridHeight, gridWidth) * 0.85f, 0);
 
         // Camera
-        camera = new PerspectiveCamera(60, stage.getWidth(), stage.getHeight());
+        camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, stage.getWidth(), stage.getHeight());
         camera.position.set(cameraPosition);
         camera.lookAt(cameraFocusPosition);
-        camera.near = 0.1f;
-        camera.far = 300f;
+        camera.near = NEAR_PLANE_DISTANCE;
+        camera.far = FAR_PLANE_DISTANCE;
 
         sceneManager.setCamera(camera);
         groundSceneManager.setCamera(camera);
@@ -137,9 +149,9 @@ public final class GameScreen extends AbstractScreen {
 
         // GDX GLTF - Image Based Lighting
         var iblBuilder = IBLBuilder.createOutdoor(light);
-        environmentCubemap = iblBuilder.buildEnvMap(1024);
-        diffuseCubemap = iblBuilder.buildIrradianceMap(256);
-        specularCubemap = iblBuilder.buildRadianceMap(10);
+        environmentCubemap = iblBuilder.buildEnvMap(ENVIRONMENT_MAP_BASE_SIZE);
+        diffuseCubemap = iblBuilder.buildIrradianceMap(IRRADIANCE_MAP_BASE_SIZE);
+        specularCubemap = iblBuilder.buildRadianceMap(RADIANCE_MIP_MAP_LEVELS);
         iblBuilder.dispose();
 
         // GDX GLTF - This texture is provided by the library, no need to have it in your assets.
@@ -163,12 +175,13 @@ public final class GameScreen extends AbstractScreen {
     /**
      * Called when the screen should render itself.
      *
-     * @param deltaTime The time in seconds since the last render.
+     * @param deltaTimeInSeconds The time in seconds since the last render.
      */
     @Override
-    public void render(float deltaTime) {
+    public void render(float deltaTimeInSeconds) {
+        var deltaInMilliseconds = deltaTimeInSeconds * 1000;
         // Run game logic
-        gameHandler.update(deltaTime);
+        gameHandler.update(deltaInMilliseconds);
         gameGround.updatePath(gameHandler.getPath());
 
         // Display game lost or game won window when phase is reached
@@ -190,7 +203,7 @@ public final class GameScreen extends AbstractScreen {
         var selectedTile2d = new Vector2(selectedTile3d.x, selectedTile3d.z);
 
         // Render ground tiles
-        groundSceneManager.update(deltaTime);
+        groundSceneManager.update(deltaTimeInSeconds);
         groundSceneManager.render();
 
         // Set up shape renderer
@@ -219,11 +232,11 @@ public final class GameScreen extends AbstractScreen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         // Render towers, portals, hostile units and shai hulud
-        sceneManager.update(deltaTime);
+        sceneManager.update(deltaTimeInSeconds);
         sceneManager.render();
 
         // Render HUD above all
-        hud.update(deltaTime, selectedTile2d, camera);
+        hud.update(deltaTimeInSeconds, selectedTile2d, camera);
     }
 
     private void drawMouseSelection(int x, int y) {
@@ -233,7 +246,7 @@ public final class GameScreen extends AbstractScreen {
 
         shapeRenderer.setColor(SELECTION_COLOR);
         if (grid[x][y] instanceof Tower tower) {
-            shapeRenderer.circle(x, y, tower.getRange(), 50);
+            shapeRenderer.circle(x, y, tower.getRange(), CIRCLE_RENDER_SEGMENTS);
         } else {
             shapeRenderer.rect(x - 0.5f, y - 0.5f, 1, 1);
         }
@@ -242,21 +255,22 @@ public final class GameScreen extends AbstractScreen {
     private void drawThumper(@NonNull Vector2 position, boolean first) {
         // Draw outer circle
         shapeRenderer.setColor(THUMPER_OUTER_COLOR);
-        shapeRenderer.circle(position.x, position.y, 0.5f, 50);
+        shapeRenderer.circle(position.x, position.y, THUMPER_OUTER_RADIUS, CIRCLE_RENDER_SEGMENTS);
 
         // Draw inner circle
         shapeRenderer.setColor(THUMPER_INNER_COLOR);
-        shapeRenderer.circle(position.x, position.y, 0.3f, 50);
+        shapeRenderer.circle(position.x, position.y, THUMPER_INNER_RADIUS, CIRCLE_RENDER_SEGMENTS);
 
         // Draw a one or a two, indicating which thumper it is
         shapeRenderer.setColor(Color.BLACK);
         if (first) {
-            shapeRenderer.rectLine(position.x, position.y - 0.25f, position.x, position.y + 0.25f, 0.1f);
+            shapeRenderer.rectLine(position.x, position.y - THUMPER_Y_OFFSET, position.x,
+                    position.y + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
         } else {
-            shapeRenderer.rectLine(position.x - 0.07f, position.y - 0.25f, position.x - 0.07f, position.y + 0.25f,
-                    0.1f);
-            shapeRenderer.rectLine(position.x + 0.07f, position.y - 0.25f, position.x + 0.07f, position.y + 0.25f,
-                    0.1f);
+            shapeRenderer.rectLine(position.x - THUMPER_X_OFFSET, position.y - THUMPER_Y_OFFSET,
+                    position.x - THUMPER_X_OFFSET, position.y + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
+            shapeRenderer.rectLine(position.x + THUMPER_X_OFFSET, position.y - THUMPER_Y_OFFSET,
+                    position.x + THUMPER_X_OFFSET, position.y + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
         }
     }
 

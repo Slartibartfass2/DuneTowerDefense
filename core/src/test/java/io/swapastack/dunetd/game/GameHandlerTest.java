@@ -22,7 +22,7 @@ class GameHandlerTest {
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
-            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS");
 
     @Test
     void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {
@@ -299,8 +299,8 @@ class GameHandlerTest {
 
     @Test
     void testUpdateUntilGameIsLost() throws NoSuchFieldException, IllegalAccessException {
-        // deltaTime is ~ 60 FPS
-        var deltaTime = 0.0166f;
+        // deltaTimeInMilliseconds is ~ 60 FPS
+        var deltaTimeInMilliseconds = 16.6f;
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -309,21 +309,21 @@ class GameHandlerTest {
                 while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                     // Build phase
                     while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
-                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMs() <= 0);
+                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMilliseconds() <= 0);
                     Assertions.assertSame(GamePhase.WAVE_PHASE, gameHandler.getGamePhase());
                     Assertions.assertTrue(gameHandler.getNumberOfRemainingHostileUnits() > 0);
                     Assertions.assertTrue(gameHandler.isGameStarted());
 
                     // Wave phase
                     while (gameHandler.getGamePhase() == GamePhase.WAVE_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
 
                     if (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                         Assertions.assertEquals(GAME_BUILD_PHASE_DURATION_IN_MS,
-                                gameHandler.getRemainingBuildPhaseDurationInMs());
+                                gameHandler.getRemainingBuildPhaseDurationInMilliseconds());
                         Assertions.assertSame(GamePhase.BUILD_PHASE, gameHandler.getGamePhase());
                     }
                 }
@@ -336,8 +336,8 @@ class GameHandlerTest {
     // Achtung geht 20-30 Sekunden
     @Test
     void testUpdateUntilGameIsWon() throws NoSuchFieldException, IllegalAccessException {
-        // deltaTime is ~ 60 FPS
-        var deltaTime = 0.0166f;
+        // deltaTimeInMilliseconds is ~ 60 FPS
+        var deltaTimeInMilliseconds = 16.6f;
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -352,21 +352,21 @@ class GameHandlerTest {
                 while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                     // Build phase
                     while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
-                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMs() <= 0);
+                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMilliseconds() <= 0);
                     Assertions.assertSame(GamePhase.WAVE_PHASE, gameHandler.getGamePhase());
                     Assertions.assertTrue(gameHandler.getNumberOfRemainingHostileUnits() > 0);
                     Assertions.assertTrue(gameHandler.isGameStarted());
 
                     // Wave phase
                     while (gameHandler.getGamePhase() == GamePhase.WAVE_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
 
                     if (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                         Assertions.assertEquals(GAME_BUILD_PHASE_DURATION_IN_MS,
-                                gameHandler.getRemainingBuildPhaseDurationInMs());
+                                gameHandler.getRemainingBuildPhaseDurationInMilliseconds());
                         Assertions.assertSame(GamePhase.BUILD_PHASE, gameHandler.getGamePhase());
                     }
                 }

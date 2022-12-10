@@ -51,7 +51,7 @@ public abstract class HostileUnit {
     /**
      * Duration how long the slowing effect will last
      */
-    protected int slowingEffectDurationInMs;
+    protected int slowingEffectDurationInMilliseconds;
 
     /**
      * Unique identifier for storing this hostile unit in a map
@@ -84,7 +84,7 @@ public abstract class HostileUnit {
         this.speed = speed;
         this.health = health;
         currentSpeed = speed;
-        slowingEffectDurationInMs = 0;
+        slowingEffectDurationInMilliseconds = 0;
         cardinalDirection = CardinalDirection.NORTH;
 
         if (hostileUnitController != null) {
@@ -112,23 +112,23 @@ public abstract class HostileUnit {
      * Moves this hostile unit on the grid along the specified path and updates its game model accordingly. Also
      * updates the slowing effect, if there is one.
      *
-     * @param path      Path on which the hostile unit is moving
-     * @param deltaTime The time in seconds since the last update
+     * @param path                    Path on which the hostile unit is moving
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      * @throws IllegalStateException If the hostile unit is not on the path
      */
-    public final void move(@NonNull Path path, float deltaTime) throws IllegalStateException {
+    public final void move(@NonNull Path path, float deltaTimeInMilliseconds) throws IllegalStateException {
         // If hostile unit is already slowed down, decrease duration, otherwise reset speed to maximum
-        if (slowingEffectDurationInMs > 0) {
-            slowingEffectDurationInMs -= deltaTime * 1000;
+        if (slowingEffectDurationInMilliseconds > 0) {
+            slowingEffectDurationInMilliseconds -= deltaTimeInMilliseconds;
         } else {
-            slowingEffectDurationInMs = 0;
+            slowingEffectDurationInMilliseconds = 0;
             currentSpeed = speed;
         }
 
         var positionTmp = position.cpy();
 
         // Distance which the hostile unit can go in this iteration
-        var maxMoveDistance = currentSpeed * deltaTime;
+        var maxMoveDistance = currentSpeed * deltaTimeInMilliseconds;
 
         // Move hostile unit as long as moveDistance > 0
         do {
@@ -163,7 +163,7 @@ public abstract class HostileUnit {
 
         // Update game model if existing
         if (support != null) {
-            support.firePropertyChange(HostileUnitController.UPDATE_EVENT_NAME, deltaTime,
+            support.firePropertyChange(HostileUnitController.UPDATE_EVENT_NAME, deltaTimeInMilliseconds,
                     new GameModelData(cardinalDirection.getDegrees(), positionTmp.cpy()));
         }
     }
@@ -191,12 +191,12 @@ public abstract class HostileUnit {
 
     /**
      * Slows down this hostile unit by decreasing the speed to the value of speed * slowingEffectMultiplier. The effect
-     * lasts as long as the specified slowingEffectDurationInMs.
+     * lasts as long as the specified slowingEffectDurationInMilliseconds.
      *
-     * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
-     * @param slowingEffectDurationInMs Duration of slowing effect.
+     * @param slowingEffectMultiplier             Value to multiply with speed to set the new speed
+     * @param slowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
      */
-    public abstract void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs);
+    public abstract void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMilliseconds);
 
     /**
      * Sets <code>health</code> of this hostile unit to zero and removes its game model.

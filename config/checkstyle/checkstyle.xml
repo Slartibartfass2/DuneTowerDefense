@@ -19,6 +19,12 @@
         <property name="checks" value="MissingCtor"/>
         <property name="files" value=".*Test.java"/>
     </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MagicNumber"/>
+        <!-- TODO try reduce magic numbers -->
+        <property name="files"
+                  value="(.*Test|AssetLoader|.*Button|GamePhaseBar|Hud|GameEndWindow|.*Screen|GameGround).java"/>
+    </module>
 
     <!-- Miscellaneous -->
     <module name="NewlineAtEndOfFile"/>
@@ -93,7 +99,9 @@
         <module name="IllegalToken"/>
 <!--        <module name="IllegalTokenText"/> TODO NO EFFECT -->
         <module name="InnerAssignment"/>
-<!--        <module name="MagicNumber"/>-->
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1, 2, 90, 180, 270, 360"/>
+        </module>
 <!--        <module name="MatchXpath"/> TODO NO EFFECT -->
         <module name="MissingCtor"/>
         <module name="MissingSwitchDefault"/>

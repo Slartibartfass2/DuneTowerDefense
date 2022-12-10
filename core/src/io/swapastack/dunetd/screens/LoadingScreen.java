@@ -87,7 +87,8 @@ public final class LoadingScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         // Clear the screen
-        Gdx.gl.glClearColor(0.2353f, 0.2471f, 0.2549f, 1);
+        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
+                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         // If config file was read and the game assets are done loading show MainMenuScreen

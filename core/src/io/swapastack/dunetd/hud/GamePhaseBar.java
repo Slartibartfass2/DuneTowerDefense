@@ -17,7 +17,7 @@ public final class GamePhaseBar extends VisTable {
 
     // Configuration values
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
-            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS");
     private static final int MAX_WAVE_COUNT = Configuration.getInstance().getIntProperty("MAX_WAVE_COUNT");
 
     private final GameHandler gameHandler;
@@ -54,9 +54,9 @@ public final class GamePhaseBar extends VisTable {
             switch (gamePhase) {
                 case BUILD_PHASE -> {
                     phaseLabel.setText(String.format("Build phase: %2.1f seconds remaining",
-                            gameHandler.getRemainingBuildPhaseDurationInMs() / 1000f));
+                            gameHandler.getRemainingBuildPhaseDurationInMilliseconds() / 1000f));
                     progressBar.setRange(0f, GAME_BUILD_PHASE_DURATION_IN_MS);
-                    progressBar.setValue(gameHandler.getRemainingBuildPhaseDurationInMs());
+                    progressBar.setValue(gameHandler.getRemainingBuildPhaseDurationInMilliseconds());
                 }
                 case WAVE_PHASE -> {
                     phaseLabel.setText(String.format("Wave phase %d/%d: %d hostile units remaining",

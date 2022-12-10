@@ -53,15 +53,15 @@ public final class BossUnit extends HostileUnit {
 
     /**
      * Slows down the boss unit by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>.
-     * The effect lasts as long as the specified <code>slowingEffectDurationInMs</code>.
+     * The effect lasts as long as the specified slowingEffectDurationInMilliseconds.
      *
      * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
-     * @param slowingEffectDurationInMs Duration of slowing effect.
+     * @param slowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
      */
     @Override
-    public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
+    public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMilliseconds) {
         currentSpeed = speed * slowingEffectMultiplier;
-        this.slowingEffectDurationInMs = slowingEffectDurationInMs;
+        this.slowingEffectDurationInMilliseconds = slowingEffectDurationInMilliseconds;
     }
 
     /**

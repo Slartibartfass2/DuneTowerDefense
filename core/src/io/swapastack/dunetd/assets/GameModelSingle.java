@@ -51,11 +51,11 @@ public final class GameModelSingle implements GameModelInterface {
     /**
      * Updates the animationController of the model.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInSeconds The time in seconds since the last update
      */
     @Override
-    public void updateAnimation(float deltaTime) {
-        gameModelPart.updateAnimation(deltaTime);
+    public void updateAnimation(float deltaTimeInSeconds) {
+        gameModelPart.updateAnimation(deltaTimeInSeconds);
     }
 
     /**

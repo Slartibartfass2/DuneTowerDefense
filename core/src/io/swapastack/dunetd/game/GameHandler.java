@@ -42,8 +42,8 @@ public final class GameHandler {
             .getIntProperty("HARVESTER_INITIAL_WAVE_BUDGET");
     private static final int BOSS_UNIT_INITIAL_WAVE_BUDGET = Configuration.getInstance()
             .getIntProperty("BOSS_UNIT_INITIAL_WAVE_BUDGET");
-    private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
-            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+    private static final int GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS = Configuration.getInstance()
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS");
     private static final int MAX_WAVE_COUNT = Configuration.getInstance().getIntProperty("MAX_WAVE_COUNT");
     private static final int END_OF_WAVE_SPICE_REWARD = Configuration.getInstance()
             .getIntProperty("END_OF_WAVE_SPICE_REWARD");
@@ -61,8 +61,8 @@ public final class GameHandler {
             .getIntProperty("HARVESTER_PURCHASE_PRICE");
     private static final int BOSS_UNIT_PURCHASE_PRICE = Configuration.getInstance()
             .getIntProperty("BOSS_UNIT_PURCHASE_PRICE");
-    private static final int HOSTILE_UNIT_RELEASE_DELAY_IN_MS = Configuration.getInstance()
-            .getIntProperty("HOSTILE_UNIT_RELEASE_DELAY_IN_MS");
+    private static final int HOSTILE_UNIT_RELEASE_DELAY_IN_MILLISECONDS = Configuration.getInstance()
+            .getIntProperty("HOSTILE_UNIT_RELEASE_DELAY_IN_MILLISECONDS");
     private static final float HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER = Configuration.getInstance()
             .getFloatProperty("HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER");
     private static final int INFANTRY_MAX_COUNT = Configuration.getInstance().getIntProperty("INFANTRY_MAX_COUNT");
@@ -97,8 +97,8 @@ public final class GameHandler {
     private int bossUnitWaveBudget;
     @Getter
     private int waveNumber;
-    private int remainingHostileUnitReleaseDelayInMs;
-    private int hostileUnitReleaseDelayInMs;
+    private int remainingHostileUnitReleaseDelayInMilliseconds;
+    private int hostileUnitReleaseDelayInMilliseconds;
     @Getter
     private int waveHostileUnitCount;
 
@@ -106,7 +106,7 @@ public final class GameHandler {
     @Getter
     private GamePhase gamePhase;
     @Getter
-    private int remainingBuildPhaseDurationInMs;
+    private int remainingBuildPhaseDurationInMilliseconds;
     @Getter
     private boolean gameStarted;
     @Getter
@@ -156,7 +156,7 @@ public final class GameHandler {
         // Set initial player values
         playerHealth = PLAYER_INITIAL_HEALTH;
         playerSpice = PLAYER_INITIAL_SPICE;
-        hostileUnitReleaseDelayInMs = HOSTILE_UNIT_RELEASE_DELAY_IN_MS;
+        hostileUnitReleaseDelayInMilliseconds = HOSTILE_UNIT_RELEASE_DELAY_IN_MILLISECONDS;
 
         // Create grid and its dimensions
         this.gridWidth = gridWidth;
@@ -185,9 +185,9 @@ public final class GameHandler {
         harvesterWaveBudget = HARVESTER_INITIAL_WAVE_BUDGET;
         bossUnitWaveBudget = BOSS_UNIT_INITIAL_WAVE_BUDGET;
         waveNumber = 1;
-        remainingHostileUnitReleaseDelayInMs = 0;
+        remainingHostileUnitReleaseDelayInMilliseconds = 0;
         gamePhase = GamePhase.BUILD_PHASE;
-        remainingBuildPhaseDurationInMs = GAME_BUILD_PHASE_DURATION_IN_MS;
+        remainingBuildPhaseDurationInMilliseconds = GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS;
         gameStarted = false;
         gamePaused = false;
         timeFactor = TimeFactor.NORMAL;
@@ -199,19 +199,19 @@ public final class GameHandler {
     /**
      * Updates the game logic (execution of different game phases).
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    public void update(float deltaTime) {
+    public void update(float deltaTimeInMilliseconds) {
         if (!gameStarted || gamePaused) {
             return;
         }
 
         // speed up or slow down time
-        deltaTime *= timeFactor.getFactor();
+        deltaTimeInMilliseconds *= timeFactor.getFactor();
 
         switch (gamePhase) {
-            case BUILD_PHASE -> executeBuildPhase(deltaTime);
-            case WAVE_PHASE -> executeWavePhase(deltaTime);
+            case BUILD_PHASE -> executeBuildPhase(deltaTimeInMilliseconds);
+            case WAVE_PHASE -> executeWavePhase(deltaTimeInMilliseconds);
             default -> { /* Do nothing because game is finished */ }
         }
     }
@@ -219,37 +219,37 @@ public final class GameHandler {
     /**
      * Executes the logic of the build phase of the game.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    private void executeBuildPhase(float deltaTime) {
-        remainingBuildPhaseDurationInMs -= deltaTime * 1000;
+    private void executeBuildPhase(float deltaTimeInMilliseconds) {
+        remainingBuildPhaseDurationInMilliseconds -= deltaTimeInMilliseconds;
 
         // End of build phase, create new wave
-        if (remainingBuildPhaseDurationInMs <= 0) {
+        if (remainingBuildPhaseDurationInMilliseconds <= 0) {
             gamePhase = GamePhase.WAVE_PHASE;
             hostileUnitsQueue = createNewWave(infantryWaveBudget, harvesterWaveBudget, bossUnitWaveBudget);
-            remainingHostileUnitReleaseDelayInMs = 0;
-            hostileUnitReleaseDelayInMs *= HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER;
+            remainingHostileUnitReleaseDelayInMilliseconds = 0;
+            hostileUnitReleaseDelayInMilliseconds *= HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER;
         }
     }
 
     /**
      * Executes the logic of the wave phase of the game.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    private void executeWavePhase(float deltaTime) {
+    private void executeWavePhase(float deltaTimeInMilliseconds) {
         // Release new hostile units on the grid through the start portal
-        releaseHostileUnits(deltaTime);
+        releaseHostileUnits(deltaTimeInMilliseconds);
 
         // Update shai hulud (moving, killing hostile units, setting towers to debris)
-        shaiHulud.update(hostileUnitsOnGrid, deltaTime, statistics);
+        shaiHulud.update(hostileUnitsOnGrid, deltaTimeInMilliseconds, statistics);
 
         // Let towers attack the hostile units
-        updateTowers(deltaTime);
+        updateTowers(deltaTimeInMilliseconds);
 
         // Update HostileUnits
-        updateHostileUnits(deltaTime);
+        updateHostileUnits(deltaTimeInMilliseconds);
 
         // If too many HostileUnits reached the end portal, the player has lost
         // Otherwise check if the wave phase is finished (all HostileUnits dead or reached portal)
@@ -280,7 +280,7 @@ public final class GameHandler {
 
                 // Set phase to build phase
                 gamePhase = GamePhase.BUILD_PHASE;
-                remainingBuildPhaseDurationInMs = GAME_BUILD_PHASE_DURATION_IN_MS;
+                remainingBuildPhaseDurationInMilliseconds = GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS;
             }
         }
     }
@@ -470,18 +470,18 @@ public final class GameHandler {
     /**
      * Releases hostile units on the grid, if available in <code>hostileUnitsQueue</code>.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    private void releaseHostileUnits(float deltaTime) {
-        if (remainingHostileUnitReleaseDelayInMs > 0) {
-            remainingHostileUnitReleaseDelayInMs -= deltaTime * 1000;
+    private void releaseHostileUnits(float deltaTimeInMilliseconds) {
+        if (remainingHostileUnitReleaseDelayInMilliseconds > 0) {
+            remainingHostileUnitReleaseDelayInMilliseconds -= deltaTimeInMilliseconds;
         } else if (!hostileUnitsQueue.isEmpty()) {
             // Get hostile unit from queue and put in on the grid
             var hostileUnit = hostileUnitsQueue.poll();
             hostileUnit.show();
             hostileUnitsOnGrid.add(hostileUnit);
             // Reset delay
-            remainingHostileUnitReleaseDelayInMs = hostileUnitReleaseDelayInMs;
+            remainingHostileUnitReleaseDelayInMilliseconds = hostileUnitReleaseDelayInMilliseconds;
         }
     }
 
@@ -489,9 +489,9 @@ public final class GameHandler {
      * Updates hostile units. Removes dead ones and moves the rest along the path. Checks if hostile units reached
      * the end portal.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    private void updateHostileUnits(float deltaTime) {
+    private void updateHostileUnits(float deltaTimeInMilliseconds) {
         for (int i = hostileUnitsOnGrid.size() - 1; i >= 0; i--) {
             var hostileUnit = hostileUnitsOnGrid.get(i);
 
@@ -510,21 +510,21 @@ public final class GameHandler {
 
                 // Otherwise, move hostile unit
             } else {
-                hostileUnit.move(path, deltaTime);
+                hostileUnit.move(path, deltaTimeInMilliseconds);
             }
         }
     }
 
     /**
-     * Updates all towers on the grid
+     * Updates all towers on the grid.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    private void updateTowers(float deltaTime) {
+    private void updateTowers(float deltaTimeInMilliseconds) {
         for (var entities : grid) {
             for (var entity : entities) {
                 if (entity instanceof Tower tower && !tower.isDebris()) {
-                    tower.update(hostileUnitsOnGrid, deltaTime);
+                    tower.update(hostileUnitsOnGrid, deltaTimeInMilliseconds);
                 }
             }
         }
@@ -573,7 +573,7 @@ public final class GameHandler {
      */
     public void skipBuildPhase() {
         if (gamePhase == GamePhase.BUILD_PHASE) {
-            remainingBuildPhaseDurationInMs = 0;
+            remainingBuildPhaseDurationInMilliseconds = 0;
         }
     }
 

@@ -17,6 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public abstract class DamageTower extends Tower {
 
+    private static final int THREE_HUNDRED_SIXTY_DEGREES = 360;
+
     /**
      * Amount of health decreased when this tower attacks a hostile unit
      */
@@ -30,12 +32,13 @@ public abstract class DamageTower extends Tower {
      * @param range            Range of this damage tower, in which it attacks hostile units
      * @param buildCost        Costs to build this damage tower
      * @param damage           Damage of this damage tower
-     * @param reloadTimeInMs   Time in milliseconds needed to reload
+     * @param reloadTimeInMilliseconds   Time in milliseconds needed to reload
      * @param entityController Controller for towers
      */
-    protected DamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMs,
+    protected DamageTower(int x, int y, float range, int buildCost, int damage, int reloadTimeInMilliseconds,
                           @Nullable EntityController entityController) {
-        super(x, y, range, buildCost, reloadTimeInMs, entityController, MathUtils.random(0, 359));
+        super(x, y, range, buildCost, reloadTimeInMilliseconds, entityController,
+                MathUtils.random(0, THREE_HUNDRED_SIXTY_DEGREES));
         this.damage = damage;
     }
 }

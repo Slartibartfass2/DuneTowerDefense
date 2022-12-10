@@ -61,16 +61,16 @@ public final class Harvester extends HostileUnit {
     /**
      * Slows down the harvester by decreasing the speed to the value of <code>speed * slowingEffectMultiplier *
      * SLOWING_EFFECT_RESISTANCE_MULTIPLIER</code>. The effect lasts as long as the specified
-     * <code>slowingEffectDurationInMs</code>. The slowing effect can't exceed the range [0, 1].
+     * slowingEffectDurationInMilliseconds. The slowing effect can't exceed the range [0, 1].
      *
      * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
-     * @param slowingEffectDurationInMs Duration of slowing effect.
+     * @param slowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
      */
     @Override
-    public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
+    public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMilliseconds) {
         var slowingEffect = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
         currentSpeed = speed * slowingEffect;
-        this.slowingEffectDurationInMs = slowingEffectDurationInMs;
+        this.slowingEffectDurationInMilliseconds = slowingEffectDurationInMilliseconds;
     }
 
     /**

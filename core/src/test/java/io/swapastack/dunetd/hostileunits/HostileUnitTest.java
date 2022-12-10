@@ -77,7 +77,7 @@ class HostileUnitTest {
         var startPosition = Vector2.Zero;
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
-        hostileUnit.slowingEffectDurationInMs = 1000;
+        hostileUnit.slowingEffectDurationInMilliseconds = 1000;
         Assertions.assertDoesNotThrow(() -> hostileUnit.move(path, 0.016f));
     }
 
@@ -179,7 +179,7 @@ class HostileUnitTest {
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
         return new HostileUnit(position, speed, health, null) {
             @Override
-            public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
+            public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMilliseconds) {
 
             }
 

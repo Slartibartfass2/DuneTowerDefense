@@ -32,9 +32,9 @@ public interface GameModelInterface {
     /**
      * Updates the animationController of the model.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInSeconds The time in seconds since the last update
      */
-    void updateAnimation(float deltaTime);
+    void updateAnimation(float deltaTimeInSeconds);
 
     /**
      * Sets the paused property of the animation controller to the specified boolean.
