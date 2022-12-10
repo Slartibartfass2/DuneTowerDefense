@@ -32,7 +32,7 @@ class EntityGraphTest {
 
     @Test
     void testConstructorWithInvalidArguments() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph((null)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[0][0]));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[0][1]));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[1][0]));
