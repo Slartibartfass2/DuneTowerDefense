@@ -53,7 +53,7 @@
 
         <!-- Block Checks -->
         <module name="AvoidNestedBlocks"/>
-<!--        <module name="EmptyBlock"/>-->
+        <module name="EmptyBlock"/>
 <!--        <module name="EmptyCatchBlock"/>-->
         <module name="LeftCurly"/>
 <!--        <module name="NeedBraces"/>-->
