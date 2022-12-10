@@ -32,7 +32,6 @@ class GameHandlerTest {
                 setSpice(gameHandler, Integer.MAX_VALUE);
 
                 for (int x = 0; x < width; x++) {
-                    loop:
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
                         if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
@@ -40,11 +39,17 @@ class GameHandlerTest {
                             Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
                             continue;
                         }
+
+                        var doBreak = false;
                         for (var wayPoint : gameHandler.getPath().getWaypoints()) {
                             if (wayPoint.equals(position)) {
                                 // could be true or false depending on if there's another path
-                                continue loop;
+                                doBreak = true;
+                                break;
                             }
+                        }
+                        if (doBreak) {
+                            break;
                         }
 
                         Assertions.assertTrue(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
@@ -264,17 +269,22 @@ class GameHandlerTest {
                 setSpice(gameHandler, Integer.MAX_VALUE);
 
                 for (int x = 0; x < width; x++) {
-                    loop:
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
                         if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
                                 || gameHandler.getEndPortal().getGridPosition2d().equals(position)) {
                             continue;
                         }
+
+                        var doBreak = false;
                         for (var wayPoint : gameHandler.getPath().getWaypoints()) {
                             if (wayPoint.equals(position)) {
-                                continue loop;
+                                doBreak = true;
+                                break;
                             }
+                        }
+                        if (doBreak) {
+                            break;
                         }
 
                         Assertions.assertTrue(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));

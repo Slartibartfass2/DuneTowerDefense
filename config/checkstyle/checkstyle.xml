@@ -83,10 +83,10 @@
         <module name="ExplicitInitialization"/>
         <module name="FallThrough"/>
 <!--        <module name="HiddenField"/> TODO NOT SURE ABT THIS -->
-<!--        <module name="IllegalCatch"/>-->
+        <module name="IllegalCatch"/>
 <!--        <module name="IllegalInstantiation"/> TODO NO EFFECT USE WHEN USING FACTORY METHODS -->
         <module name="IllegalThrows"/>
-<!--        <module name="IllegalToken"/>-->
+        <module name="IllegalToken"/>
 <!--        <module name="IllegalTokenText"/> TODO NO EFFECT -->
 <!--        <module name="IllegalType"/>-->
         <module name="InnerAssignment"/>
