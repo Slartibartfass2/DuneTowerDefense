@@ -142,9 +142,6 @@ public final class GameGround {
         return new TileAndRotation(newTile, rotation);
     }
 
-    private record TileAndRotation(GameModelSingle tile, float rotation) {
-    }
-
     /**
      * Fills hole in grid with ground tiles
      */
@@ -180,5 +177,8 @@ public final class GameGround {
                 (rotation + 180) % 360
         );
         sceneManager.addScene(gridTile.getScene());
+    }
+
+    private record TileAndRotation(GameModelSingle tile, float rotation) {
     }
 }

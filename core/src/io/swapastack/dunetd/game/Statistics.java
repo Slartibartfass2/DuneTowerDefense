@@ -177,7 +177,7 @@ public final class Statistics {
 
     @SuppressWarnings("squid:S110")
     private static class StatisticsRow extends VisTable {
-        public StatisticsRow(@NonNull String name, int count, int pointsPerCount) {
+        StatisticsRow(@NonNull String name, int count, int pointsPerCount) {
             super(true);
             add(new VisLabel(name)).left().growX();
             add(new VisLabel(count + " x " + pointsPerCount + " Spice")).right();
