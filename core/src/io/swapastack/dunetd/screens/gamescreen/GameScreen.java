@@ -21,9 +21,9 @@ import io.swapastack.dunetd.game.GamePhase;
 import io.swapastack.dunetd.hud.Hud;
 import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.screens.AbstractScreen;
+import io.swapastack.dunetd.screens.ScreenColor;
 import io.swapastack.dunetd.vectors.Vector2;
 import io.swapastack.dunetd.vectors.Vector3;
-import io.swapastack.dunetd.screens.ScreenColor;
 
 import lombok.NonNull;
 import lombok.Setter;
@@ -120,7 +120,7 @@ public final class GameScreen extends AbstractScreen {
         var cameraPosition = new Vector3(gridWidth / 2f, Math.max(gridHeight, gridWidth) * 0.85f, 0);
 
         // Camera
-        camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, stage.getWidth(), stage.getHeight());
+        camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, getStageWidth(), getStageHeight());
         camera.position.set(cameraPosition.toLibGdx());
         camera.lookAt(cameraFocusPosition.toLibGdx());
         camera.near = NEAR_PLANE_DISTANCE;
