@@ -1,9 +1,8 @@
 package io.swapastack.dunetd.hostileunits;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 
@@ -24,7 +23,7 @@ class BossUnitTest {
     @Test
     void testSlowDown() {
         for (int i = 1; i < 10; i++) {
-            var bossUnit = new BossUnit(Vector2.Zero);
+            var bossUnit = new BossUnit(Vector2.ZERO);
             var slowingEffectMultiplier = 0.1f * i;
             bossUnit.slowDown(slowingEffectMultiplier, 100);
             Assertions.assertEquals(bossUnit.speed * slowingEffectMultiplier, bossUnit.currentSpeed, 0f);
@@ -34,7 +33,7 @@ class BossUnitTest {
 
     @Test
     void testGetSpiceReward() {
-        var bossUnit = new BossUnit(Vector2.Zero);
+        var bossUnit = new BossUnit(Vector2.ZERO);
         Assertions.assertEquals(BOSS_UNIT_SPICE_REWARD, bossUnit.getSpiceReward());
     }
 }

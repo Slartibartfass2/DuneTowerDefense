@@ -1,11 +1,11 @@
 package io.swapastack.dunetd.hostileunits;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.config.Configuration;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
 import lombok.NonNull;
 
@@ -37,6 +37,7 @@ public final class BossUnit extends HostileUnit {
      *
      * @param position Position of this boss unit
      */
+    @TestOnly
     public BossUnit(@NonNull Vector2 position) {
         this(position, null);
     }
@@ -55,7 +56,7 @@ public final class BossUnit extends HostileUnit {
      * Slows down the boss unit by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>.
      * The effect lasts as long as the specified slowingEffectDurationInMilliseconds.
      *
-     * @param slowingEffectMultiplier   Value to multiply with speed to set the new speed
+     * @param slowingEffectMultiplier                    Value to multiply with speed to set the new speed
      * @param appliedSlowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
      */
     @Override

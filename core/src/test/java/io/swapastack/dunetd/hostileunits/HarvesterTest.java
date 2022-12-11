@@ -1,10 +1,10 @@
 package io.swapastack.dunetd.hostileunits;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ class HarvesterTest {
 
     private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance()
             .getIntProperty("HARVESTER_SPICE_REWARD");
+
     private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance()
             .getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
 
@@ -27,7 +28,7 @@ class HarvesterTest {
     @Test
     void testSlowDown() {
         for (int i = 1; i < 10; i++) {
-            var harvester = new Harvester(Vector2.Zero);
+            var harvester = new Harvester(Vector2.ZERO);
             var slowingEffectMultiplier = 0.1f * i;
             harvester.slowDown(slowingEffectMultiplier, 100);
             var tmp = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
@@ -38,7 +39,7 @@ class HarvesterTest {
 
     @Test
     void testGetSpiceReward() {
-        var harvester = new Harvester(Vector2.Zero);
+        var harvester = new Harvester(Vector2.ZERO);
         Assertions.assertEquals(HARVESTER_SPICE_REWARD, harvester.getSpiceReward());
     }
 }

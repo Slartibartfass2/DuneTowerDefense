@@ -1,8 +1,7 @@
 package io.swapastack.dunetd.hostileunits;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
