@@ -24,19 +24,22 @@ import lombok.Getter;
 @EqualsAndHashCode
 public abstract class Entity {
 
+    @Getter
+    protected int x;
+
+    @Getter
+    protected int y;
+
+    /**
+     * Property change support to update game model of this entity
+     */
+    protected final PropertyChangeSupport support;
+
     /**
      * Unique identifier for storing this tower in a map
      */
     @Getter
     private final UUID uuid;
-    @Getter
-    protected int x;
-    @Getter
-    protected int y;
-    /**
-     * Property change support to update game model of this entity
-     */
-    protected final PropertyChangeSupport support;
 
     /**
      * Creates a new entity with a specified position.

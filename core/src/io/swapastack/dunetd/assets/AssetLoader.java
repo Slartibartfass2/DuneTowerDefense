@@ -28,20 +28,27 @@ import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
 public final class AssetLoader implements Disposable {
 
+    public static final String DRAWABLE_BACKGROUND_NAME = "background";
+    public static final String DRAWABLE_SELECTION_NAME = "selection";
+    public static final String DRAWABLE_GUARD_TOWER_NAME = "guardTower";
+    public static final String DRAWABLE_BOMB_TOWER_NAME = "bombTower";
+    public static final String DRAWABLE_SOUND_TOWER_NAME = "soundTower";
+    public static final String DRAWABLE_SHAI_HULUD_NAME = "shaiHulud";
+    public static final String INFANTRY_WALK_ANIMATION = "RUN";
+    public static final String HARVESTER_WALK_ANIMATION = "Action";
+    public static final String BOSS_UNIT_WALK_ANIMATION = "Armature|Walk";
+
     private static final String GAME_ASSETS_NOT_LOADED_MESSAGE = "Game assets weren't loaded";
 
     // Hostile unit information
     private static final String INFANTRY_MODEL_PATH = "cute_cyborg/scene.gltf";
     private static final Vector3 INFANTRY_MODEL_SCALE = new Vector3(0.02f, 0.04f, 0.03f);
-    public static final String INFANTRY_WALK_ANIMATION = "RUN";
 
     private static final String HARVESTER_MODEL_PATH = "spaceship_orion/scene.gltf";
     private static final Vector3 HARVESTER_MODEL_SCALE = new Vector3(0.2f, 0.2f, 0.2f);
-    public static final String HARVESTER_WALK_ANIMATION = "Action";
 
     private static final String BOSS_UNIT_MODEL_PATH = "faceted_character/scene.gltf";
     private static final Vector3 BOSS_UNIT_MODEL_SCALE = new Vector3(0.005f, 0.005f, 0.005f);
-    public static final String BOSS_UNIT_WALK_ANIMATION = "Armature|Walk";
 
     // Shai hulud
     private static final String SHAI_HULUD_MODEL_PATH = "donut/donut.glb";
@@ -59,30 +66,29 @@ public final class AssetLoader implements Disposable {
     private static final String PATH_TILE_STRAIGHT_PATH = "square_sand_roadB_detail.gltf.glb";
     private static final String PATH_TILE_CURVE_PATH = "square_sand_roadC_detail.gltf.glb";
 
-    // Drawables
-    public static final String DRAWABLE_BACKGROUND_NAME = "background";
-    public static final String DRAWABLE_SELECTION_NAME = "selection";
-    public static final String DRAWABLE_GUARD_TOWER_NAME = "guardTower";
-    public static final String DRAWABLE_BOMB_TOWER_NAME = "bombTower";
-    public static final String DRAWABLE_SOUND_TOWER_NAME = "soundTower";
-    public static final String DRAWABLE_SHAI_HULUD_NAME = "shaiHulud";
-    private Drawable background;
-    private Drawable selection;
     private static final String GUARD_TOWER_TEXTURE_PATH = "icons/guardTower.png";
     private static final String BOMB_TOWER_TEXTURE_PATH = "icons/bombTower.png";
     private static final String SOUND_TOWER_TEXTURE_PATH = "icons/soundTower.png";
     private static final String SHAI_HULUD_TEXTURE_PATH = "icons/shaiHulud.png";
     private static final float TOWER_RESIZE_FACTOR = 0.14f;
 
+    private static final String KENNEY_BASE_PATH = "kenney_gltf/";
+    private static final String KENNEY_ASSET_FILE = "kenney_assets.txt";
+    private static final String KAY_KIT_BASE_PATH = "kaykit_gltf/";
+    private static final String KAY_KIT_ASSET_FILE = "kaykit_assets.txt";
+
+    private static final Vector3 PORTAL_MODEL_SCALE = new Vector3(1f, 1f, 1f);
+    private static final Vector3 SHAI_HULUD_MODEL_SCALE = new Vector3(10f, 10f, 10f);
+    private static final Vector3 GROUND_MODEL_SCALE = new Vector3(0.5f, 0.5f, 0.5f);
+
+    private Drawable background;
+    private Drawable selection;
+
     @Getter
     private Texture mainMenuBackgroundImage;
 
     // Paths
-    private static final String KENNEY_BASE_PATH = "kenney_gltf/";
-    private static final String KENNEY_ASSET_FILE = "kenney_assets.txt";
     private String[] kenneyModels;
-    private static final String KAY_KIT_BASE_PATH = "kaykit_gltf/";
-    private static final String KAY_KIT_ASSET_FILE = "kaykit_assets.txt";
     private String[] kayKitModels;
 
     // The AssetManager is used to load game assets like 3D gltf models or pngs
@@ -208,8 +214,8 @@ public final class AssetLoader implements Disposable {
         }
 
         return new GameModelSingle(
-                new GameModelPart(sceneAssetHashMap.get(PORTAL_PATH).scene, new Vector3(1f, 1f, 1f),
-                        0f, portal.getGridPosition3d())
+                new GameModelPart(sceneAssetHashMap.get(PORTAL_PATH).scene, PORTAL_MODEL_SCALE, 0f,
+                        portal.getGridPosition3d())
         );
     }
 
@@ -219,8 +225,8 @@ public final class AssetLoader implements Disposable {
         }
 
         return new GameModelSingle(
-                new GameModelPart(sceneAssetHashMap.get(SHAI_HULUD_MODEL_PATH).scene,
-                        new Vector3(10f, 10f, 10f), 0f, Vector3.Zero)
+                new GameModelPart(sceneAssetHashMap.get(SHAI_HULUD_MODEL_PATH).scene, SHAI_HULUD_MODEL_SCALE, 0f,
+                        Vector3.Zero)
         );
     }
 
@@ -230,8 +236,7 @@ public final class AssetLoader implements Disposable {
             throw new IllegalStateException(GAME_ASSETS_NOT_LOADED_MESSAGE);
         }
 
-        return new GameModelPart(sceneAssetHashMap.get(TOWER_DEBRIS_PATH).scene,
-                scale, rotation, position);
+        return new GameModelPart(sceneAssetHashMap.get(TOWER_DEBRIS_PATH).scene, scale, rotation, position);
     }
 
     public @NotNull GameModelSingle getHostileUnitGameModel(@NonNull HostileUnitEnum hostileUnitEnum) {
@@ -262,9 +267,8 @@ public final class AssetLoader implements Disposable {
         }
 
         return new GameModelSingle(
-                new GameModelPart(sceneAssetHashMap.get(hostileUnitModelPath).scene,
-                        hostileUnitModelScale, 0f, Vector3.Zero,
-                        offsetRotation, new Vector3(0f, offsetY, 0f))
+                new GameModelPart(sceneAssetHashMap.get(hostileUnitModelPath).scene, hostileUnitModelScale, 0f,
+                        Vector3.Zero, offsetRotation, new Vector3(0f, offsetY, 0f))
         );
     }
 
@@ -280,8 +284,7 @@ public final class AssetLoader implements Disposable {
         };
 
         return new GameModelSingle(
-                new GameModelPart(sceneAssetHashMap.get(scenePath).scene,
-                        new Vector3(0.5f, 0.5f, 0.5f), 0f, Vector3.Zero)
+                new GameModelPart(sceneAssetHashMap.get(scenePath).scene, GROUND_MODEL_SCALE, 0f, Vector3.Zero)
         );
     }
 }

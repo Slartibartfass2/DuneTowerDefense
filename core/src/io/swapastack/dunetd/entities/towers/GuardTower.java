@@ -28,15 +28,15 @@ public final class GuardTower extends DamageTower {
             .getIntProperty("GUARD_TOWER_BUILD_COST");
 
     /**
-     * @see Tower#reloadTimeInMs
+     * @see DamageTower#damage
      */
     private static final int GUARD_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("GUARD_TOWER_DAMAGE");
 
     /**
-     * @see DamageTower#damage
+     * @see Tower#reloadTimeInMilliseconds
      */
-    private static final int GUARD_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
-            .getIntProperty("GUARD_TOWER_RELOAD_TIME_IN_MS");
+    private static final int GUARD_TOWER_RELOAD_TIME_IN_MILLISECONDS = Configuration.getInstance()
+            .getIntProperty("GUARD_TOWER_RELOAD_TIME_IN_MILLISECONDS");
 
     /**
      * Creates a new guard tower with a specified position.
@@ -56,8 +56,8 @@ public final class GuardTower extends DamageTower {
      * @param entityController Controller for towers
      */
     public GuardTower(int x, int y, @Nullable EntityController entityController) {
-        super(x, y, GUARD_TOWER_RANGE, GUARD_TOWER_BUILD_COST, GUARD_TOWER_DAMAGE, GUARD_TOWER_RELOAD_TIME_IN_MS,
-                entityController);
+        super(x, y, GUARD_TOWER_RANGE, GUARD_TOWER_BUILD_COST, GUARD_TOWER_DAMAGE,
+                GUARD_TOWER_RELOAD_TIME_IN_MILLISECONDS, entityController);
     }
 
     /**

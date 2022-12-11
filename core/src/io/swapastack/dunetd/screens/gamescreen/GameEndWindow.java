@@ -15,6 +15,9 @@ import lombok.NonNull;
 @SuppressWarnings("squid:S110")
 public class GameEndWindow extends VisWindow {
 
+    private static final float WINDOW_WIDTH_PERCENTAGE = 0.5f;
+    private static final float WINDOW_HEIGHT_PERCENTAGE = 0.9f;
+
     public GameEndWindow(@NonNull String title, @NonNull AbstractScreen screen, @NonNull Statistics statistics) {
         super(title + " - highscore:", true);
 
@@ -27,7 +30,7 @@ public class GameEndWindow extends VisWindow {
         menuButton.addListener(new ClickInputListener(() -> screen.getGame().changeScreen(ScreenEnum.MENU)));
         add(menuButton);
 
-        setSize(PixelsConverter.getX(0.5f), PixelsConverter.getY(0.9f));
+        setSize(PixelsConverter.getX(WINDOW_WIDTH_PERCENTAGE), PixelsConverter.getY(WINDOW_HEIGHT_PERCENTAGE));
         centerWindow();
     }
 }

@@ -7,19 +7,22 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class PathTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testCalculatePathWithValidArguments() {
@@ -42,20 +45,24 @@ class PathTest {
 
     @Test
     void testCalculatePathWithInvalidArguments() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(null, null, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(null, null, Vector2.Zero));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(null, Vector2.Zero, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Path.calculatePath(null, null, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Path.calculatePath(null, null, Vector2.Zero));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Path.calculatePath(null, Vector2.Zero, null));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> Path.calculatePath(null, Vector2.Zero, Vector2.Zero));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][1], null, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Path.calculatePath(new Entity[1][1], null, null));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> Path.calculatePath(new Entity[1][1], null, Vector2.Zero));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> Path.calculatePath(new Entity[1][1], Vector2.Zero, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[0][1], Vector2.Zero,
-                Vector2.Zero));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Path.calculatePath(new Entity[1][0], Vector2.Zero,
-                Vector2.Zero));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Path.calculatePath(new Entity[0][1], Vector2.Zero, Vector2.Zero));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Path.calculatePath(new Entity[1][0], Vector2.Zero, Vector2.Zero));
     }
 
     @Test

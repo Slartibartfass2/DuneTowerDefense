@@ -12,6 +12,11 @@ import lombok.NonNull;
 public final class EntityConnection implements Connection<EntityNode> {
 
     /**
+     * Cost of connection (is static because nodes which are connected are always neighbors)
+     */
+    private static final int COST = 1000;
+
+    /**
      * Entity node from which the connection originates
      */
     private final EntityNode fromEntity;
@@ -20,11 +25,6 @@ public final class EntityConnection implements Connection<EntityNode> {
      * Entity node to which the connection leads
      */
     private final EntityNode toEntity;
-
-    /**
-     * Cost of connection (is static because nodes which are connected are always neighbors)
-     */
-    private static final int COST = 1000;
 
     /**
      * Creates connection between to entity nodes.

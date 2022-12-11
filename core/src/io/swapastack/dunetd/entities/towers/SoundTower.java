@@ -29,10 +29,10 @@ public final class SoundTower extends Tower {
             .getIntProperty("SOUND_TOWER_BUILD_COST");
 
     /**
-     * @see Tower#reloadTimeInMs
+     * @see Tower#reloadTimeInMilliseconds
      */
-    private static final int SOUND_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
-            .getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MS");
+    private static final int SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS");
 
     /**
      * Value between zero and one, multiplied with the speed result in the slowed down speed
@@ -43,8 +43,8 @@ public final class SoundTower extends Tower {
     /**
      * Duration of the slowing effect in milliseconds
      */
-    private static final int SLOWING_EFFECT_DURATION_IN_MS = Configuration.getInstance()
-            .getIntProperty("SOUND_TOWER_SLOWING_EFFECT_DURATION_IN_MS");
+    private static final int SLOWING_EFFECT_DURATION_IN_MILLISECONDS = Configuration.getInstance()
+            .getIntProperty("SOUND_TOWER_SLOWING_EFFECT_DURATION_IN_MILLISECONDS");
 
     /**
      * Creates a new sound tower with a specified position.
@@ -64,7 +64,8 @@ public final class SoundTower extends Tower {
      * @param entityController Controller for towers
      */
     public SoundTower(int x, int y, @Nullable EntityController entityController) {
-        super(x, y, SOUND_TOWER_RANGE, SOUND_TOWER_BUILD_COST, SOUND_TOWER_RELOAD_TIME_IN_MS, entityController, 0f);
+        super(x, y, SOUND_TOWER_RANGE, SOUND_TOWER_BUILD_COST, SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS,
+                entityController, 0f);
     }
 
     /**
@@ -85,7 +86,7 @@ public final class SoundTower extends Tower {
 
         // Slow down every hostile unit in range
         for (var hostileUnit : hostileUnitsInRange) {
-            hostileUnit.slowDown(SLOWING_EFFECT_MULTIPLIER, SLOWING_EFFECT_DURATION_IN_MS);
+            hostileUnit.slowDown(SLOWING_EFFECT_MULTIPLIER, SLOWING_EFFECT_DURATION_IN_MILLISECONDS);
         }
 
         return true;

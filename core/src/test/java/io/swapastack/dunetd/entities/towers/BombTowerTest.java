@@ -9,17 +9,15 @@ import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class BombTowerTest {
-
-    static {
-        TestHelper.readConfigFile();
-    }
 
     private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
             .getIntProperty("INFANTRY_INITIAL_HEALTH");
@@ -30,6 +28,11 @@ class BombTowerTest {
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
     private static final float BOMB_TOWER_AREA_DAMAGE_RANGE = Configuration.getInstance()
             .getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testTargetWithInvalidArguments() {
@@ -43,7 +46,7 @@ class BombTowerTest {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
             new Infantry(Vector2.Zero),
             new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero)
+            new BossUnit(Vector2.Zero),
         }).toList();
 
         Assertions.assertFalse(bombTower.target(hostileUnits, false));
@@ -65,7 +68,7 @@ class BombTowerTest {
             new BossUnit(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
             new Infantry(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
             new Harvester(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-            new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f))
+            new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
         }).toList();
 
         Assertions.assertTrue(bombTower.target(hostileUnits, true));

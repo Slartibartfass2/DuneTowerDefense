@@ -36,37 +36,63 @@ public final class Statistics {
             .getIntProperty("POINTS_FOR_REMAINING_SPICE");
     private static final int POINTS_FOR_REMAINING_HEALTH = Configuration.getInstance()
             .getIntProperty("POINTS_FOR_REMAINING_HEALTH");
+    private static final String UNEXPECTED_VALUE = "Unexpected value: %s";
+
+    private static final String INFANTRY_TEXT = "- Infantry";
+
+    private static final String HARVESTER_TEXT = "- Harvester";
+
+    private static final String BOSS_UNIT_TEXT = "- Boss unit";
 
     // Counters for how many towers were build
-    private int guardTowersBuilt = 0;
-    private int bombTowersBuilt = 0;
-    private int soundTowersBuilt = 0;
+    private int guardTowersBuilt;
+    private int bombTowersBuilt;
+    private int soundTowersBuilt;
 
     // Counters for how many hostile units were killed by towers
-    private int infantriesKilledByTowers = 0;
-    private int harvestersKilledByTowers = 0;
-    private int bossUnitsKilledByTowers = 0;
+    private int infantriesKilledByTowers;
+    private int harvestersKilledByTowers;
+    private int bossUnitsKilledByTowers;
 
     // Counters for how many hostile units were killed by the shai hulud
-    private int infantriesKilledByShaiHulud = 0;
-    private int harvestersKilledByShaiHulud = 0;
-    private int bossUnitsKilledByShaiHulud = 0;
+    private int infantriesKilledByShaiHulud;
+    private int harvestersKilledByShaiHulud;
+    private int bossUnitsKilledByShaiHulud;
 
     // Counters for how many towers were destroyed by the shai hulud
-    private int guardTowersDestroyedByShaiHulud = 0;
-    private int bombTowersDestroyedByShaiHulud = 0;
-    private int soundTowersDestroyedByShaiHulud = 0;
+    private int guardTowersDestroyedByShaiHulud;
+    private int bombTowersDestroyedByShaiHulud;
+    private int soundTowersDestroyedByShaiHulud;
 
     // Counters for how many hostile units reached the end portal
-    private int infantriesReachedEndPortal = 0;
-    private int harvestersReachedEndPortal = 0;
-    private int bossUnitsReachedEndPortal = 0;
+    private int infantriesReachedEndPortal;
+    private int harvestersReachedEndPortal;
+    private int bossUnitsReachedEndPortal;
+
+    public Statistics() {
+        bossUnitsReachedEndPortal = 0;
+        harvestersReachedEndPortal = 0;
+        infantriesReachedEndPortal = 0;
+        soundTowersDestroyedByShaiHulud = 0;
+        bombTowersDestroyedByShaiHulud = 0;
+        guardTowersDestroyedByShaiHulud = 0;
+        bossUnitsKilledByShaiHulud = 0;
+        harvestersKilledByShaiHulud = 0;
+        infantriesKilledByShaiHulud = 0;
+        bossUnitsKilledByTowers = 0;
+        harvestersKilledByTowers = 0;
+        infantriesKilledByTowers = 0;
+        soundTowersBuilt = 0;
+        bombTowersBuilt = 0;
+        guardTowersBuilt = 0;
+    }
 
     public void builtTower(@NonNull TowerEnum towerEnum) {
         switch (towerEnum) {
             case GUARD_TOWER -> guardTowersBuilt++;
             case BOMB_TOWER -> bombTowersBuilt++;
             case SOUND_TOWER -> soundTowersBuilt++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(towerEnum));
         }
     }
 
@@ -75,6 +101,7 @@ public final class Statistics {
             case INFANTRY -> infantriesKilledByTowers++;
             case HARVESTER -> harvestersKilledByTowers++;
             case BOSS_UNIT -> bossUnitsKilledByTowers++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(hostileUnitEnum));
         }
     }
 
@@ -83,6 +110,7 @@ public final class Statistics {
             case INFANTRY -> infantriesKilledByShaiHulud++;
             case HARVESTER -> harvestersKilledByShaiHulud++;
             case BOSS_UNIT -> bossUnitsKilledByShaiHulud++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(hostileUnitEnum));
         }
     }
 
@@ -91,6 +119,7 @@ public final class Statistics {
             case GUARD_TOWER -> guardTowersDestroyedByShaiHulud++;
             case BOMB_TOWER -> bombTowersDestroyedByShaiHulud++;
             case SOUND_TOWER -> soundTowersDestroyedByShaiHulud++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(towerEnum));
         }
     }
 
@@ -99,6 +128,7 @@ public final class Statistics {
             case INFANTRY -> infantriesReachedEndPortal++;
             case HARVESTER -> harvestersReachedEndPortal++;
             case BOSS_UNIT -> bossUnitsReachedEndPortal++;
+            default -> throw new IllegalStateException(UNEXPECTED_VALUE.formatted(hostileUnitEnum));
         }
     }
 
@@ -121,11 +151,11 @@ public final class Statistics {
         var hostileUnitsKilledByTowersTable = new VisTable(true);
         hostileUnitsKilledByTowersTable.add(new StatisticsRow("Killed hostile units with towers",
                 hostileUnitsKilledByTowers, POINTS_FOR_HOSTILE_UNIT_KILLED_BY_TOWER)).left().growX().row();
-        hostileUnitsKilledByTowersTable.add(new StatisticsRow("- Infantry", infantriesKilledByTowers,
+        hostileUnitsKilledByTowersTable.add(new StatisticsRow(INFANTRY_TEXT, infantriesKilledByTowers,
                 POINTS_FOR_HOSTILE_UNIT_KILLED_BY_TOWER)).left().growX().row();
-        hostileUnitsKilledByTowersTable.add(new StatisticsRow("- Harvester", harvestersKilledByTowers,
+        hostileUnitsKilledByTowersTable.add(new StatisticsRow(HARVESTER_TEXT, harvestersKilledByTowers,
                 POINTS_FOR_HOSTILE_UNIT_KILLED_BY_TOWER)).left().growX().row();
-        hostileUnitsKilledByTowersTable.add(new StatisticsRow("- Boss unit", bossUnitsKilledByTowers,
+        hostileUnitsKilledByTowersTable.add(new StatisticsRow(BOSS_UNIT_TEXT, bossUnitsKilledByTowers,
                 POINTS_FOR_HOSTILE_UNIT_KILLED_BY_TOWER)).left().growX().row();
 
         // Hostile units killed
@@ -134,11 +164,11 @@ public final class Statistics {
         var hostileUnitsKilledByShaiHuludTable = new VisTable(true);
         hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow("Killed hostile units with shai hulud",
                 hostileUnitsKilledByShaiHulud, POINTS_FOR_HOSTILE_UNIT_KILLED_BY_SHAI_HULUD)).left().growX().row();
-        hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow("- Infantry", infantriesKilledByShaiHulud,
+        hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow(INFANTRY_TEXT, infantriesKilledByShaiHulud,
                 POINTS_FOR_HOSTILE_UNIT_KILLED_BY_SHAI_HULUD)).left().growX().row();
-        hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow("- Harvester", harvestersKilledByShaiHulud,
+        hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow(HARVESTER_TEXT, harvestersKilledByShaiHulud,
                 POINTS_FOR_HOSTILE_UNIT_KILLED_BY_SHAI_HULUD)).left().growX().row();
-        hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow("- Boss unit", bossUnitsKilledByShaiHulud,
+        hostileUnitsKilledByShaiHuludTable.add(new StatisticsRow(BOSS_UNIT_TEXT, bossUnitsKilledByShaiHulud,
                 POINTS_FOR_HOSTILE_UNIT_KILLED_BY_SHAI_HULUD)).left().growX().row();
 
         // Hostile units reached the end portal
@@ -147,11 +177,11 @@ public final class Statistics {
         var hostileUnitsReachedEndPortalTable = new VisTable(true);
         hostileUnitsReachedEndPortalTable.add(new StatisticsRow("Hostile units reached the end portal",
                 hostileUnitsReachedEndPortal, POINTS_FOR_HOSTILE_UNIT_REACHED_END_PORTAL)).left().growX().row();
-        hostileUnitsReachedEndPortalTable.add(new StatisticsRow("- Infantry", infantriesReachedEndPortal,
+        hostileUnitsReachedEndPortalTable.add(new StatisticsRow(INFANTRY_TEXT, infantriesReachedEndPortal,
                 POINTS_FOR_HOSTILE_UNIT_REACHED_END_PORTAL)).left().growX().row();
-        hostileUnitsReachedEndPortalTable.add(new StatisticsRow("- Harvester", harvestersReachedEndPortal,
+        hostileUnitsReachedEndPortalTable.add(new StatisticsRow(HARVESTER_TEXT, harvestersReachedEndPortal,
                 POINTS_FOR_HOSTILE_UNIT_REACHED_END_PORTAL)).left().growX().row();
-        hostileUnitsReachedEndPortalTable.add(new StatisticsRow("- Boss unit", bossUnitsReachedEndPortal,
+        hostileUnitsReachedEndPortalTable.add(new StatisticsRow(BOSS_UNIT_TEXT, bossUnitsReachedEndPortal,
                 POINTS_FOR_HOSTILE_UNIT_REACHED_END_PORTAL)).left().growX().row();
 
         // Total points

@@ -25,13 +25,14 @@ import lombok.NonNull;
 
 public final class ShaiHulud {
 
-    private static final int COOLDOWN_IN_MS = Configuration.getInstance().getIntProperty("SHAI_HULUD_COOLDOWN_IN_MS");
+    private static final int COOLDOWN_IN_MS = Configuration.getInstance()
+            .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MILLISECONDS");
     private static final float SPEED = Configuration.getInstance().getFloatProperty("SHAI_HULUD_SPEED");
     private static final float RANGE = 0.8f;
 
     private final Entity[][] grid;
     @Getter
-    private int remainingCooldownInMs;
+    private int remainingCooldownInMilliseconds;
     private Vector2 firstThumper;
     private Vector2 secondThumper;
     @Getter
@@ -42,7 +43,7 @@ public final class ShaiHulud {
 
     public ShaiHulud(@NonNull Entity[][] grid, @Nullable ShaiHuludController shaiHuludController) {
         this.grid = grid;
-        remainingCooldownInMs = 0;
+        remainingCooldownInMilliseconds = 0;
         firstThumper = null;
         secondThumper = null;
         gridPosition = null;
@@ -63,16 +64,17 @@ public final class ShaiHulud {
     /**
      * Updates the logic of the shai hulud (moving and checking cooldown).
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    public void update(@NonNull List<HostileUnit> hostileUnits, float deltaTime, @NonNull Statistics statistics) {
-        if (remainingCooldownInMs > 0) {
-            remainingCooldownInMs -= deltaTime * 1000;
+    public void update(@NonNull List<HostileUnit> hostileUnits, float deltaTimeInMilliseconds,
+                       @NonNull Statistics statistics) {
+        if (remainingCooldownInMilliseconds > 0) {
+            remainingCooldownInMilliseconds -= deltaTimeInMilliseconds;
         }
 
         // If grid position is set, the shai hulud was already summoned
         if (gridPosition != null) {
-            var moveDistance = SPEED * deltaTime;
+            var moveDistance = SPEED * deltaTimeInMilliseconds;
             var direction = movingDirection.getDirection();
 
             gridPosition.add(direction.scl(moveDistance));
@@ -146,7 +148,7 @@ public final class ShaiHulud {
     public boolean setThumper(@NonNull Vector2 position) {
         // If the shai hulud has to cool down, is still active or was already summoned in this round, no new thumper
         // can be set
-        if (remainingCooldownInMs > 0 || gridPosition != null || alreadySummoned) {
+        if (remainingCooldownInMilliseconds > 0 || gridPosition != null || alreadySummoned) {
             return false;
         }
 
@@ -197,7 +199,7 @@ public final class ShaiHulud {
      */
     public void reset(boolean resetAlreadySummoned) {
         if (gridPosition != null) {
-            remainingCooldownInMs = COOLDOWN_IN_MS;
+            remainingCooldownInMilliseconds = COOLDOWN_IN_MS;
         }
         cancelAttack();
         movingDirection = null;

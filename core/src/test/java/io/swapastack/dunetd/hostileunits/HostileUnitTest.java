@@ -8,19 +8,22 @@ import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 import io.swapastack.dunetd.pathfinding.Path;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class HostileUnitTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testMoveWithValidArguments() {
@@ -77,7 +80,7 @@ class HostileUnitTest {
         var startPosition = Vector2.Zero;
         var path = getNewPath(startPosition, 10, 10);
         var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
-        hostileUnit.slowingEffectDurationInMs = 1000;
+        hostileUnit.slowingEffectDurationInMilliseconds = 1000;
         Assertions.assertDoesNotThrow(() -> hostileUnit.move(path, 0.016f));
     }
 
@@ -179,7 +182,7 @@ class HostileUnitTest {
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
         return new HostileUnit(position, speed, health, null) {
             @Override
-            public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMs) {
+            public void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds) {
 
             }
 

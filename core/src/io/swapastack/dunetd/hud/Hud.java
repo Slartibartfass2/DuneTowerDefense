@@ -33,11 +33,13 @@ public final class Hud implements Disposable {
 
     // Constants
     private static final int SHAI_HULUD_COOLDOWN_IN_MS = Configuration.getInstance()
-            .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MS");
+            .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MILLISECONDS");
     private static final float CAMERA_ROTATION_ANGLE = 0.8f;
     private static final float CAMERA_MOVEMENT_SPEED = 0.3f;
     private static final float CAMERA_BORDER_OFFSET = 4f;
     private static final Vector3 Y_AXIS = new Vector3(0f, 1f, 0f);
+    private static final Color ESCAPE_MENU_BACKGROUND_COLOR = new Color(0, 0, 0, 0.6f);
+    private static final Color REMAINING_COOLDOWN_COLOR = new Color(0, 0, 0, 0.5f);
 
     private final GameScreen screen;
     private final GameHandler gameHandler;
@@ -51,8 +53,6 @@ public final class Hud implements Disposable {
     private EscapeMenu escapeMenu;
     @Getter
     private boolean escapeMenuVisible;
-    private static final Color ESCAPE_MENU_BACKGROUND_COLOR = new Color(0, 0, 0, 0.6f);
-    private static final Color REMAINING_COOLDOWN_COLOR = new Color(0, 0, 0, 0.5f);
 
     // Toolbar
     private ToolBar toolBar;
@@ -70,8 +70,8 @@ public final class Hud implements Disposable {
     private int zoomFactor = 5;
 
     // Debugging
-    Vector2 selectedTilePosition;
-    String logText = "";
+    private Vector2 selectedTilePosition;
+    private String logText = "";
 
     public Hud(@NonNull GameScreen screen, @NonNull GameHandler gameHandler, @NonNull Stage mainStage) {
         this.screen = screen;
@@ -86,8 +86,8 @@ public final class Hud implements Disposable {
         shaiHulud = gameHandler.getShaiHulud();
     }
 
-    public void create(@NonNull Vector3 cameraFocusPosition) {
-        this.cameraFocusPosition = cameraFocusPosition.cpy();
+    public void create(@NonNull Vector3 initialCameraFocusPosition) {
+        this.cameraFocusPosition = initialCameraFocusPosition.cpy();
 
         // Escape menu added to extra stage
         escapeMenu = new EscapeMenu(screen, new ClickInputListener(this::switchEscapeMenuVisibility));
@@ -112,7 +112,7 @@ public final class Hud implements Disposable {
                 new HudInputListener(this::handleMouseClickEvent, this::handleScrollEvent, this::handleKeyDownEvent));
     }
 
-    public void update(float deltaTime, @NonNull Vector2 mousePos, @NonNull PerspectiveCamera camera) {
+    public void update(float deltaTimeInSeconds, @NonNull Vector2 mousePos, @NonNull PerspectiveCamera camera) {
         // Update facing direction of the camera
         var cameraPositionFlat = new Vector3(camera.position.x, 0f, camera.position.z);
         cameraFacingDirection = cameraFocusPosition.cpy().sub(cameraPositionFlat).nor();
@@ -130,15 +130,15 @@ public final class Hud implements Disposable {
             // Make whole screen darker
             drawDarkBackground();
         } else {
-            mainStage.act(deltaTime);
+            mainStage.act(deltaTimeInSeconds);
             mainStage.draw();
 
             // Draw Cooldown on top of button
-            if (shaiHulud.getRemainingCooldownInMs() > 0) {
+            if (shaiHulud.getRemainingCooldownInMilliseconds() > 0) {
                 var x = toolBar.getShaiHuludButton().getCenterX() + toolBar.getX();
                 var y = toolBar.getShaiHuludButton().getCenterY() + toolBar.getY();
                 var radius = toolBar.getShaiHuludButton().getButtonRadius() / 2f;
-                var degrees = shaiHulud.getRemainingCooldownInMs() / (float) SHAI_HULUD_COOLDOWN_IN_MS * 360f;
+                var degrees = shaiHulud.getRemainingCooldownInMilliseconds() / (float) SHAI_HULUD_COOLDOWN_IN_MS * 360f;
                 Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
                 shapeRenderer.setColor(REMAINING_COOLDOWN_COLOR);
@@ -149,7 +149,7 @@ public final class Hud implements Disposable {
             }
         }
 
-        escapeMenuStage.act(deltaTime);
+        escapeMenuStage.act(deltaTimeInSeconds);
         escapeMenuStage.draw();
     }
 

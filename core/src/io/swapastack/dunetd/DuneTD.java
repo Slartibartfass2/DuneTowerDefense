@@ -26,6 +26,10 @@ public final class DuneTD extends Game {
     @Getter
     private AssetLoader assetLoader;
 
+    public DuneTD() {
+        // Initialization is done in create method
+    }
+
     @Override
     public void create() {
         // Load settings
@@ -77,6 +81,7 @@ public final class DuneTD extends Game {
             case SETTINGS -> setScreen(new SettingsScreen(this));
             case HIGHSCORE -> setScreen(new HighscoreScreen(this));
             case CREDITS -> setScreen(new CreditsScreen(this));
+            default -> throw new IllegalStateException("Unexpected value: " + screen);
         }
     }
 

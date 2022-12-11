@@ -84,13 +84,13 @@ public final class GameModelTower implements GameModelInterface {
     /**
      * Updates the animationController of the model.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInSeconds The time in seconds since the last update
      */
     @Override
-    public void updateAnimation(float deltaTime) {
-        baseTowerPart.updateAnimation(deltaTime);
+    public void updateAnimation(float deltaTimeInSeconds) {
+        baseTowerPart.updateAnimation(deltaTimeInSeconds);
         if (topTowerPart != null) {
-            topTowerPart.updateAnimation(deltaTime);
+            topTowerPart.updateAnimation(deltaTimeInSeconds);
         }
     }
 
@@ -123,7 +123,7 @@ public final class GameModelTower implements GameModelInterface {
         }
         return new Scene[]{
                 baseTowerPart.getScene(),
-                topTowerPart.getScene()
+                topTowerPart.getScene(),
         };
     }
 

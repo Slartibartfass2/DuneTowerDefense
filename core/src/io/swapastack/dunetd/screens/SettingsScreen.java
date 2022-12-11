@@ -45,7 +45,6 @@ public final class SettingsScreen extends AbstractScreen {
         vsyncCheckbox.setChecked(settings.getVSync());
 
         // Monitor selection
-        var monitorLabel = new VisLabel("Monitor: ");
         var monitorSelectBox = new VisSelectBox<MonitorSetting>();
 
         // Get all available monitors
@@ -75,6 +74,7 @@ public final class SettingsScreen extends AbstractScreen {
         table.add(vsyncCheckbox).left().row();
 
         // Monitor selection
+        var monitorLabel = new VisLabel("Monitor: ");
         var monitorSelectionTable = new VisTable(true);
         monitorSelectionTable.add(monitorLabel).left();
         monitorSelectionTable.add(monitorSelectBox).left();
@@ -138,7 +138,8 @@ public final class SettingsScreen extends AbstractScreen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2353f, 0.2471f, 0.2549f, 1);
+        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
+                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stage.act(delta);
         stage.draw();

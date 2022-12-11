@@ -47,12 +47,12 @@ public abstract class Tower extends Entity {
     /**
      * Time in milliseconds needed to reload
      */
-    protected final int reloadTimeInMs;
+    protected final int reloadTimeInMilliseconds;
 
     /**
      * Current reload time in milliseconds
      */
-    protected int currentReloadTimeInMs;
+    protected int currentReloadTimeInMilliseconds;
 
     /**
      * True if this tower is a debris (if getting destroyed by the shai hulud)
@@ -63,23 +63,23 @@ public abstract class Tower extends Entity {
     /**
      * Creates a new tower with a specified position, range, build cost and reload time.
      *
-     * @param x                X coordinate of position
-     * @param y                Y coordinate of position
-     * @param range            Range of the tower, in which it attacks hostile units
-     * @param buildCost        Costs to build this tower
-     * @param reloadTimeInMs   Time in milliseconds needed to reload
-     * @param entityController Controller for towers
-     * @param startRotation    Start rotation of game model
+     * @param x                        X coordinate of position
+     * @param y                        Y coordinate of position
+     * @param range                    Range of the tower, in which it attacks hostile units
+     * @param buildCost                Costs to build this tower
+     * @param reloadTimeInMilliseconds Time in milliseconds needed to reload
+     * @param entityController         Controller for towers
+     * @param startRotation            Start rotation of game model
      */
-    protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMs,
+    protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMilliseconds,
                     @Nullable EntityController entityController, float startRotation) {
         super(x, y, entityController, startRotation);
 
         this.range = range;
         rangeSquared = range * range;
         this.buildCost = buildCost;
-        this.reloadTimeInMs = reloadTimeInMs;
-        currentReloadTimeInMs = 0;
+        this.reloadTimeInMilliseconds = reloadTimeInMilliseconds;
+        currentReloadTimeInMilliseconds = 0;
         isDebris = false;
     }
 
@@ -96,22 +96,22 @@ public abstract class Tower extends Entity {
      * Updates the logic of this tower (waiting for reload, attacking when reload finished, doing nothing when this
      * tower is a debris).
      *
-     * @param hostileUnits Hostile units available on the grid
-     * @param deltaTime    The time in seconds since the last update
+     * @param hostileUnits            Hostile units available on the grid
+     * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    public final void update(@NonNull List<HostileUnit> hostileUnits, float deltaTime) {
+    public final void update(@NonNull List<HostileUnit> hostileUnits, float deltaTimeInMilliseconds) {
         if (isDebris) {
             return;
         }
 
         // Subtract time passed from reload time
-        if (currentReloadTimeInMs > 0) {
-            currentReloadTimeInMs -= deltaTime * 1000;
+        if (currentReloadTimeInMilliseconds > 0) {
+            currentReloadTimeInMilliseconds -= deltaTimeInMilliseconds;
         }
 
         // Attack as long as current reload time is less than or equal to zero (if delta time > reload time)
-        while (target(hostileUnits, currentReloadTimeInMs <= 0)) {
-            currentReloadTimeInMs += reloadTimeInMs;
+        while (target(hostileUnits, currentReloadTimeInMilliseconds <= 0)) {
+            currentReloadTimeInMilliseconds += reloadTimeInMilliseconds;
         }
     }
 

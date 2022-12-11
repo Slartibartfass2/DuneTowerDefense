@@ -8,21 +8,25 @@ import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.DamageTower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import lombok.NonNull;
 
 class GameHandlerTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
-            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MS");
+            .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {
@@ -32,7 +36,6 @@ class GameHandlerTest {
                 setSpice(gameHandler, Integer.MAX_VALUE);
 
                 for (int x = 0; x < width; x++) {
-                    loop:
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
                         if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
@@ -40,11 +43,17 @@ class GameHandlerTest {
                             Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
                             continue;
                         }
+
+                        var doBreak = false;
                         for (var wayPoint : gameHandler.getPath().getWaypoints()) {
                             if (wayPoint.equals(position)) {
                                 // could be true or false depending on if there's another path
-                                continue loop;
+                                doBreak = true;
+                                break;
                             }
+                        }
+                        if (doBreak) {
+                            break;
                         }
 
                         Assertions.assertTrue(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
@@ -264,17 +273,22 @@ class GameHandlerTest {
                 setSpice(gameHandler, Integer.MAX_VALUE);
 
                 for (int x = 0; x < width; x++) {
-                    loop:
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
                         if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
                                 || gameHandler.getEndPortal().getGridPosition2d().equals(position)) {
                             continue;
                         }
+
+                        var doBreak = false;
                         for (var wayPoint : gameHandler.getPath().getWaypoints()) {
                             if (wayPoint.equals(position)) {
-                                continue loop;
+                                doBreak = true;
+                                break;
                             }
+                        }
+                        if (doBreak) {
+                            break;
                         }
 
                         Assertions.assertTrue(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
@@ -289,8 +303,8 @@ class GameHandlerTest {
 
     @Test
     void testUpdateUntilGameIsLost() throws NoSuchFieldException, IllegalAccessException {
-        // deltaTime is ~ 60 FPS
-        var deltaTime = 0.0166f;
+        // deltaTimeInMilliseconds is ~ 60 FPS
+        var deltaTimeInMilliseconds = 16.6f;
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -299,21 +313,21 @@ class GameHandlerTest {
                 while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                     // Build phase
                     while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
-                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMs() <= 0);
+                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMilliseconds() <= 0);
                     Assertions.assertSame(GamePhase.WAVE_PHASE, gameHandler.getGamePhase());
                     Assertions.assertTrue(gameHandler.getNumberOfRemainingHostileUnits() > 0);
                     Assertions.assertTrue(gameHandler.isGameStarted());
 
                     // Wave phase
                     while (gameHandler.getGamePhase() == GamePhase.WAVE_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
 
                     if (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                         Assertions.assertEquals(GAME_BUILD_PHASE_DURATION_IN_MS,
-                                gameHandler.getRemainingBuildPhaseDurationInMs());
+                                gameHandler.getRemainingBuildPhaseDurationInMilliseconds());
                         Assertions.assertSame(GamePhase.BUILD_PHASE, gameHandler.getGamePhase());
                     }
                 }
@@ -326,8 +340,8 @@ class GameHandlerTest {
     // Achtung geht 20-30 Sekunden
     @Test
     void testUpdateUntilGameIsWon() throws NoSuchFieldException, IllegalAccessException {
-        // deltaTime is ~ 60 FPS
-        var deltaTime = 0.0166f;
+        // deltaTimeInMilliseconds is ~ 60 FPS
+        var deltaTimeInMilliseconds = 16.6f;
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
@@ -342,21 +356,21 @@ class GameHandlerTest {
                 while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                     // Build phase
                     while (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
-                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMs() <= 0);
+                    Assertions.assertTrue(gameHandler.getRemainingBuildPhaseDurationInMilliseconds() <= 0);
                     Assertions.assertSame(GamePhase.WAVE_PHASE, gameHandler.getGamePhase());
                     Assertions.assertTrue(gameHandler.getNumberOfRemainingHostileUnits() > 0);
                     Assertions.assertTrue(gameHandler.isGameStarted());
 
                     // Wave phase
                     while (gameHandler.getGamePhase() == GamePhase.WAVE_PHASE) {
-                        gameHandler.update(deltaTime);
+                        gameHandler.update(deltaTimeInMilliseconds);
                     }
 
                     if (gameHandler.getGamePhase() == GamePhase.BUILD_PHASE) {
                         Assertions.assertEquals(GAME_BUILD_PHASE_DURATION_IN_MS,
-                                gameHandler.getRemainingBuildPhaseDurationInMs());
+                                gameHandler.getRemainingBuildPhaseDurationInMilliseconds());
                         Assertions.assertSame(GamePhase.BUILD_PHASE, gameHandler.getGamePhase());
                     }
                 }

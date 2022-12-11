@@ -8,19 +8,22 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class DuneTDMathTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testGetAngleWithNullArguments() {

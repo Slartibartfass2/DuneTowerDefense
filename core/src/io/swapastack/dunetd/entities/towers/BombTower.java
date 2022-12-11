@@ -30,15 +30,15 @@ public final class BombTower extends DamageTower {
             .getIntProperty("BOMB_TOWER_BUILD_COST");
 
     /**
-     * @see Tower#reloadTimeInMs
+     * @see DamageTower#damage
      */
     private static final int BOMB_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("BOMB_TOWER_DAMAGE");
 
     /**
-     * @see DamageTower#damage
+     * @see Tower#reloadTimeInMilliseconds
      */
-    private static final int BOMB_TOWER_RELOAD_TIME_IN_MS = Configuration.getInstance()
-            .getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MS");
+    private static final int BOMB_TOWER_RELOAD_TIME_IN_MILLISECONDS = Configuration.getInstance()
+            .getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MILLISECONDS");
 
     /**
      * Range around first found hostile unit, in which any other hostile units are attacked
@@ -64,8 +64,8 @@ public final class BombTower extends DamageTower {
      * @param entityController Controller for towers
      */
     public BombTower(int x, int y, @Nullable EntityController entityController) {
-        super(x, y, BOMB_TOWER_RANGE, BOMB_TOWER_BUILD_COST, BOMB_TOWER_DAMAGE, BOMB_TOWER_RELOAD_TIME_IN_MS,
-                entityController);
+        super(x, y, BOMB_TOWER_RANGE, BOMB_TOWER_BUILD_COST, BOMB_TOWER_DAMAGE,
+                BOMB_TOWER_RELOAD_TIME_IN_MILLISECONDS, entityController);
     }
 
     /**

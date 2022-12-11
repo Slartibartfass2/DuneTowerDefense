@@ -11,6 +11,10 @@ import lombok.NonNull;
  */
 public final class EntityHeuristic implements Heuristic<EntityNode> {
 
+    public EntityHeuristic() {
+        // TODO: maybe change this class
+    }
+
     /**
      * Calculates an estimated cost to reach the goal node from the given node.
      *

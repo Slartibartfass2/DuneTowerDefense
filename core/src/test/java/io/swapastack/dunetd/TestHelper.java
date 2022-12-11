@@ -5,26 +5,23 @@ import io.swapastack.dunetd.config.Configuration;
 import java.io.IOException;
 import java.util.Properties;
 
-public class TestHelper {
+public final class TestHelper {
 
-    public static void readConfigFile() {
-        try {
-            // Get properties field and initialize it
-            var propertiesField = Configuration.class.getDeclaredField("properties");
-            propertiesField.setAccessible(true);
-            var properties = (Properties) propertiesField.get(null);
-            properties = new Properties();
+    private TestHelper() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 
-            // Load properties from test config file
-            try (var inputStream = TestHelper.class.getClassLoader().getResourceAsStream("test_config.properties")) {
-                properties.load(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public static void readConfigFile() throws IOException, NoSuchFieldException, IllegalAccessException {
+        // Get properties field and initialize it
+        var propertiesField = Configuration.class.getDeclaredField("properties");
+        propertiesField.setAccessible(true);
+        var properties = (Properties) propertiesField.get(null);
+        properties = new Properties();
 
-            propertiesField.set(null, properties);
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            ex.printStackTrace();
+        try (var inputStream = TestHelper.class.getClassLoader().getResourceAsStream("test_config.properties")) {
+            properties.load(inputStream);
         }
+
+        propertiesField.set(null, properties);
     }
 }

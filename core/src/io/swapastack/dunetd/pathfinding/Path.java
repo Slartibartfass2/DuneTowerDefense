@@ -116,7 +116,7 @@ public final class Path {
      * @return True, if testValue is in between the two limit values, otherwise false
      */
     private boolean isValueInBetween(float value1, float value2, float testValue) {
-        return (value1 > testValue && testValue > value2) || (value1 < testValue && testValue < value2);
+        return value1 > testValue && testValue > value2 || value1 < testValue && testValue < value2;
     }
 
     /**

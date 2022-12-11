@@ -9,19 +9,22 @@ import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class SoundTowerTest {
 
-    static {
+    private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
         TestHelper.readConfigFile();
     }
-
-    private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
 
     @Test
     void testTargetWithInvalidArguments() {
@@ -35,7 +38,7 @@ class SoundTowerTest {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
             new Infantry(Vector2.Zero),
             new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero)
+            new BossUnit(Vector2.Zero),
         }).toList();
 
         Assertions.assertFalse(soundTower.target(hostileUnits, false));
@@ -57,7 +60,7 @@ class SoundTowerTest {
             new BossUnit(new Vector2(SOUND_TOWER_RANGE, 0f)),
             new Infantry(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
             new Harvester(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
-            new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f))
+            new BossUnit(new Vector2(SOUND_TOWER_RANGE + 1, 0f)),
         }).toList();
 
         Assertions.assertTrue(soundTower.target(hostileUnits, true));

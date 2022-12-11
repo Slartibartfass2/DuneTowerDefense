@@ -82,11 +82,11 @@ public final class GameModelPart {
     /**
      * Updates animation of this model.
      *
-     * @param deltaTime The time in seconds since the last update
+     * @param deltaTimeInSeconds The time in seconds since the last update
      */
-    public void updateAnimation(float deltaTime) {
+    public void updateAnimation(float deltaTimeInSeconds) {
         if (scene.animationController != null) {
-            scene.animationController.update(deltaTime);
+            scene.animationController.update(deltaTimeInSeconds);
         }
     }
 
