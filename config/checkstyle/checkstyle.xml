@@ -106,9 +106,11 @@
         <module name="MissingCtor"/>
         <module name="MissingSwitchDefault"/>
         <module name="ModifiedControlVariable"/>
-<!--        <module name="MultipleStringLiterals"/> TODO maybe higher tolerance e.g. 2 -->
+        <module name="MultipleStringLiterals">
+            <property name="allowedDuplicates" value="2"/>
+        </module>
         <module name="MultipleVariableDeclarations"/>
-<!--        <module name="NestedForDepth"/>-->
+<!--        <module name="NestedForDepth"/> TODO: replace test for loops with test cases -->
         <module name="NestedIfDepth"/>
         <module name="NestedTryDepth"/>
         <module name="NoClone"/>
