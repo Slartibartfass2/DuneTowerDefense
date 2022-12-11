@@ -1,8 +1,10 @@
 package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.assets.controller.EntityController;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import lombok.NonNull;
 
@@ -40,34 +42,17 @@ public enum TowerEnum {
     /**
      * Creates a tower from tower enum.
      *
-     * @param x                X position of tower in grid
-     * @param y                Y position of tower in grid
+     * @param position         Position of the power
      * @param entityController Controller for towers
      * @return The tower object created from the tower enum
      */
     @NotNull
-    public Tower toTower(int x, int y, EntityController entityController) {
-        switch (this) {
-            case GUARD_TOWER -> {
-                if (entityController == null) {
-                    return new GuardTower(x, y);
-                }
-                return new GuardTower(x, y, entityController);
-            }
-            case BOMB_TOWER -> {
-                if (entityController == null) {
-                    return new BombTower(x, y);
-                }
-                return new BombTower(x, y, entityController);
-            }
-            case SOUND_TOWER -> {
-                if (entityController == null) {
-                    return new SoundTower(x, y);
-                }
-                return new SoundTower(x, y, entityController);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + this);
-        }
+    public Tower toTower(@NonNull Vector2 position, @Nullable EntityController entityController) {
+        return switch (this) {
+            case GUARD_TOWER -> new GuardTower(position, entityController);
+            case BOMB_TOWER -> new BombTower(position, entityController);
+            case SOUND_TOWER -> new SoundTower(position, entityController);
+        };
     }
 
     /**

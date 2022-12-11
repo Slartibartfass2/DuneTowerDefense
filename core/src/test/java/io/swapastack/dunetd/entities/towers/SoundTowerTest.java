@@ -1,13 +1,12 @@
 package io.swapastack.dunetd.entities.towers;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,11 +33,11 @@ class SoundTowerTest {
 
     @Test
     void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
-        var soundTower = new SoundTower(0, 0);
+        var soundTower = new SoundTower(Vector2.ZERO, null);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.Zero),
-            new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero),
+            new Infantry(Vector2.ZERO),
+            new Harvester(Vector2.ZERO),
+            new BossUnit(Vector2.ZERO),
         }).toList();
 
         Assertions.assertFalse(soundTower.target(hostileUnits, false));
@@ -50,11 +49,11 @@ class SoundTowerTest {
 
     @Test
     void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
-        var soundTower = new SoundTower(0, 0);
+        var soundTower = new SoundTower(Vector2.ZERO, null);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.Zero),
-            new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero),
+            new Infantry(Vector2.ZERO),
+            new Harvester(Vector2.ZERO),
+            new BossUnit(Vector2.ZERO),
             new Infantry(new Vector2(SOUND_TOWER_RANGE, 0f)),
             new Harvester(new Vector2(SOUND_TOWER_RANGE, 0f)),
             new BossUnit(new Vector2(SOUND_TOWER_RANGE, 0f)),
@@ -76,11 +75,7 @@ class SoundTowerTest {
     }
 
     SoundTower getRandomSoundTower() {
-        var random = new Random();
-        int x = random.nextInt();
-        int y = random.nextInt();
-
-        return new SoundTower(x, y);
+        return new SoundTower(new Vector2(new Random().nextInt(), new Random().nextInt()), null);
     }
 
     float getSpeed(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {

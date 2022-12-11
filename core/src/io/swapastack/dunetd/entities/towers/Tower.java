@@ -1,12 +1,11 @@
 package io.swapastack.dunetd.entities.towers;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.math.DuneTDMath;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +62,16 @@ public abstract class Tower extends Entity {
     /**
      * Creates a new tower with a specified position, range, build cost and reload time.
      *
-     * @param x                        X coordinate of position
-     * @param y                        Y coordinate of position
+     * @param position                 Position of this tower
      * @param range                    Range of the tower, in which it attacks hostile units
      * @param buildCost                Costs to build this tower
      * @param reloadTimeInMilliseconds Time in milliseconds needed to reload
      * @param entityController         Controller for towers
      * @param startRotation            Start rotation of game model
      */
-    protected Tower(int x, int y, float range, int buildCost, int reloadTimeInMilliseconds,
+    protected Tower(@NonNull Vector2 position, float range, int buildCost, int reloadTimeInMilliseconds,
                     @Nullable EntityController entityController, float startRotation) {
-        super(x, y, entityController, startRotation);
+        super(position, entityController, startRotation);
 
         this.range = range;
         rangeSquared = range * range;
@@ -84,7 +82,7 @@ public abstract class Tower extends Entity {
     }
 
     /**
-     * Adds game model of this tower to the scene manager
+     * Adds game model of this tower to the scene manager.
      */
     public void show() {
         if (support != null) {
@@ -116,8 +114,8 @@ public abstract class Tower extends Entity {
     }
 
     /**
-     * Rotates to a hostile unit in range and attacks one or more hostile units in <code>hostileUnits</code> if possible
-     * and allowed by <code>killOrder</code>.
+     * Rotates to a hostile unit in range and attacks one or more hostile units in {@code hostileUnits} if possible
+     * and allowed by {@code killOrder}.
      *
      * @param hostileUnits Hostile units available to target
      * @param killOrder    If this tower should also shoot the target
@@ -126,15 +124,14 @@ public abstract class Tower extends Entity {
     protected abstract boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder);
 
     /**
-     * Checks if there are hostile units in <code>hostileUnits</code>, which are in range of this tower and returns
-     * them.
+     * Checks if there are hostile units in {@code hostileUnits}, which are in range of this tower and returns them.
      *
      * @param hostileUnits Hostile units on the grid
      * @return Hostile units, which are in range of the tower
      */
     @NotNull
     protected final ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull List<HostileUnit> hostileUnits) {
-        return getHostileUnitsInRange(hostileUnits, new Vector2(x, y), rangeSquared);
+        return getHostileUnitsInRange(hostileUnits, getPosition(), rangeSquared);
     }
 
     /**
@@ -159,7 +156,7 @@ public abstract class Tower extends Entity {
 
             // Calculate distance squared
             var hostileUnitPosition = hostileUnit.getPosition();
-            var distanceSquared = position.dst2(hostileUnitPosition);
+            var distanceSquared = position.getDistanceSquared(hostileUnitPosition);
 
             if (distanceSquared <= rangeSquared) {
                 hostileUnitsInRange.add(hostileUnit);
@@ -170,23 +167,7 @@ public abstract class Tower extends Entity {
     }
 
     /**
-     * Changes position of this tower and updates its game model
-     *
-     * @param x X coordinate of new position on the grid
-     * @param y Y coordinate of new position on the grid
-     */
-    public final void rePosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-
-        if (support != null) {
-            var gameModelData = new GameModelData(-1f, new Vector2(x, y));
-            support.firePropertyChange(EntityController.UPDATE_EVENT_NAME, null, gameModelData);
-        }
-    }
-
-    /**
-     * Rotates the game model of this tower to face <code>hostileUnit</code>.
+     * Rotates the game model of this tower to face {@code hostileUnit}.
      *
      * @param hostileUnit Hostile unit to rotate to
      */
@@ -195,8 +176,8 @@ public abstract class Tower extends Entity {
             return;
         }
 
-        float rotation = DuneTDMath.getAngle(hostileUnit.getPosition(), new Vector2(x, y));
-        var gameModelData = new GameModelData(rotation, new Vector2(x, y));
+        float rotation = DuneTDMath.getAngle(hostileUnit.getPosition(), getPosition());
+        var gameModelData = new GameModelData(rotation, getPosition());
         support.firePropertyChange(EntityController.UPDATE_EVENT_NAME, null, gameModelData);
     }
 
@@ -211,7 +192,7 @@ public abstract class Tower extends Entity {
     }
 
     /**
-     * Removes game model of this tower from scene manager
+     * Removes game model of this tower from scene manager.
      */
     public void destroy() {
         if (support != null) {

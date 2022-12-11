@@ -3,6 +3,7 @@ package io.swapastack.dunetd.entities.towers;
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.util.List;
 
@@ -49,22 +50,11 @@ public final class SoundTower extends Tower {
     /**
      * Creates a new sound tower with a specified position.
      *
-     * @param x X coordinate of position
-     * @param y Y coordinate of position
-     */
-    public SoundTower(int x, int y) {
-        this(x, y, null);
-    }
-
-    /**
-     * Creates a new sound tower with a specified position.
-     *
-     * @param x                X coordinate of position
-     * @param y                Y coordinate of position
+     * @param position         Position of this sound tower
      * @param entityController Controller for towers
      */
-    public SoundTower(int x, int y, @Nullable EntityController entityController) {
-        super(x, y, SOUND_TOWER_RANGE, SOUND_TOWER_BUILD_COST, SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS,
+    public SoundTower(@NonNull Vector2 position, @Nullable EntityController entityController) {
+        super(position, SOUND_TOWER_RANGE, SOUND_TOWER_BUILD_COST, SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS,
                 entityController, 0f);
     }
 
