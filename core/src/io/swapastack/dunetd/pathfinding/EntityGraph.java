@@ -180,7 +180,7 @@ public final class EntityGraph implements IndexedGraph<EntityNode> {
             throw new IllegalArgumentException("startPosition and endPosition must be inside the grid");
         }
 
-        GraphPath<EntityNode> entityPath = new DefaultGraphPath<>();
+        var entityPath = new DefaultGraphPath<EntityNode>();
         new IndexedAStarPathFinder<>(this).searchNodePath(startNode, endNode, new EntityHeuristic(), entityPath);
         return entityPath;
     }

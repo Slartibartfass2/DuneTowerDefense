@@ -8,21 +8,25 @@ import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.DamageTower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import lombok.NonNull;
 
 class GameHandlerTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
             .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testBuildTowerWithEndlessSpice() throws NoSuchFieldException, IllegalAccessException {

@@ -5,17 +5,21 @@ import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class InfantryTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int INFANTRY_SPICE_REWARD = Configuration.getInstance()
             .getIntProperty("INFANTRY_SPICE_REWARD");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testSlowDown() {

@@ -130,7 +130,7 @@ public final class GameScreen extends AbstractScreen {
 
         hud.create(cameraFocusPosition);
 
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        var inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud.getEscapeMenuStage());
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);

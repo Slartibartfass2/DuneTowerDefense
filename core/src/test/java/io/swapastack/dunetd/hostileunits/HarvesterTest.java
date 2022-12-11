@@ -6,19 +6,23 @@ import com.badlogic.gdx.math.Vector2;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class HarvesterTest {
-
-    static {
-        TestHelper.readConfigFile();
-    }
 
     private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance()
             .getIntProperty("HARVESTER_SPICE_REWARD");
     private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance()
             .getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testSlowDown() {

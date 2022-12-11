@@ -8,17 +8,21 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class EntityGraphTest {
 
-    static {
-        TestHelper.readConfigFile();
-    }
-
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
+
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+        TestHelper.readConfigFile();
+    }
 
     @Test
     void testConstructorWithValidArguments() {
@@ -69,13 +73,18 @@ class EntityGraphTest {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         var positionOutsideGrid = new Vector2(2, 0);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(null, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(Vector2.Zero, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(null, Vector2.Zero));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(positionOutsideGrid, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(null, positionOutsideGrid));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.findPath(positionOutsideGrid,
-                positionOutsideGrid));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> entityGraph.findPath(null, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> entityGraph.findPath(Vector2.Zero, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> entityGraph.findPath(null, Vector2.Zero));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> entityGraph.findPath(positionOutsideGrid, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> entityGraph.findPath(null, positionOutsideGrid));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> entityGraph.findPath(positionOutsideGrid, positionOutsideGrid));
     }
 
     @Test

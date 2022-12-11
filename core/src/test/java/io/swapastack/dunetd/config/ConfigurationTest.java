@@ -2,12 +2,16 @@ package io.swapastack.dunetd.config;
 
 import io.swapastack.dunetd.TestHelper;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class ConfigurationTest {
 
-    static {
+    @BeforeAll
+    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
         TestHelper.readConfigFile();
     }
 

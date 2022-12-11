@@ -152,9 +152,9 @@ public final class GameGround {
      */
     private void addTileToGround(int x, int y, @NonNull GameModelSingle gridTile, float rotation) {
         groundGrid[x][y] = gridTile;
-        BoundingBox boundingBox = new BoundingBox();
+        var boundingBox = new BoundingBox();
         gridTile.getScene().modelInstance.calculateBoundingBox(boundingBox);
-        Vector3 modelDimensions = new Vector3();
+        var modelDimensions = new Vector3();
         boundingBox.getDimensions(modelDimensions);
         modelDimensions.scl(0.5f);
         gridTile.rePositionAndRotate(

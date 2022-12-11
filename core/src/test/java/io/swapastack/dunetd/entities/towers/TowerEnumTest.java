@@ -3,6 +3,7 @@ package io.swapastack.dunetd.entities.towers;
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -39,7 +40,7 @@ class TowerEnumTest {
     }
 
     @Test
-    void testToTowerExpectedOutput() {
+    void testToTowerExpectedOutput() throws IOException, NoSuchFieldException, IllegalAccessException {
         TestHelper.readConfigFile();
 
         var towerEnum0 = TowerEnum.GUARD_TOWER;
