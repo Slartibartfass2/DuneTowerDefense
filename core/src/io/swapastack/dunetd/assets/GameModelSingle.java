@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.assets;
 
-import com.badlogic.gdx.math.Vector3;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.Scene;
@@ -21,7 +21,7 @@ public final class GameModelSingle implements GameModelInterface {
      */
     @Override
     public void rePositionAndRotate(@NonNull Vector3 newPosition, float rotation) {
-        gameModelPart.setPosition(newPosition.cpy());
+        gameModelPart.setPosition(newPosition);
         gameModelPart.setRotation(rotation);
         gameModelPart.update();
     }
@@ -33,18 +33,7 @@ public final class GameModelSingle implements GameModelInterface {
      */
     @Override
     public void rePosition(@NonNull Vector3 newPosition) {
-        gameModelPart.setPosition(newPosition.cpy());
-        gameModelPart.update();
-    }
-
-    /**
-     * Sets the rotation of the model and updates the model.
-     *
-     * @param rotation New rotation of the model
-     */
-    @Override
-    public void rotate(float rotation) {
-        gameModelPart.setRotation(rotation);
+        gameModelPart.setPosition(newPosition);
         gameModelPart.update();
     }
 

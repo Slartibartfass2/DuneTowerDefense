@@ -1,11 +1,10 @@
 package io.swapastack.dunetd.assets.controller;
 
-import com.badlogic.gdx.math.Vector3;
-
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,15 +16,20 @@ public final class ShaiHuludController implements PropertyChangeListener {
 
     // Event names
     public static final String CREATE_EVENT_NAME = "create";
+
     public static final String SHOW_EVENT_NAME = "show";
+
     public static final String UPDATE_EVENT_NAME = "update";
+
     public static final String VANISH_EVENT_NAME = "vanish";
 
     // Exception messages
     private static final String GAME_MODEL_MISSING_MESSAGE = "The game model has not been initialized";
 
     private final SceneManager sceneManager;
+
     private final AssetLoader assetLoader;
+
     private GameModelSingle gameModel;
 
     public ShaiHuludController(@NonNull SceneManager sceneManager, @NonNull AssetLoader assetLoader) {
@@ -74,7 +78,7 @@ public final class ShaiHuludController implements PropertyChangeListener {
         }
 
         // Add scene of game model to scene manager and bring shai hulud in its initial position and rotation
-        var newGameModelPosition = new Vector3(shaiHuludModelData.position().x, 0f, shaiHuludModelData.position().y);
+        var newGameModelPosition = Vector3.fromVector2(shaiHuludModelData.position(), 0);
         gameModel.rePositionAndRotate(newGameModelPosition, shaiHuludModelData.rotation());
         sceneManager.addScene(gameModel.getScene());
     }
@@ -90,7 +94,7 @@ public final class ShaiHuludController implements PropertyChangeListener {
         }
 
         // Update position and rotation of shai hulud
-        var newGameModelPosition = new Vector3(shaiHuludModelData.position().x, 0f, shaiHuludModelData.position().y);
+        var newGameModelPosition = Vector3.fromVector2(shaiHuludModelData.position(), 0);
         gameModel.rePositionAndRotate(newGameModelPosition, shaiHuludModelData.rotation());
     }
 

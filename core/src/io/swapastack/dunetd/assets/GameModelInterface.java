@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.assets;
 
-import com.badlogic.gdx.math.Vector3;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.Scene;
@@ -22,13 +22,6 @@ public interface GameModelInterface {
      */
     void rePosition(@NonNull Vector3 newPosition);
 
-    /**
-     * Sets the rotation of the model and updates the model.
-     *
-     * @param rotation New rotation of the model
-     */
-    void rotate(float rotation);
-    
     /**
      * Updates the animationController of the model.
      *

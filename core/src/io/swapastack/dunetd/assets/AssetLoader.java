@@ -5,7 +5,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
@@ -15,6 +14,7 @@ import io.swapastack.dunetd.entities.portals.Portal;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import io.swapastack.dunetd.math.PixelsConverter;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import java.util.HashMap;
 
@@ -215,7 +215,7 @@ public final class AssetLoader implements Disposable {
 
         return new GameModelSingle(
                 new GameModelPart(sceneAssetHashMap.get(PORTAL_PATH).scene, PORTAL_MODEL_SCALE, 0f,
-                        portal.getGridPosition3d())
+                        Vector3.fromVector2(portal.getPosition(), 0))
         );
     }
 
@@ -226,7 +226,7 @@ public final class AssetLoader implements Disposable {
 
         return new GameModelSingle(
                 new GameModelPart(sceneAssetHashMap.get(SHAI_HULUD_MODEL_PATH).scene, SHAI_HULUD_MODEL_SCALE, 0f,
-                        Vector3.Zero)
+                        Vector3.ZERO)
         );
     }
 
@@ -268,7 +268,7 @@ public final class AssetLoader implements Disposable {
 
         return new GameModelSingle(
                 new GameModelPart(sceneAssetHashMap.get(hostileUnitModelPath).scene, hostileUnitModelScale, 0f,
-                        Vector3.Zero, offsetRotation, new Vector3(0f, offsetY, 0f))
+                        Vector3.ZERO, offsetRotation, new Vector3(0f, offsetY, 0f))
         );
     }
 
@@ -284,7 +284,7 @@ public final class AssetLoader implements Disposable {
         };
 
         return new GameModelSingle(
-                new GameModelPart(sceneAssetHashMap.get(scenePath).scene, GROUND_MODEL_SCALE, 0f, Vector3.Zero)
+                new GameModelPart(sceneAssetHashMap.get(scenePath).scene, GROUND_MODEL_SCALE, 0f, Vector3.ZERO)
         );
     }
 }
