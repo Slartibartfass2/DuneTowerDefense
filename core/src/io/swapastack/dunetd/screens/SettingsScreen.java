@@ -45,7 +45,6 @@ public final class SettingsScreen extends AbstractScreen {
         vsyncCheckbox.setChecked(settings.getVSync());
 
         // Monitor selection
-        var monitorLabel = new VisLabel("Monitor: ");
         var monitorSelectBox = new VisSelectBox<MonitorSetting>();
 
         // Get all available monitors
@@ -75,6 +74,7 @@ public final class SettingsScreen extends AbstractScreen {
         table.add(vsyncCheckbox).left().row();
 
         // Monitor selection
+        var monitorLabel = new VisLabel("Monitor: ");
         var monitorSelectionTable = new VisTable(true);
         monitorSelectionTable.add(monitorLabel).left();
         monitorSelectionTable.add(monitorSelectBox).left();

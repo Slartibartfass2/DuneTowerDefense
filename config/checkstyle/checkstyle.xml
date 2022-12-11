@@ -119,7 +119,6 @@
         <module name="PackageDeclaration"/>
         <module name="ParameterAssignment"/>
         <module name="RequireThis"/>
-<!--        <module name="ReturnCount"/>-->
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
@@ -128,8 +127,10 @@
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
         <module name="UnnecessarySemicolonInEnumeration"/>
         <module name="UnnecessarySemicolonInTryWithResources"/>
-<!--        <module name="UnusedLocalVariable"/>-->
-<!--        <module name="VariableDeclarationUsageDistance"/>-->
+        <module name="UnusedLocalVariable"/>
+        <module name="VariableDeclarationUsageDistance">
+            <property name="allowedDistance" value="5"/>
+        </module>
 
         <!-- Headers  TODO could be useful check out -->
 <!--        <module name="Header"/>-->

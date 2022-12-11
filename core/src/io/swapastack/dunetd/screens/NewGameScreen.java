@@ -31,9 +31,6 @@ public final class NewGameScreen extends AbstractScreen {
      */
     @Override
     public void show() {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-
         // Spinners to set grid dimensions
         gridWidthSpinner = new Spinner("Width", new IntSpinnerModel(settings.getGridWidth(), 2,
                 MAX_GRID_WIDTH, 1));
@@ -58,6 +55,9 @@ public final class NewGameScreen extends AbstractScreen {
         table.row();
         table.add(backToMainMenuButton);
         table.add(startNewGameButton);
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
 
         table.setPosition(width / 2f, height / 2f);
         stage.addActor(table);
