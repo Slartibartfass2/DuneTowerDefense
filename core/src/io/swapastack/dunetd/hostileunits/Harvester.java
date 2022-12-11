@@ -18,12 +18,12 @@ import lombok.NonNull;
 public final class Harvester extends HostileUnit {
 
     /**
-     * @see HostileUnit#speed
+     * @see HostileUnit#getSpeed()
      */
     private static final float HARVESTER_SPEED = Configuration.getInstance().getFloatProperty("HARVESTER_SPEED");
 
     /**
-     * @see HostileUnit#health
+     * @see HostileUnit#getHealth()
      */
     private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance()
             .getIntProperty("HARVESTER_INITIAL_HEALTH");
@@ -61,21 +61,6 @@ public final class Harvester extends HostileUnit {
     }
 
     /**
-     * Slows down the harvester by decreasing the speed to the value of <code>speed * slowingEffectMultiplier *
-     * SLOWING_EFFECT_RESISTANCE_MULTIPLIER</code>. The effect lasts as long as the specified
-     * slowingEffectDurationInMilliseconds. The slowing effect can't exceed the range [0, 1].
-     *
-     * @param slowingEffectMultiplier                    Value to multiply with speed to set the new speed
-     * @param appliedSlowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
-     */
-    @Override
-    public void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds) {
-        var slowingEffect = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
-        currentSpeed = speed * slowingEffect;
-        this.slowingEffectDurationInMilliseconds = appliedSlowingEffectDurationInMilliseconds;
-    }
-
-    /**
      * Returns the spice reward for killing this harvester.
      *
      * @return Spice reward for killing this harvester
@@ -83,5 +68,10 @@ public final class Harvester extends HostileUnit {
     @Override
     public int getSpiceReward() {
         return HARVESTER_SPICE_REWARD;
+    }
+
+    @Override
+    protected float getSlowingEffect(float slowingEffectMultiplier) {
+        return MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
     }
 }

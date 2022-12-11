@@ -21,17 +21,6 @@ class InfantryTest {
     }
 
     @Test
-    void testSlowDown() {
-        for (int i = 1; i < 10; i++) {
-            var infantry = new Infantry(Vector2.ZERO);
-            var slowingEffectMultiplier = 0.1f * i;
-            infantry.slowDown(slowingEffectMultiplier, 100);
-            Assertions.assertEquals(infantry.speed * slowingEffectMultiplier, infantry.currentSpeed, 0f);
-            Assertions.assertTrue(infantry.speed >= infantry.currentSpeed);
-        }
-    }
-
-    @Test
     void testGetSpiceReward() {
         var infantry = new Infantry(Vector2.ZERO);
         Assertions.assertEquals(INFANTRY_SPICE_REWARD, infantry.getSpiceReward());

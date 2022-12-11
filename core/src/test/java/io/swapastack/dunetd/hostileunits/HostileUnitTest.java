@@ -76,15 +76,6 @@ class HostileUnitTest {
     }
 
     @Test
-    void testMoveWithValidArgumentsWithSlowingEffect() {
-        var startPosition = Vector2.ZERO;
-        var path = getNewPath(startPosition, 10, 10);
-        var hostileUnit = getNewHostileUnit(startPosition, 1, 100);
-        hostileUnit.slowingEffectDurationInMilliseconds = 1000;
-        Assertions.assertDoesNotThrow(() -> hostileUnit.move(path, 0.016f));
-    }
-
-    @Test
     void testMoveWithInvalidArguments() {
         var hostileUnit = getRandomHostileUnit();
         Assertions.assertThrows(IllegalArgumentException.class, () -> hostileUnit.move(null, 0f));
@@ -93,24 +84,24 @@ class HostileUnitTest {
     @Test
     void testDealDamageWithValidArguments() {
         var hostileUnit = getNewHostileUnit(Vector2.ZERO, 1, 100);
-        var health = hostileUnit.health;
+        var health = hostileUnit.getHealth();
         hostileUnit.dealDamage(10);
-        Assertions.assertEquals(health - 10, hostileUnit.health);
+        Assertions.assertEquals(health - 10, hostileUnit.getHealth());
     }
 
     @Test
     void testDealDamageWithValidArgumentsAndSoMuchDamageThatHostileUnitDies() {
         var hostileUnit = getNewHostileUnit(Vector2.ZERO, 1, 100);
         hostileUnit.dealDamage(Integer.MAX_VALUE);
-        Assertions.assertEquals(0, hostileUnit.health);
+        Assertions.assertEquals(0, hostileUnit.getHealth());
     }
 
     @Test
     void testDealDamageWithValidArgumentsButHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.ZERO, 1, 0);
-        var health = hostileUnit.health;
+        var health = hostileUnit.getHealth();
         hostileUnit.dealDamage(10);
-        Assertions.assertEquals(health, hostileUnit.health);
+        Assertions.assertEquals(health, hostileUnit.getHealth());
     }
 
     @Test
@@ -126,14 +117,14 @@ class HostileUnitTest {
     void testKillWhenHostileUnitIsAlive() {
         var hostileUnit = getNewHostileUnit(Vector2.ZERO, 1, 100);
         hostileUnit.kill();
-        Assertions.assertEquals(0, hostileUnit.health);
+        Assertions.assertEquals(0, hostileUnit.getHealth());
     }
 
     @Test
     void testKillWhenHostileUnitIsDead() {
         var hostileUnit = getNewHostileUnit(Vector2.ZERO, 1, 0);
         hostileUnit.kill();
-        Assertions.assertEquals(0, hostileUnit.health);
+        Assertions.assertEquals(0, hostileUnit.getHealth());
     }
 
     @Test
@@ -151,7 +142,7 @@ class HostileUnitTest {
     @Test
     void testGetPosition() {
         var hostileUnit = getRandomHostileUnit();
-        Assertions.assertEquals(hostileUnit.position, hostileUnit.getPosition());
+        Assertions.assertEquals(hostileUnit.getPosition(), hostileUnit.getPosition());
     }
 
     @Test
@@ -176,16 +167,22 @@ class HostileUnitTest {
     @Test
     void testGetHealth() {
         var hostileUnit = getRandomHostileUnit();
-        Assertions.assertEquals(hostileUnit.health, hostileUnit.getHealth());
+        Assertions.assertEquals(hostileUnit.getHealth(), hostileUnit.getHealth());
+    }
+
+    @Test
+    void testSlowDown() {
+        for (int i = 1; i < 10; i++) {
+            var hostileUnit = getRandomHostileUnit();
+            var slowingEffectMultiplier = 0.1f * i;
+            hostileUnit.slowDown(slowingEffectMultiplier, 100);
+            Assertions.assertEquals(hostileUnit.getSpeed() * slowingEffectMultiplier, hostileUnit.getCurrentSpeed(), 0);
+            Assertions.assertTrue(hostileUnit.getSpeed() >= hostileUnit.getCurrentSpeed());
+        }
     }
 
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
         return new HostileUnit(position, speed, health, null) {
-            @Override
-            public void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds) {
-
-            }
-
             @Override
             public int getSpiceReward() {
                 return 0;
