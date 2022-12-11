@@ -1,8 +1,7 @@
 package io.swapastack.dunetd.pathfinding;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.entities.Entity;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +39,8 @@ public final class Path {
      * @return A path with either zero waypoints, which means that the path is blocked by something or greater than
      * zero waypoints, which means that a path was found
      */
-    public static @NotNull Path calculatePath(@NonNull Entity[][] grid, @NonNull Vector2 start, @NonNull Vector2 end) {
+    public static @NotNull Path calculatePath(@NonNull Entity[][] grid, @NonNull Vector2 start,
+                                              @NonNull Vector2 end) {
         if (grid.length == 0 || grid[0].length == 0) {
             throw new IllegalArgumentException("grid must consist of at least one entity");
         }
@@ -53,7 +53,7 @@ public final class Path {
         var waypoints = new Vector2[graphPath.getCount()];
         for (int i = 0; i < graphPath.getCount(); i++) {
             var entityNode = graphPath.get(i);
-            waypoints[i] = new Vector2(entityNode.getX(), entityNode.getY());
+            waypoints[i] = entityNode.getPosition();
         }
 
         return new Path(waypoints);
@@ -86,17 +86,17 @@ public final class Path {
             }
 
             // Vertical connection
-            if (firstPoint.x == secondPoint.x && firstPoint.x == position.x
-                    && isValueInBetween(firstPoint.y, secondPoint.y, position.y)) {
+            if (firstPoint.x() == secondPoint.x() && firstPoint.x() == position.x()
+                    && isValueInBetween(firstPoint.y(), secondPoint.y(), position.y())) {
                 return secondPoint;
 
             // Horizontal connection
-            } else if (firstPoint.y == secondPoint.y && firstPoint.y == position.y
-                    && isValueInBetween(firstPoint.x, secondPoint.x, position.x)) {
+            } else if (firstPoint.y() == secondPoint.y() && firstPoint.y() == position.y()
+                    && isValueInBetween(firstPoint.x(), secondPoint.x(), position.x())) {
                 return secondPoint;
 
             // Diagonal connection
-            } else if (firstPoint.x != secondPoint.x && firstPoint.y != secondPoint.y) {
+            } else if (firstPoint.x() != secondPoint.x() && firstPoint.y() != secondPoint.y()) {
                 throw new IllegalStateException("Waypoints can't have a diagonal connection");
             }
 
@@ -149,20 +149,6 @@ public final class Path {
             throw new IndexOutOfBoundsException("Index " + index + " is out bounds of waypoints");
         }
 
-        return waypoints[index].cpy();
-    }
-
-    /**
-     * Creates a new path with a copied array of the same waypoints. The copy will be equal to the original (original
-     * .equals(copy) = true) but won't have the same reference (original != copy).
-     *
-     * @return Copy of this path
-     */
-    public Path copy() {
-        var newWaypoints = new Vector2[waypoints.length];
-        for (int i = 0; i < newWaypoints.length; i++) {
-            newWaypoints[i] = waypoints[i].cpy();
-        }
-        return new Path(newWaypoints);
+        return waypoints[index];
     }
 }

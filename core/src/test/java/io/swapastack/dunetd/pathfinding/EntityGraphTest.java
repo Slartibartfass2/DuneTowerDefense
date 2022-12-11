@@ -1,12 +1,12 @@
 package io.swapastack.dunetd.pathfinding;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 
@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 class EntityGraphTest {
 
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
+
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
 
     @BeforeAll
@@ -45,7 +46,7 @@ class EntityGraphTest {
     @Test
     void testFindPathWithValidArguments() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
-        Assertions.assertNotNull(entityGraph.findPath(Vector2.Zero, Vector2.Zero));
+        Assertions.assertNotNull(entityGraph.findPath(Vector2.ZERO, Vector2.ZERO));
 
         for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
@@ -54,14 +55,14 @@ class EntityGraphTest {
                 // path blocked
                 var grid = getEntityGrid(width, height, new Vector2(0f, 1f), new Vector2(1f, 0f));
                 entityGraph = new EntityGraph(grid);
-                var path = entityGraph.findPath(Vector2.Zero, goalPosition);
+                var path = entityGraph.findPath(Vector2.ZERO, goalPosition);
                 Assertions.assertNotNull(path);
                 Assertions.assertEquals(0, path.getCount());
 
                 // path existing
                 grid = getEntityGrid(width, height);
                 entityGraph = new EntityGraph(grid);
-                path = entityGraph.findPath(Vector2.Zero, goalPosition);
+                path = entityGraph.findPath(Vector2.ZERO, goalPosition);
                 Assertions.assertNotNull(path);
                 Assertions.assertEquals(width + height - 1, path.getCount());
             }
@@ -76,9 +77,9 @@ class EntityGraphTest {
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> entityGraph.findPath(null, null));
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(Vector2.Zero, null));
+                () -> entityGraph.findPath(Vector2.ZERO, null));
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(null, Vector2.Zero));
+                () -> entityGraph.findPath(null, Vector2.ZERO));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> entityGraph.findPath(positionOutsideGrid, null));
         Assertions.assertThrows(IllegalArgumentException.class,
@@ -133,10 +134,7 @@ class EntityGraphTest {
     Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
         var grid = new Entity[width][height];
         for (var towerPosition : towerPositions) {
-            int x = (int) towerPosition.x;
-            int y = (int) towerPosition.y;
-
-            grid[x][y] = new GuardTower(x, y);
+            grid[(int) towerPosition.x()][(int) towerPosition.y()] = new GuardTower(towerPosition, null);
         }
         return grid;
     }

@@ -5,12 +5,12 @@ import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.Tower;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -150,13 +150,12 @@ public final class EntityGraph implements IndexedGraph<EntityNode> {
     /**
      * Searches for a node in <code>entityNodes</code> with the specified position.
      *
-     * @param x X position of the node
-     * @param y Y position of the node
+     * @param nodePosition Position of the node
      * @return The entity node with the specified position or null if there's no entity node with that position
      */
-    private @Nullable EntityNode findNode(int x, int y) {
+    private @Nullable EntityNode findNode(Vector2 nodePosition) {
         for (var entityNode : new Array.ArrayIterator<>(entityNodes).iterator()) {
-            if (entityNode.getX() == x && entityNode.getY() == y) {
+            if (entityNode.getPosition().equals(nodePosition)) {
                 return entityNode;
             }
         }
@@ -172,8 +171,8 @@ public final class EntityGraph implements IndexedGraph<EntityNode> {
      * and returns a path with no waypoints because there was no path
      */
     public @NotNull GraphPath<EntityNode> findPath(@NonNull Vector2 startPosition, @NonNull Vector2 endPosition) {
-        var startNode = findNode((int) startPosition.x, (int) startPosition.y);
-        var endNode = findNode((int) endPosition.x, (int) endPosition.y);
+        var startNode = findNode(startPosition);
+        var endNode = findNode(endPosition);
 
         // Check if positions are inside the grid, therefor the nodes are non-null
         if (startNode == null || endNode == null) {
