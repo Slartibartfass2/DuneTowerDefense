@@ -7,8 +7,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.math.PixelsConverter;
 import io.swapastack.dunetd.screens.AbstractScreen;
-import io.swapastack.dunetd.screens.ScreenEnum;
-import io.swapastack.dunetd.screens.listeners.ClickInputListener;
+import io.swapastack.dunetd.screens.ScreenType;
 
 import lombok.NonNull;
 
@@ -27,7 +26,7 @@ public class GameEndWindow extends VisWindow {
         add(scrollPane).spaceTop(8).growX().row();
 
         var menuButton = new VisTextButton("Return back to main menu");
-        menuButton.addListener(new ClickInputListener(() -> screen.getGame().changeScreen(ScreenEnum.MENU)));
+        menuButton.addListener(screen.createChangeScreenInputListener(ScreenType.MENU));
         add(menuButton);
 
         setSize(PixelsConverter.getX(WINDOW_WIDTH_PERCENTAGE), PixelsConverter.getY(WINDOW_HEIGHT_PERCENTAGE));

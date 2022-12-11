@@ -2,7 +2,6 @@ package io.swapastack.dunetd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -39,7 +38,7 @@ public final class LoadingScreen extends AbstractScreen {
     private final AssetManager assetManager;
 
     public LoadingScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.MAIN_BACKGROUND);
         this.assetManager = game.getAssetLoader().getAssetManager();
     }
 
@@ -47,7 +46,7 @@ public final class LoadingScreen extends AbstractScreen {
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
     @Override
-    public void show() {
+    public void showScreen() {
         // Load assets for loading screen and wait until its finished
         assetManager.load(LOADING_SCREEN_PACK_PATH, TextureAtlas.class);
         assetManager.finishLoading();
@@ -68,6 +67,7 @@ public final class LoadingScreen extends AbstractScreen {
         loadingBar = new LoadingBar(anim);
 
         // Add all the actors to the stage
+        var stage = getStage();
         stage.addActor(screenBg);
         stage.addActor(loadingBar);
         stage.addActor(loadingBg);
@@ -76,7 +76,7 @@ public final class LoadingScreen extends AbstractScreen {
         stage.addActor(logo);
 
         // Load all game assets
-        game.getAssetLoader().loadGameAssets();
+        getGame().getAssetLoader().loadGameAssets();
     }
 
     /**
@@ -85,20 +85,15 @@ public final class LoadingScreen extends AbstractScreen {
      * @param delta The time in seconds since the last render.
      */
     @Override
-    public void render(float delta) {
-        // Clear the screen
-        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
-                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
+    public void renderScreen(float delta) {
         // If config file was read and the game assets are done loading show MainMenuScreen
         if (assetManager.update()) {
-            game.getAssetLoader().createSceneAssets();
+            getGame().getAssetLoader().createSceneAssets();
             // Turn VSync on now that all assets are loaded
-            Gdx.graphics.setVSync(settings.getVSync());
+            Gdx.graphics.setVSync(getSettings().getVSync());
 
             // Change to MainMenuScreen
-            game.changeScreen(ScreenEnum.MENU);
+            getGame().changeScreen(ScreenType.MENU);
         }
 
         // Interpolate the percentage to make it more smooth
@@ -109,10 +104,6 @@ public final class LoadingScreen extends AbstractScreen {
         loadingBg.setX(loadingBarHidden.getX() + 30);
         loadingBg.setWidth(450 - 450 * percent);
         loadingBg.invalidate();
-
-        // Show the loading screen
-        stage.act();
-        stage.draw();
     }
 
     /**
@@ -127,18 +118,18 @@ public final class LoadingScreen extends AbstractScreen {
         super.resize(width, height);
 
         // Make the background fill the screen
-        screenBg.setSize(stage.getWidth(), stage.getHeight());
+        screenBg.setSize(getStageWidth(), getStageHeight());
 
         // Place the loading frame in the middle of the screen
-        loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
-        loadingFrame.setY((stage.getHeight() - loadingFrame.getHeight()) / 2);
+        loadingFrame.setX((getStageWidth() - loadingFrame.getWidth()) / 2);
+        loadingFrame.setY((getStageHeight() - loadingFrame.getHeight()) / 2);
 
         // Place the loading bar at the same spot as the frame, adjusted a few px
         loadingBar.setX(loadingFrame.getX() + 15);
         loadingBar.setY(loadingFrame.getY() + 5);
 
         // Place the logo in the middle of the screen
-        logo.setX((stage.getWidth() - logo.getWidth()) / 2);
+        logo.setX((getStageWidth() - logo.getWidth()) / 2);
         logo.setY(loadingFrame.getY() + loadingFrame.getHeight() + 15);
 
         // Place the image that will hide the bar on top of the bar, adjusted a few px

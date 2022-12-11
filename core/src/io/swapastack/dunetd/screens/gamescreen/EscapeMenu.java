@@ -6,8 +6,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 
 import io.swapastack.dunetd.math.PixelsConverter;
 import io.swapastack.dunetd.screens.AbstractScreen;
-import io.swapastack.dunetd.screens.ScreenEnum;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
+import io.swapastack.dunetd.screens.ScreenType;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 
 import lombok.NonNull;
@@ -37,7 +36,7 @@ public final class EscapeMenu extends VisWindow {
 
         // Button to get back to the main menu
         var menuButton = new VisTextButton("Back to main menu");
-        menuButton.addListener(new ChangeScreenInputListener(screen.getGame(), ScreenEnum.MENU));
+        menuButton.addListener(screen.createChangeScreenInputListener(ScreenType.MENU));
 
         var padHorizontal = PixelsConverter.getX(PADDING_HORIZONTAL);
         var padVertical = PixelsConverter.getY(PADDING_VERTICAL);

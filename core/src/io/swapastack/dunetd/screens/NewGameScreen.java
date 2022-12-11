@@ -1,7 +1,6 @@
 package io.swapastack.dunetd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel;
@@ -9,7 +8,6 @@ import com.kotcrab.vis.ui.widget.spinner.Spinner;
 
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.config.Configuration;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 
 import lombok.NonNull;
@@ -23,14 +21,15 @@ public final class NewGameScreen extends AbstractScreen {
     private Spinner gridHeightSpinner;
 
     public NewGameScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.MAIN_BACKGROUND);
     }
 
     /**
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
     @Override
-    public void show() {
+    public void showScreen() {
+        var settings = getSettings();
         // Spinners to set grid dimensions
         gridWidthSpinner = new Spinner("Width", new IntSpinnerModel(settings.getGridWidth(), 2,
                 MAX_GRID_WIDTH, 1));
@@ -39,14 +38,12 @@ public final class NewGameScreen extends AbstractScreen {
 
         // Button to switch to MainMenuScreen
         var backToMainMenuButton = new VisTextButton("Back");
-        backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
+        backToMainMenuButton.addListener(createChangeScreenInputListener(ScreenType.MENU));
 
         // Button to switch to GameScreen (and start new game)
         var startNewGameButton = new VisTextButton("Start game");
-        startNewGameButton.addListener(new ClickInputListener(() -> {
-            saveGameSettings();
-            game.changeScreen(ScreenEnum.GAME);
-        }));
+        startNewGameButton.addListener(new ClickInputListener(this::saveGameSettings));
+        startNewGameButton.addListener(createChangeScreenInputListener(ScreenType.GAME));
 
         var table = new VisTable(true);
 
@@ -60,23 +57,7 @@ public final class NewGameScreen extends AbstractScreen {
         int height = Gdx.graphics.getHeight();
 
         table.setPosition(width / 2f, height / 2f);
-        stage.addActor(table);
-
-        Gdx.input.setInputProcessor(stage);
-    }
-
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
-                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
+        addMainActor(table);
     }
 
     /**
@@ -88,7 +69,7 @@ public final class NewGameScreen extends AbstractScreen {
     }
 
     private void saveGameSettings() {
-        settings.setGridWidth(Integer.parseInt(gridWidthSpinner.getModel().getText()));
-        settings.setGridHeight(Integer.parseInt(gridHeightSpinner.getModel().getText()));
+        getSettings().setGridWidth(Integer.parseInt(gridWidthSpinner.getModel().getText()));
+        getSettings().setGridHeight(Integer.parseInt(gridHeightSpinner.getModel().getText()));
     }
 }

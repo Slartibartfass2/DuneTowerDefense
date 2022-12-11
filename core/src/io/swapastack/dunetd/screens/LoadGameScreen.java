@@ -1,14 +1,14 @@
 package io.swapastack.dunetd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.kotcrab.vis.ui.widget.ListView;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.savegame.SaveGame;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 
 import java.util.ArrayList;
 
@@ -16,16 +16,21 @@ public final class LoadGameScreen extends AbstractScreen {
 
     private SaveGame lastClickedSaveGame;
     private long lastClickTimestamp = Long.MIN_VALUE;
+    private final Drawable backgroundDrawable;
+    private final Drawable selectionDrawable;
 
     public LoadGameScreen(final DuneTD game) {
-        super(game);
+        super(game, ScreenColor.MAIN_BACKGROUND);
+
+        backgroundDrawable = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
+        selectionDrawable = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_SELECTION_NAME);
     }
 
     /**
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
     @Override
-    public void show() {
+    public void showScreen() {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
@@ -35,8 +40,6 @@ public final class LoadGameScreen extends AbstractScreen {
         array.add(new SaveGame("SaveGame1", 12083091));
         array.add(new SaveGame("SaveGame2", 12083091));
 
-        var backgroundDrawable = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
-        var selectionDrawable = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_SELECTION_NAME);
         var adapter = new ListViewAdapter(array, backgroundDrawable, selectionDrawable);
         var saveGameList = new ListView<>(adapter);
 
@@ -46,37 +49,25 @@ public final class LoadGameScreen extends AbstractScreen {
         var saveGameListY = height / 2f - saveGameList.getMainTable().getHeight() / 2f;
         saveGameList.getMainTable().setPosition(saveGameListX, saveGameListY);
         saveGameList.setItemClickListener(this::handleSaveGameClick);
-        stage.addActor(saveGameList.getMainTable());
+
+        var table = new VisTable(true);
+        table.addActor(saveGameList.getMainTable());
 
         var backToMainMenuButton = new VisTextButton("Back");
         backToMainMenuButton.setPosition(saveGameListX, saveGameListY - backToMainMenuButton.getHeight() - 10f);
-        backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
-        stage.addActor(backToMainMenuButton);
+        backToMainMenuButton.addListener(createChangeScreenInputListener(ScreenType.MENU));
+        table.addActor(backToMainMenuButton);
 
         var loadGameButton = new VisTextButton("Load game");
         loadGameButton.setPosition(saveGameListX + saveGameList.getMainTable().getWidth() - loadGameButton.getWidth(),
                 saveGameListY - loadGameButton.getHeight() - 10f);
-        loadGameButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.GAME));
-        stage.addActor(loadGameButton);
+        loadGameButton.addListener(createChangeScreenInputListener(ScreenType.GAME));
+        table.addActor(loadGameButton);
 
-        Gdx.input.setInputProcessor(stage);
+        addMainActor(table);
     }
 
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
-                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
-    }
-
-    public void handleSaveGameClick(SaveGame saveGame) {
+    private void handleSaveGameClick(SaveGame saveGame) {
         var timeNow = System.currentTimeMillis();
         var timePassed = timeNow - lastClickTimestamp;
 
