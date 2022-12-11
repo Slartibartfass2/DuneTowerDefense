@@ -1,14 +1,12 @@
 package io.swapastack.dunetd.game;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.assets.controller.EntityController;
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
-import io.swapastack.dunetd.entities.portals.EndPortal;
-import io.swapastack.dunetd.entities.portals.StartPortal;
+import io.swapastack.dunetd.entities.portals.Portal;
+import io.swapastack.dunetd.entities.portals.PortalType;
 import io.swapastack.dunetd.entities.towers.Tower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
@@ -16,6 +14,7 @@ import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.pathfinding.Path;
 import io.swapastack.dunetd.shaihulud.ShaiHulud;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -121,9 +120,9 @@ public final class GameHandler {
 
     // Portals
     @Getter
-    private final StartPortal startPortal;
+    private final Portal startPortal;
     @Getter
-    private final EndPortal endPortal;
+    private final Portal endPortal;
 
     /**
      * Creates a game handler with a grid with the specified dimensions.
@@ -166,13 +165,13 @@ public final class GameHandler {
         this.hostileUnitController = hostileUnitController;
 
         // Placing portals on the grid and adding game models to portals and adding them to the scene manager
-        startPortal = new StartPortal(0, 0, entityController);
+        startPortal = new Portal(Vector2.ZERO, PortalType.START, entityController);
         placeEntityOnGrid(startPortal);
-        endPortal = new EndPortal(gridWidth - 1, gridHeight - 1, entityController);
+        endPortal = new Portal(new Vector2(gridWidth - 1, gridHeight - 1), PortalType.END, entityController);
         placeEntityOnGrid(endPortal);
 
         // Find first path and check if it's valid
-        path = Path.calculatePath(grid, startPortal.getGridPosition2d(), endPortal.getGridPosition2d());
+        path = Path.calculatePath(grid, startPortal.getPosition(), endPortal.getPosition());
         if (path.getLength() < 1) {
             throw new IllegalArgumentException("The path must have a length of at least one");
         }
@@ -297,7 +296,7 @@ public final class GameHandler {
         }
 
         // Create new tower according to the players selection
-        var tower = towerEnum.toTower(x, y, entityController);
+        var tower = towerEnum.toTower(new Vector2(x, y), entityController);
 
         // Place newly created tower
         return buildTower(tower, x, y);
@@ -333,7 +332,7 @@ public final class GameHandler {
 
         // If position is on the path, check if there's another path
         if (isPositionOnPath) {
-            var newPath = Path.calculatePath(grid, startPortal.getGridPosition2d(), endPortal.getGridPosition2d());
+            var newPath = Path.calculatePath(grid, startPortal.getPosition(), endPortal.getPosition());
 
             // If there's no other path, abort building of tower
             if (newPath.isBlocked()) {
@@ -394,7 +393,7 @@ public final class GameHandler {
             playerSpice += TOWER_TEAR_DOWN_REFUND * tower.getBuildCost();
 
             // Calculate new path, only if new path is shorter replace old path
-            var newPath = Path.calculatePath(grid, startPortal.getGridPosition2d(), endPortal.getGridPosition2d());
+            var newPath = Path.calculatePath(grid, startPortal.getPosition(), endPortal.getPosition());
             if (newPath.getLength() < path.getLength()) {
                 path = newPath;
             }
@@ -412,7 +411,7 @@ public final class GameHandler {
      */
     private void createNewWave() {
         hostileUnitsQueue = new LinkedBlockingQueue<>();
-        var spawnPoint = new Vector2(startPortal.getX(), startPortal.getY());
+        var spawnPoint = startPortal.getPosition();
 
         // Add infantry to wave queue
         int remainingBudget = getHostileUnitsFromBudget(HostileUnitEnum.INFANTRY, infantryWaveBudget,
@@ -447,7 +446,7 @@ public final class GameHandler {
         int remainingBudget = budget;
         int count = 0;
         while (remainingBudget >= purchasePrice && count < maxCount) {
-            var hostileUnit = hostileUnitEnum.toHostileUnit(spawnPoint.cpy(), hostileUnitController);
+            var hostileUnit = hostileUnitEnum.toHostileUnit(spawnPoint, hostileUnitController);
             remainingBudget -= purchasePrice;
             hostileUnitsQueue.add(hostileUnit);
             count++;
@@ -490,7 +489,7 @@ public final class GameHandler {
                 statistics.killedHostileUnitByTower(HostileUnitEnum.fromHostileUnit(hostileUnit));
 
                 // Remove hostile unit if at end portal
-            } else if (hostileUnit.getPosition().equals(endPortal.getGridPosition2d())) {
+            } else if (hostileUnit.getPosition().equals(endPortal.getPosition())) {
                 playerHealth -= hostileUnit.getHealth();
                 hostileUnit.kill();
                 hostileUnitsOnGrid.remove(hostileUnit);
@@ -531,7 +530,7 @@ public final class GameHandler {
             }
         }
         // Calculate new path, only if new path is shorter replace old path
-        var newPath = Path.calculatePath(grid, startPortal.getGridPosition2d(), endPortal.getGridPosition2d());
+        var newPath = Path.calculatePath(grid, startPortal.getPosition(), endPortal.getPosition());
         if (newPath.getLength() < path.getLength()) {
             path = newPath;
         }
@@ -553,7 +552,7 @@ public final class GameHandler {
      * @param entity Entity to place on the grid
      */
     private void placeEntityOnGrid(@NonNull Entity entity) {
-        grid[entity.getX()][entity.getY()] = entity;
+        grid[(int) entity.getPosition().x()][(int) entity.getPosition().y()] = entity;
     }
 
     /**

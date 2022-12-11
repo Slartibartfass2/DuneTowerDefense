@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.game;
 
-import com.badlogic.gdx.math.Vector2;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,13 +14,15 @@ import lombok.NonNull;
  * WEST(270°, [-1, 0])
  */
 public enum CardinalDirection {
-    NORTH(0f, new Vector2(0f, 1f)),
-    EAST(90f, new Vector2(1f, 0f)),
-    SOUTH(180f, new Vector2(0f, -1f)),
-    WEST(270f, new Vector2(-1f, 0f));
+    NORTH(0f, new Vector2(0, 1)),
+    EAST(90f, new Vector2(1, 0)),
+    SOUTH(180f, new Vector2(0, -1)),
+    WEST(270f, new Vector2(-1, 0));
 
     @Getter
     private final float degrees;
+
+    @Getter
     private final Vector2 direction;
 
     CardinalDirection(float degrees, @NonNull Vector2 direction) {
@@ -47,12 +49,5 @@ public enum CardinalDirection {
         } else {
             throw new IllegalStateException("direction shouldn't be " + direction);
         }
-    }
-
-    /**
-     * @return Copy of direction vector
-     */
-    public Vector2 getDirection() {
-        return direction.cpy();
     }
 }

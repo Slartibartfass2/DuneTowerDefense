@@ -1,7 +1,5 @@
 package io.swapastack.dunetd.shaihulud;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.assets.controller.ShaiHuludController;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
@@ -13,6 +11,7 @@ import io.swapastack.dunetd.game.Statistics;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
 import io.swapastack.dunetd.math.DuneTDMath;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
@@ -27,18 +26,29 @@ public final class ShaiHulud {
 
     private static final int COOLDOWN_IN_MS = Configuration.getInstance()
             .getIntProperty("SHAI_HULUD_COOLDOWN_IN_MILLISECONDS");
+
     private static final float SPEED = Configuration.getInstance().getFloatProperty("SHAI_HULUD_SPEED");
+
     private static final float RANGE = 0.8f;
 
     private final Entity[][] grid;
+
     @Getter
     private int remainingCooldownInMilliseconds;
+
+    @Getter
     private Vector2 firstThumper;
+
+    @Getter
     private Vector2 secondThumper;
+
     @Getter
     private Vector2 gridPosition;
+
     private CardinalDirection movingDirection;
+
     private final PropertyChangeSupport support;
+
     private boolean alreadySummoned;
 
     public ShaiHulud(@NonNull Entity[][] grid, @Nullable ShaiHuludController shaiHuludController) {
@@ -77,10 +87,11 @@ public final class ShaiHulud {
             var moveDistance = SPEED * deltaTimeInMilliseconds;
             var direction = movingDirection.getDirection();
 
-            gridPosition.add(direction.scl(moveDistance));
+            var moveVector = Vector2.multiply(direction, moveDistance);
+            gridPosition = Vector2.add(gridPosition, moveVector);
 
             // Reset shai hulud if he reached the edge of the grid
-            if (!DuneTDMath.isPositionInsideGrid(grid, gridPosition.x, gridPosition.y)) {
+            if (!DuneTDMath.isPositionInsideGrid(grid, gridPosition.x(), gridPosition.y())) {
                 reset(false);
             } else {
                 updateGameModel();
@@ -96,15 +107,14 @@ public final class ShaiHulud {
     private void updateGameModel() {
         // Update game model if existing
         if (support != null) {
-            var gameModelData = new GameModelData(movingDirection.getDegrees(),
-                    new Vector2(gridPosition.x, gridPosition.y));
+            var gameModelData = new GameModelData(movingDirection.getDegrees(), gridPosition);
             support.firePropertyChange(ShaiHuludController.UPDATE_EVENT_NAME, null, gameModelData);
         }
     }
 
     private void destroyTowerOnCollision(@NotNull Statistics statistics) {
         // If shai hulud hits tower, set tower to debris
-        var entity = grid[(int) gridPosition.x][(int) gridPosition.y];
+        var entity = grid[(int) gridPosition.x()][(int) gridPosition.y()];
         if (entity instanceof Tower tower && !tower.isDebris()) {
             tower.setToDebris();
             statistics.destroyedTowerByShaiHulud(TowerEnum.fromTower(tower));
@@ -115,7 +125,7 @@ public final class ShaiHulud {
         // If shai hulud hits hostile units kill hostile units
         for (var hostileUnit : hostileUnits) {
             var hostileUnitPosition = hostileUnit.getPosition();
-            if (gridPosition.dst2(hostileUnitPosition) <= RANGE) {
+            if (gridPosition.getDistanceSquared(hostileUnitPosition) <= RANGE) {
                 hostileUnit.kill();
                 statistics.killedHostileUnitByShaiHulud(HostileUnitEnum.fromHostileUnit(hostileUnit));
             }
@@ -124,7 +134,8 @@ public final class ShaiHulud {
 
     private void summonShaiHulud() {
         // Calculate moving direction by using the vector between both thumpers
-        var directionVector = secondThumper.cpy().sub(firstThumper).nor();
+        var distanceVector = Vector2.subtract(secondThumper, firstThumper);
+        var directionVector = distanceVector.normalize();
         movingDirection = CardinalDirection.fromDirection(directionVector);
 
         // Set initial grid position
@@ -135,7 +146,7 @@ public final class ShaiHulud {
         // Make game model visible at right position if existing
         if (support != null) {
             support.firePropertyChange(ShaiHuludController.SHOW_EVENT_NAME, null,
-                    new GameModelData(movingDirection.getDegrees(), new Vector2(gridPosition.x, gridPosition.y)));
+                    new GameModelData(movingDirection.getDegrees(), gridPosition));
         }
     }
 
@@ -153,19 +164,20 @@ public final class ShaiHulud {
         }
 
         // The user can't set a thumper outside the grid
-        if (!DuneTDMath.isPositionInsideGrid(grid, position.x, position.y)) {
+        if (!DuneTDMath.isPositionInsideGrid(grid, position.x(), position.y())) {
             return false;
         }
 
         // Set first thumper if there's none, if there was already one, so set second one
         if (firstThumper == null) {
-            firstThumper = position.cpy();
-        } else if (position.x != firstThumper.x && position.y != firstThumper.y || position.equals(firstThumper)) {
+            firstThumper = position;
+        } else if (position.x() != firstThumper.x()
+                && position.y() != firstThumper.y() || position.equals(firstThumper)) {
             // If the second thumper is not in the same row or column, or it's the same position the thumper can't be
             // set
             return false;
         } else {
-            secondThumper = position.cpy();
+            secondThumper = position;
         }
         return true;
     }
@@ -177,10 +189,10 @@ public final class ShaiHulud {
      */
     private Vector2 getSpawnPoint() {
         return switch (movingDirection) {
-            case NORTH -> new Vector2(firstThumper.x, 0f);
-            case SOUTH -> new Vector2(firstThumper.x, grid[(int) firstThumper.x].length - 1f);
-            case EAST -> new Vector2(0f, firstThumper.y);
-            case WEST -> new Vector2(grid.length - 1f, firstThumper.y);
+            case NORTH -> new Vector2(firstThumper.x(), 0f);
+            case SOUTH -> new Vector2(firstThumper.x(), grid[(int) firstThumper.x()].length - 1f);
+            case EAST -> new Vector2(0f, firstThumper.y());
+            case WEST -> new Vector2(grid.length - 1f, firstThumper.y());
         };
     }
 
@@ -210,19 +222,5 @@ public final class ShaiHulud {
         if (support != null) {
             support.firePropertyChange(ShaiHuludController.VANISH_EVENT_NAME, null, null);
         }
-    }
-
-    public @Nullable Vector2 getFirstThumper() {
-        if (firstThumper == null) {
-            return null;
-        }
-        return firstThumper.cpy();
-    }
-
-    public @Nullable Vector2 getSecondThumper() {
-        if (secondThumper == null) {
-            return null;
-        }
-        return secondThumper.cpy();
     }
 }

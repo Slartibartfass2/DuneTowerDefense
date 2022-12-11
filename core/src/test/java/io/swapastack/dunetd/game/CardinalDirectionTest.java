@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.game;
 
-import com.badlogic.gdx.math.Vector2;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
