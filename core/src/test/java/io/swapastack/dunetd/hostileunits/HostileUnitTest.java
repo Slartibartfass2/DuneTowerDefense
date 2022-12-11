@@ -179,7 +179,7 @@ class HostileUnitTest {
     HostileUnit getNewHostileUnit(Vector2 position, float speed, int health) {
         return new HostileUnit(position, speed, health, null) {
             @Override
-            public void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMilliseconds) {
+            public void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds) {
 
             }
 

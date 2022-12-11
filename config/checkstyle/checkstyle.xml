@@ -92,7 +92,9 @@
         <module name="EqualsHashCode"/>
         <module name="ExplicitInitialization"/>
         <module name="FallThrough"/>
-<!--        <module name="HiddenField"/> TODO NOT SURE ABT THIS -->
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter" value="true"/>
+        </module>
         <module name="IllegalCatch"/>
 <!--        <module name="IllegalInstantiation"/> TODO NO EFFECT USE WHEN USING FACTORY METHODS -->
         <module name="IllegalThrows"/>

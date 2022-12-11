@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import lombok.Getter;
@@ -227,7 +226,7 @@ public final class GameHandler {
         // End of build phase, create new wave
         if (remainingBuildPhaseDurationInMilliseconds <= 0) {
             gamePhase = GamePhase.WAVE_PHASE;
-            hostileUnitsQueue = createNewWave(infantryWaveBudget, harvesterWaveBudget, bossUnitWaveBudget);
+            createNewWave();
             remainingHostileUnitReleaseDelayInMilliseconds = 0;
             hostileUnitReleaseDelayInMilliseconds *= HOSTILE_UNIT_RELEASE_DELAY_MULTIPLIER;
         }
@@ -256,7 +255,6 @@ public final class GameHandler {
         if (playerHealth <= 0) {
             gamePhase = GamePhase.GAME_LOST_PHASE;
             pauseGame(true);
-
         } else if (hostileUnitsQueue.isEmpty() && hostileUnitsOnGrid.isEmpty()) {
             removeDebris();
             timeFactor = TimeFactor.NORMAL;
@@ -266,7 +264,6 @@ public final class GameHandler {
             if (waveNumber == MAX_WAVE_COUNT) {
                 gamePhase = GamePhase.GAME_WON_PHASE;
                 pauseGame(true);
-
             } else {
                 playerSpice += END_OF_WAVE_SPICE_REWARD;
 
@@ -410,52 +407,42 @@ public final class GameHandler {
     }
 
     /**
-     * Creates a new queue of hostile units representing a wave. Each type of hostile unit has its own budget and max
-     * count which cannot be exceeded.
-     *
-     * @param infantryWaveBudget  Budget for infantries
-     * @param harvesterWaveBudget Budget for harvesters
-     * @param bossUnitWaveBudget  Budget for boss units
-     * @return A queue of hostile units representing a wave. The amount of each type in the queue is limited by the
-     * MAX_COUNT constants
+     * Fills the hostileUnitsQueue with hostile units from a new wave. Each type of hostile unit has its own budget and
+     * max count which cannot be exceeded.
      */
-    @NotNull
-    private Queue<HostileUnit> createNewWave(int infantryWaveBudget, int harvesterWaveBudget, int bossUnitWaveBudget) {
-        var hostileUnitsQueueTmp = new LinkedBlockingQueue<HostileUnit>();
+    private void createNewWave() {
+        hostileUnitsQueue = new LinkedBlockingQueue<>();
         var spawnPoint = new Vector2(startPortal.getX(), startPortal.getY());
 
         // Add infantry to wave queue
-        int remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.INFANTRY,
-                infantryWaveBudget, INFANTRY_PURCHASE_PRICE, spawnPoint, INFANTRY_MAX_COUNT);
+        int remainingBudget = getHostileUnitsFromBudget(HostileUnitEnum.INFANTRY, infantryWaveBudget,
+                INFANTRY_PURCHASE_PRICE, spawnPoint, INFANTRY_MAX_COUNT);
         var remainingHarvesterWaveBudget = harvesterWaveBudget + remainingBudget;
 
         // Add harvesters to wave queue
-        remainingBudget = getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.HARVESTER,
-                remainingHarvesterWaveBudget, HARVESTER_PURCHASE_PRICE, spawnPoint, HARVESTER_MAX_COUNT);
+        remainingBudget = getHostileUnitsFromBudget(HostileUnitEnum.HARVESTER, remainingHarvesterWaveBudget,
+                HARVESTER_PURCHASE_PRICE, spawnPoint, HARVESTER_MAX_COUNT);
         var remainingBossUnitWaveBudget = bossUnitWaveBudget + remainingBudget;
 
         // Add boss units to wave queue
-        getHostileUnitsFromBudget(hostileUnitsQueueTmp, HostileUnitEnum.BOSS_UNIT, remainingBossUnitWaveBudget,
-                BOSS_UNIT_PURCHASE_PRICE, spawnPoint, Integer.MAX_VALUE);
+        getHostileUnitsFromBudget(HostileUnitEnum.BOSS_UNIT, remainingBossUnitWaveBudget, BOSS_UNIT_PURCHASE_PRICE,
+                spawnPoint, Integer.MAX_VALUE);
 
-        waveHostileUnitCount = hostileUnitsQueueTmp.size();
-        return hostileUnitsQueueTmp;
+        waveHostileUnitCount = hostileUnitsQueue.size();
     }
 
     /**
-     * Adds hostile units of the specified type to the specified queue, limited by the specified budget and max count
-     * variables.
+     * Adds hostile units of the specified type to the hostile units queue, limited by the specified budget and max
+     * count variables.
      *
-     * @param hostileUnitsQueue Queue to which the hostile units are added
-     * @param hostileUnitEnum   Type of hostile units added
-     * @param budget            Budget for hostile units
-     * @param purchasePrice     Price to 'buy' hostile units
-     * @param spawnPoint        Spawn point of each hostile unit (start portal)
-     * @param maxCount          Maximum amount of hostile units of specified type added to the queue
+     * @param hostileUnitEnum Type of hostile units added
+     * @param budget          Budget for hostile units
+     * @param purchasePrice   Price to 'buy' hostile units
+     * @param spawnPoint      Spawn point of each hostile unit (start portal)
+     * @param maxCount        Maximum amount of hostile units of specified type added to the queue
      * @return Budget remaining after purchasing hostile units
      */
-    private int getHostileUnitsFromBudget(@NonNull Queue<HostileUnit> hostileUnitsQueue,
-                                          @NonNull HostileUnitEnum hostileUnitEnum, int budget, int purchasePrice,
+    private int getHostileUnitsFromBudget(@NonNull HostileUnitEnum hostileUnitEnum, int budget, int purchasePrice,
                                           @NonNull Vector2 spawnPoint, int maxCount) {
         int remainingBudget = budget;
         int count = 0;

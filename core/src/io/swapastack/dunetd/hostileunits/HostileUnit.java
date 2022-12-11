@@ -191,12 +191,12 @@ public abstract class HostileUnit {
 
     /**
      * Slows down this hostile unit by decreasing the speed to the value of speed * slowingEffectMultiplier. The effect
-     * lasts as long as the specified slowingEffectDurationInMilliseconds.
+     * lasts as long as the specified appliedSlowingEffectDurationInMilliseconds.
      *
-     * @param slowingEffectMultiplier             Value to multiply with speed to set the new speed
-     * @param slowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
+     * @param slowingEffectMultiplier                    Value to multiply with speed to set the new speed
+     * @param appliedSlowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
      */
-    public abstract void slowDown(float slowingEffectMultiplier, int slowingEffectDurationInMilliseconds);
+    public abstract void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds);
 
     /**
      * Sets <code>health</code> of this hostile unit to zero and removes its game model.

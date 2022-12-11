@@ -20,7 +20,6 @@ public final class GameGround {
 
     private final GameModelSingle[][] groundGrid;
     private final SceneManager sceneManager;
-    private Path path;
     private final AssetLoader assetLoader;
 
     public GameGround(int gridWidth, int gridHeight, @NonNull SceneManager sceneManager,
@@ -49,20 +48,12 @@ public final class GameGround {
      * @param path Current path object of the game.
      */
     public void updatePath(@NonNull Path path) {
-        if (this.path != null && this.path.equals(path)) {
-            return;
-        }
-
-        if (this.path != null) {
-            deleteOldPath();
-        }
-
-        this.path = path.copy();
+        removePreviousGameGround();
 
         // Create new path tiles
-        int wayPointLength = this.path.getWaypoints().length;
+        int wayPointLength = path.getWaypoints().length;
         for (int i = 0; i < wayPointLength; i++) {
-            Vector2 wayPoint = this.path.getWaypoint(i);
+            var wayPoint = path.getWaypoint(i);
 
             int x = (int) wayPoint.x;
             int y = (int) wayPoint.y;
@@ -78,7 +69,7 @@ public final class GameGround {
             if (i == 0 || i == wayPointLength - 1) {
                 newTile = assetLoader.getGroundTile(GroundTileEnum.GROUND_TILE);
             } else {
-                var tileAndRotation = determinePathTile(wayPoint, i);
+                var tileAndRotation = determinePathTile(path, wayPoint, i);
                 newTile = tileAndRotation.tile();
                 rotation = tileAndRotation.rotation();
             }
@@ -89,24 +80,19 @@ public final class GameGround {
         fillHolesInGrid();
     }
 
-    private void deleteOldPath() {
-        for (var wayPoint : path.getWaypoints()) {
-            if (wayPoint == null) {
-                continue;
-            }
-            int x = (int) wayPoint.x;
-            int y = (int) wayPoint.y;
-            if (groundGrid[x][y] != null) {
+    private void removePreviousGameGround() {
+        for (int x = 0; x < groundGrid.length; x++) {
+            for (int y = 0; y < groundGrid[x].length; y++) {
                 sceneManager.removeScene(groundGrid[x][y].getScene());
+                groundGrid[x][y] = null;
             }
-            groundGrid[x][y] = null;
         }
     }
 
     /**
-     * Determines which path tile and rotation to chose according to the path waypoints
+     * Determines which path tile and rotation to chose according to the path waypoints.
      */
-    private TileAndRotation determinePathTile(Vector2 wayPoint, int i) {
+    private TileAndRotation determinePathTile(@NonNull Path path, @NonNull Vector2 wayPoint, int i) {
         // Path tiles
         var wayPointBefore = path.getWaypoint(i - 1);
         var wayPointAfter = path.getWaypoint(i + 1);
@@ -148,11 +134,10 @@ public final class GameGround {
     private void fillHolesInGrid() {
         for (int x = 0; x < groundGrid.length; x++) {
             for (int y = 0; y < groundGrid[x].length; y++) {
-                if (groundGrid[x][y] != null) {
-                    continue;
+                if (groundGrid[x][y] == null) {
+                    var gridTile = assetLoader.getGroundTile(GroundTileEnum.GROUND_TILE);
+                    addTileToGround(x, y, gridTile, 0f);
                 }
-                var gridTile = assetLoader.getGroundTile(GroundTileEnum.GROUND_TILE);
-                addTileToGround(x, y, gridTile, 0f);
             }
         }
     }

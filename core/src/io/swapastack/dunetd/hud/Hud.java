@@ -86,8 +86,8 @@ public final class Hud implements Disposable {
         shaiHulud = gameHandler.getShaiHulud();
     }
 
-    public void create(@NonNull Vector3 cameraFocusPosition) {
-        this.cameraFocusPosition = cameraFocusPosition.cpy();
+    public void create(@NonNull Vector3 initialCameraFocusPosition) {
+        this.cameraFocusPosition = initialCameraFocusPosition.cpy();
 
         // Escape menu added to extra stage
         escapeMenu = new EscapeMenu(screen, new ClickInputListener(this::switchEscapeMenuVisibility));
