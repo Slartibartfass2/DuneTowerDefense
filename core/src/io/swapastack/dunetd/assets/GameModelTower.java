@@ -1,7 +1,8 @@
 package io.swapastack.dunetd.assets;
 
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+
+import io.swapastack.dunetd.vectors.Vector3;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +12,9 @@ import net.mgsx.gltf.scene3d.scene.Scene;
 public final class GameModelTower implements GameModelInterface {
 
     private GameModelPart baseTowerPart;
+
     private GameModelPart topTowerPart;
+
     private final float topPartYValue;
 
     public GameModelTower(@NonNull GameModelPart baseTowerPart, @Nullable GameModelPart topTowerPart) {
@@ -22,7 +25,7 @@ public final class GameModelTower implements GameModelInterface {
         if (topTowerPart != null) {
             var boundingBox = new BoundingBox();
             baseTowerPart.getScene().modelInstance.calculateBoundingBox(boundingBox);
-            var modelDimensions = new Vector3();
+            var modelDimensions = new com.badlogic.gdx.math.Vector3();
             boundingBox.getDimensions(modelDimensions);
             topPartYValue = modelDimensions.y;
         } else {
@@ -38,12 +41,12 @@ public final class GameModelTower implements GameModelInterface {
      */
     @Override
     public void rePositionAndRotate(@NonNull Vector3 newPosition, float rotation) {
-        baseTowerPart.setPosition(newPosition.cpy());
+        baseTowerPart.setPosition(newPosition);
         baseTowerPart.update();
 
         // Only rotate top part of the model
         if (topTowerPart != null) {
-            topTowerPart.setPosition(new Vector3(newPosition.x, topPartYValue, newPosition.z));
+            topTowerPart.setPosition(new Vector3(newPosition.x(), topPartYValue, newPosition.z()));
             topTowerPart.setRotation(rotation);
             topTowerPart.update();
         }
@@ -56,29 +59,13 @@ public final class GameModelTower implements GameModelInterface {
      */
     @Override
     public void rePosition(@NonNull Vector3 newPosition) {
-        baseTowerPart.setPosition(newPosition.cpy());
+        baseTowerPart.setPosition(newPosition);
         baseTowerPart.update();
 
         if (topTowerPart != null) {
-            topTowerPart.setPosition(new Vector3(newPosition.x, topPartYValue, newPosition.z));
+            topTowerPart.setPosition(new Vector3(newPosition.x(), topPartYValue, newPosition.z()));
             topTowerPart.update();
         }
-    }
-
-    /**
-     * Sets the rotation of the top part of the model and updates the model.
-     *
-     * @param rotation new rotation of the top part of the model
-     */
-    @Override
-    public void rotate(float rotation) {
-        if (topTowerPart == null) {
-            throw new IllegalStateException("This GameModelTower has no top part and cannot be rotated");
-        }
-
-        // Only rotate top part of the model
-        topTowerPart.setRotation(rotation);
-        topTowerPart.update();
     }
 
     /**

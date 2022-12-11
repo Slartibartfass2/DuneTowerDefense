@@ -1,9 +1,9 @@
 package io.swapastack.dunetd.math;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 
 import io.swapastack.dunetd.entities.Entity;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import lombok.NonNull;
 
@@ -19,13 +19,13 @@ public final class DuneTDMath {
     /**
      * Calculates angle between two vectors.
      *
-     * @param from from vector
-     * @param to   to vector
+     * @param from From vector
+     * @param to   To vector
      * @return Angle between 0 and 360 degrees
      */
     public static float getAngle(@NonNull Vector2 from, @NonNull Vector2 to) {
         // Subtracting vectors to get direction vector
-        var direction = to.cpy().sub(from.cpy());
+        var direction = Vector2.subtract(to, from);
 
         // If both vectors are the same, angle is 0
         if (direction.isZero()) {
@@ -33,15 +33,15 @@ public final class DuneTDMath {
         }
 
         // Prevent division by zero
-        if (direction.x == 0f) {
-            return direction.y >= 0 ? 0f : 180f;
+        if (direction.x() == 0f) {
+            return direction.y() >= 0 ? 0f : 180f;
         }
 
         // Calculate degree range: [-90, 90]
-        var degree = (float) Math.atan(direction.y / direction.x) * MathUtils.radiansToDegrees;
+        var degree = (float) Math.atan(direction.y() / direction.x()) * MathUtils.radiansToDegrees;
 
         // Adjust degree to range [0, 360]
-        if (direction.x < 0) {
+        if (direction.x() < 0) {
             return (270 - degree) % 360;
         }
         // direction.x > 0

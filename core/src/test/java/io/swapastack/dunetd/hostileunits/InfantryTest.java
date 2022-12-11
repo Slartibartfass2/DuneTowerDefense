@@ -1,9 +1,8 @@
 package io.swapastack.dunetd.hostileunits;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 
@@ -24,7 +23,7 @@ class InfantryTest {
     @Test
     void testSlowDown() {
         for (int i = 1; i < 10; i++) {
-            var infantry = new Infantry(Vector2.Zero);
+            var infantry = new Infantry(Vector2.ZERO);
             var slowingEffectMultiplier = 0.1f * i;
             infantry.slowDown(slowingEffectMultiplier, 100);
             Assertions.assertEquals(infantry.speed * slowingEffectMultiplier, infantry.currentSpeed, 0f);
@@ -34,7 +33,7 @@ class InfantryTest {
 
     @Test
     void testGetSpiceReward() {
-        var infantry = new Infantry(Vector2.Zero);
+        var infantry = new Infantry(Vector2.ZERO);
         Assertions.assertEquals(INFANTRY_SPICE_REWARD, infantry.getSpiceReward());
     }
 }

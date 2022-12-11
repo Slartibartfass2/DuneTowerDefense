@@ -1,12 +1,11 @@
 package io.swapastack.dunetd.entities.towers;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,11 +28,11 @@ class TowerTest {
     @Test
     void testGetHostileUnitsInRangeWithHostileUnitsInRange() {
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.Zero),
-            new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero),
+            new Infantry(Vector2.ZERO),
+            new Harvester(Vector2.ZERO),
+            new BossUnit(Vector2.ZERO),
         }).toList();
-        var hostileUnitsInRange = Tower.getHostileUnitsInRange(hostileUnits, Vector2.Zero, 100);
+        var hostileUnitsInRange = Tower.getHostileUnitsInRange(hostileUnits, Vector2.ZERO, 100);
         Assertions.assertNotNull(hostileUnitsInRange);
         Assertions.assertEquals(3, hostileUnitsInRange.size());
     }
@@ -47,7 +46,7 @@ class TowerTest {
             new Harvester(new Vector2(outOfRange, 0f)),
             new BossUnit(new Vector2(outOfRange, 0f)),
         }).toList();
-        var hostileUnitsInRange = Tower.getHostileUnitsInRange(hostileUnits, Vector2.Zero, range * range);
+        var hostileUnitsInRange = Tower.getHostileUnitsInRange(hostileUnits, Vector2.ZERO, range * range);
         Assertions.assertNotNull(hostileUnitsInRange);
         Assertions.assertEquals(0, hostileUnitsInRange.size());
     }
@@ -56,9 +55,9 @@ class TowerTest {
     void testGetHostileUnitsInRangeWithTowerInRange() {
         var tower = getNewTower(0, 0, 10, 10, 100);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.Zero),
-            new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero),
+            new Infantry(Vector2.ZERO),
+            new Harvester(Vector2.ZERO),
+            new BossUnit(Vector2.ZERO),
         }).toList();
         var hostileUnitsInRange = tower.getHostileUnitsInRange(hostileUnits);
         Assertions.assertNotNull(hostileUnitsInRange);
@@ -78,19 +77,6 @@ class TowerTest {
         var hostileUnitsInRange = tower.getHostileUnitsInRange(hostileUnits);
         Assertions.assertNotNull(hostileUnitsInRange);
         Assertions.assertEquals(0, hostileUnitsInRange.size());
-    }
-
-    @Test
-    void testRePosition() {
-        var tower = getNewRandomTower();
-
-        int x = new Random().nextInt();
-        int y = new Random().nextInt();
-
-        tower.rePosition(x, y);
-
-        Assertions.assertEquals(x, tower.getX());
-        Assertions.assertEquals(y, tower.getY());
     }
 
     @Test
@@ -135,8 +121,8 @@ class TowerTest {
     }
 
     Tower getNewRandomTower() {
-        return new Tower(new Random().nextInt(), new Random().nextInt(), new Random().nextFloat(),
-                new Random().nextInt(), new Random().nextInt(), null, 0f) {
+        var position = new Vector2(new Random().nextInt(), new Random().nextInt());
+        return new Tower(position, new Random().nextFloat(), new Random().nextInt(), new Random().nextInt(), null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
@@ -145,7 +131,8 @@ class TowerTest {
     }
 
     Tower getNewTower(int x, int y, float range, int buildCost, int reloadTimeInMs) {
-        return new Tower(x, y, range, buildCost, reloadTimeInMs, null, 0f) {
+        var position = new Vector2(x, y);
+        return new Tower(position, range, buildCost, reloadTimeInMs, null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;

@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.assets;
 
-import com.badlogic.gdx.math.Vector3;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -27,9 +27,9 @@ public final class GameModelPart {
         scene = new Scene(sceneModel);
         scale = new Vector3(1f, 1f, 1f);
         rotation = 0f;
-        position = Vector3.Zero;
+        position = Vector3.ZERO;
         offsetRotation = 0f;
-        offsetPosition = Vector3.Zero;
+        offsetPosition = Vector3.ZERO;
 
         update();
     }
@@ -37,11 +37,11 @@ public final class GameModelPart {
     public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation,
                          @NonNull Vector3 position) {
         scene = new Scene(sceneModel);
-        this.scale = scale.cpy();
+        this.scale = scale;
         this.rotation = rotation;
-        this.position = position.cpy();
+        this.position = position;
         offsetRotation = 0f;
-        offsetPosition = Vector3.Zero;
+        offsetPosition = Vector3.ZERO;
 
         update();
     }
@@ -49,11 +49,11 @@ public final class GameModelPart {
     public GameModelPart(@NonNull SceneModel sceneModel, @NonNull Vector3 scale, float rotation,
                          @NonNull Vector3 position, float offsetRotation, @NonNull Vector3 offsetPosition) {
         scene = new Scene(sceneModel);
-        this.scale = scale.cpy();
+        this.scale = scale;
         this.rotation = rotation;
-        this.position = position.cpy();
+        this.position = position;
         this.offsetRotation = offsetRotation;
-        this.offsetPosition = offsetPosition.cpy();
+        this.offsetPosition = offsetPosition;
 
         update();
     }
@@ -62,10 +62,14 @@ public final class GameModelPart {
      * Updates the position, scale and rotation of this model.
      */
     public void update() {
-        var newPosition = position.cpy().add(offsetPosition);
-        scene.modelInstance.transform.setToTranslation(newPosition)
-                .scale(scale.x, scale.y, scale.z)
-                .rotate(new Vector3(0f, 1f, 0f), (rotation + offsetRotation) % 360f);
+        var newPosition = Vector3.add(position, offsetPosition);
+        var newPositionLibGdx = new com.badlogic.gdx.math.Vector3(newPosition.x(), newPosition.y(), newPosition.z());
+        var scaleLibGdx = new com.badlogic.gdx.math.Vector3(scale.x(), scale.y(), scale.z());
+        var axis = new com.badlogic.gdx.math.Vector3(0f, 1f, 0f);
+
+        scene.modelInstance.transform.setToTranslation(newPositionLibGdx)
+                .scale(scaleLibGdx.x, scaleLibGdx.y, scaleLibGdx.z)
+                .rotate(axis, (rotation + offsetRotation) % 360f);
     }
 
     /**

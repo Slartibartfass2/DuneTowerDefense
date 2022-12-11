@@ -2,6 +2,7 @@ package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +18,7 @@ class TowerEnumTest {
     void testFromTowerWithInvalidArguments() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> TowerEnum.fromTower(null));
 
-        var tower = new Tower(0, 0, 0, 0, 0, null, 0f) {
+        var tower = new Tower(Vector2.ZERO, 0, 0, 0, null, 0f) {
             @Override
             protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
                 return false;
@@ -29,13 +30,13 @@ class TowerEnumTest {
 
     @Test
     void testFromTowerWithValidArguments() {
-        var guardTower = new GuardTower(0, 0);
+        var guardTower = new GuardTower(Vector2.ZERO, null);
         Assertions.assertEquals(TowerEnum.GUARD_TOWER, TowerEnum.fromTower(guardTower));
 
-        var bombTower = new BombTower(0, 0);
+        var bombTower = new BombTower(Vector2.ZERO, null);
         Assertions.assertEquals(TowerEnum.BOMB_TOWER, TowerEnum.fromTower(bombTower));
 
-        var soundTower = new SoundTower(0, 0);
+        var soundTower = new SoundTower(Vector2.ZERO, null);
         Assertions.assertEquals(TowerEnum.SOUND_TOWER, TowerEnum.fromTower(soundTower));
     }
 
@@ -44,15 +45,15 @@ class TowerEnumTest {
         TestHelper.readConfigFile();
 
         var towerEnum0 = TowerEnum.GUARD_TOWER;
-        var tower = towerEnum0.toTower(0, 0, null);
+        var tower = towerEnum0.toTower(Vector2.ZERO, null);
         Assertions.assertTrue(tower instanceof GuardTower);
 
         var towerEnum1 = TowerEnum.BOMB_TOWER;
-        tower = towerEnum1.toTower(0, 0, null);
+        tower = towerEnum1.toTower(Vector2.ZERO, null);
         Assertions.assertTrue(tower instanceof BombTower);
 
         var towerEnum2 = TowerEnum.SOUND_TOWER;
-        tower = towerEnum2.toTower(0, 0, null);
+        tower = towerEnum2.toTower(Vector2.ZERO, null);
         Assertions.assertTrue(tower instanceof SoundTower);
     }
 

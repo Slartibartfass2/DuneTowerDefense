@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.assets.controller.EntityController;
@@ -23,6 +21,8 @@ import io.swapastack.dunetd.game.GamePhase;
 import io.swapastack.dunetd.hud.Hud;
 import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.screens.AbstractScreen;
+import io.swapastack.dunetd.vectors.Vector2;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import lombok.NonNull;
 import lombok.Setter;
@@ -120,8 +120,8 @@ public final class GameScreen extends AbstractScreen {
 
         // Camera
         camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, stage.getWidth(), stage.getHeight());
-        camera.position.set(cameraPosition);
-        camera.lookAt(cameraFocusPosition);
+        camera.position.set(cameraPosition.toLibGdx());
+        camera.lookAt(cameraFocusPosition.toLibGdx());
         camera.near = NEAR_PLANE_DISTANCE;
         camera.far = FAR_PLANE_DISTANCE;
 
@@ -200,14 +200,14 @@ public final class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         var selectedTile3d = getSelectedTile();
-        var selectedTile2d = new Vector2(selectedTile3d.x, selectedTile3d.z);
+        var selectedTile2d = new Vector2(selectedTile3d.x(), selectedTile3d.z());
 
         // Render ground tiles
         groundSceneManager.update(deltaTimeInSeconds);
         groundSceneManager.render();
 
         // Set up shape renderer
-        var correctedProjectionMatrix = camera.combined.cpy().rotate(new Vector3(1f, 0f, 0f), 90);
+        var correctedProjectionMatrix = camera.combined.cpy().rotate(com.badlogic.gdx.math.Vector3.X, 90);
         shapeRenderer.setProjectionMatrix(correctedProjectionMatrix);
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -215,7 +215,7 @@ public final class GameScreen extends AbstractScreen {
 
         // Draw mouse selection (selected tile or selected tower
         if (!freezeInput) {
-            drawMouseSelection((int) selectedTile2d.x, (int) selectedTile2d.y);
+            drawMouseSelection((int) selectedTile2d.x(), (int) selectedTile2d.y());
         }
 
         // Draw thumpers
@@ -255,22 +255,22 @@ public final class GameScreen extends AbstractScreen {
     private void drawThumper(@NonNull Vector2 position, boolean first) {
         // Draw outer circle
         shapeRenderer.setColor(THUMPER_OUTER_COLOR);
-        shapeRenderer.circle(position.x, position.y, THUMPER_OUTER_RADIUS, CIRCLE_RENDER_SEGMENTS);
+        shapeRenderer.circle(position.x(), position.y(), THUMPER_OUTER_RADIUS, CIRCLE_RENDER_SEGMENTS);
 
         // Draw inner circle
         shapeRenderer.setColor(THUMPER_INNER_COLOR);
-        shapeRenderer.circle(position.x, position.y, THUMPER_INNER_RADIUS, CIRCLE_RENDER_SEGMENTS);
+        shapeRenderer.circle(position.x(), position.y(), THUMPER_INNER_RADIUS, CIRCLE_RENDER_SEGMENTS);
 
         // Draw a one or a two, indicating which thumper it is
         shapeRenderer.setColor(Color.BLACK);
         if (first) {
-            shapeRenderer.rectLine(position.x, position.y - THUMPER_Y_OFFSET, position.x,
-                    position.y + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
+            shapeRenderer.rectLine(position.x(), position.y() - THUMPER_Y_OFFSET, position.x(),
+                    position.y() + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
         } else {
-            shapeRenderer.rectLine(position.x - THUMPER_X_OFFSET, position.y - THUMPER_Y_OFFSET,
-                    position.x - THUMPER_X_OFFSET, position.y + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
-            shapeRenderer.rectLine(position.x + THUMPER_X_OFFSET, position.y - THUMPER_Y_OFFSET,
-                    position.x + THUMPER_X_OFFSET, position.y + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
+            shapeRenderer.rectLine(position.x() - THUMPER_X_OFFSET, position.y() - THUMPER_Y_OFFSET,
+                    position.x() - THUMPER_X_OFFSET, position.y() + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
+            shapeRenderer.rectLine(position.x() + THUMPER_X_OFFSET, position.y() - THUMPER_Y_OFFSET,
+                    position.x() + THUMPER_X_OFFSET, position.y() + THUMPER_Y_OFFSET, NEAR_PLANE_DISTANCE);
         }
     }
 

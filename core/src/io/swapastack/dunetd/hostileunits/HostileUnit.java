@@ -1,11 +1,10 @@
 package io.swapastack.dunetd.hostileunits;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.assets.controller.HostileUnitController;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.pathfinding.Path;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.beans.PropertyChangeSupport;
 import java.util.UUID;
@@ -30,6 +29,7 @@ public abstract class HostileUnit {
     /**
      * Position of this hostile unit
      */
+    @Getter
     protected Vector2 position;
 
     /**
@@ -80,7 +80,7 @@ public abstract class HostileUnit {
     protected HostileUnit(@NonNull Vector2 position, float speed, int health,
                           @Nullable HostileUnitController hostileUnitController) {
         uuid = UUID.randomUUID();
-        this.position = position.cpy();
+        this.position = position;
         this.speed = speed;
         this.health = health;
         currentSpeed = speed;
@@ -93,7 +93,7 @@ public abstract class HostileUnit {
             // Add hostile unit controller as observer and call create event
             support.addPropertyChangeListener(hostileUnitController);
             support.firePropertyChange(HostileUnitController.CREATE_EVENT_NAME, null,
-                    new GameModelData(cardinalDirection.getDegrees(), position.cpy()));
+                    new GameModelData(cardinalDirection.getDegrees(), position));
         } else {
             support = null;
         }
@@ -125,7 +125,7 @@ public abstract class HostileUnit {
             currentSpeed = speed;
         }
 
-        var positionTmp = position.cpy();
+        var positionTmp = new Vector2(position.x(), position.y());
 
         // Distance which the hostile unit can go in this iteration
         var maxMoveDistance = currentSpeed * deltaTimeInMilliseconds;
@@ -139,32 +139,32 @@ public abstract class HostileUnit {
                 throw new IllegalStateException("Hostile unit must be on the path");
             }
 
-            // If hostile unit reached the end of the path
+            // If hostile unit reached the end of the path stop moving
             if (nextWaypoint.equals(positionTmp)) {
-                // Set new position and stop moving
                 position = positionTmp;
                 return;
             }
 
-            var distanceToNextWaypoint = positionTmp.dst(nextWaypoint);
+            var distanceToNextWaypoint = positionTmp.getDistance(nextWaypoint);
 
             // Get normalized direction vector to set orientation of game model
-            var direction = nextWaypoint.cpy().sub(positionTmp).nor();
+            var direction = Vector2.subtract(nextWaypoint, positionTmp).normalize();
             cardinalDirection = CardinalDirection.fromDirection(direction);
 
             // Move either to next waypoint or as long as possible
             var moveDistance = Math.min(maxMoveDistance, distanceToNextWaypoint);
-            positionTmp.add(direction.scl(moveDistance));
+            var moveVector = Vector2.multiply(direction, moveDistance);
+            positionTmp = Vector2.add(positionTmp, moveVector);
             maxMoveDistance -= moveDistance;
         } while (maxMoveDistance > 0f);
 
-        // Set new position
+        // Set position
         position = positionTmp;
 
         // Update game model if existing
         if (support != null) {
             support.firePropertyChange(HostileUnitController.UPDATE_EVENT_NAME, deltaTimeInMilliseconds,
-                    new GameModelData(cardinalDirection.getDegrees(), positionTmp.cpy()));
+                    new GameModelData(cardinalDirection.getDegrees(), positionTmp));
         }
     }
 
@@ -216,15 +216,6 @@ public abstract class HostileUnit {
      */
     public final boolean isDead() {
         return health <= 0;
-    }
-
-    /**
-     * Returns a copy of the position of this hostile unit.
-     *
-     * @return Copy of the position of this hostile unit
-     */
-    public final Vector2 getPosition() {
-        return position.cpy();
     }
 
     /**

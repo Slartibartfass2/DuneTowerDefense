@@ -1,7 +1,5 @@
 package io.swapastack.dunetd.screens.gamescreen;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 
 import io.swapastack.dunetd.assets.AssetLoader;
@@ -9,6 +7,8 @@ import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.assets.GroundTileEnum;
 import io.swapastack.dunetd.game.CardinalDirection;
 import io.swapastack.dunetd.pathfinding.Path;
+import io.swapastack.dunetd.vectors.Vector2;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import lombok.NonNull;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
@@ -19,7 +19,9 @@ import net.mgsx.gltf.scene3d.scene.SceneManager;
 public final class GameGround {
 
     private final GameModelSingle[][] groundGrid;
+
     private final SceneManager sceneManager;
+
     private final AssetLoader assetLoader;
 
     public GameGround(int gridWidth, int gridHeight, @NonNull SceneManager sceneManager,
@@ -55,8 +57,8 @@ public final class GameGround {
         for (int i = 0; i < wayPointLength; i++) {
             var wayPoint = path.getWaypoint(i);
 
-            int x = (int) wayPoint.x;
-            int y = (int) wayPoint.y;
+            int x = (int) wayPoint.x();
+            int y = (int) wayPoint.y();
 
             if (groundGrid[x][y] != null) {
                 sceneManager.removeScene(groundGrid[x][y].getScene());
@@ -98,21 +100,21 @@ public final class GameGround {
         var wayPointAfter = path.getWaypoint(i + 1);
 
         // Get direction vectors
-        wayPointAfter.sub(wayPoint);
-        wayPoint.sub(wayPointBefore);
+        var directionAfter = Vector2.subtract(wayPointAfter, wayPoint);
+        var directionBefore = Vector2.subtract(wayPoint, wayPointBefore);
 
         GameModelSingle newTile;
         var rotation = 0f;
 
         // If vectors are equal the path tile is straight
-        if (wayPoint.equals(wayPointAfter)) {
-            CardinalDirection tileOrientation = CardinalDirection.fromDirection(wayPoint);
+        if (directionBefore.equals(directionAfter)) {
+            CardinalDirection tileOrientation = CardinalDirection.fromDirection(directionBefore);
             newTile = assetLoader.getGroundTile(GroundTileEnum.PATH_STRAIGHT);
             rotation = tileOrientation.getDegrees();
         } else {
             // Curve tile -> calculate turn angle
-            var rotationBefore = CardinalDirection.fromDirection(wayPoint).getDegrees();
-            var rotationAfter = CardinalDirection.fromDirection(wayPointAfter).getDegrees();
+            var rotationBefore = CardinalDirection.fromDirection(directionBefore).getDegrees();
+            var rotationAfter = CardinalDirection.fromDirection(directionAfter).getDegrees();
             var rotationChange = (rotationBefore - rotationAfter + 360) % 360;
 
             // if rotationChange == 90 then it's a turn right otherwise it's a turn left
@@ -154,7 +156,7 @@ public final class GameGround {
         groundGrid[x][y] = gridTile;
         var boundingBox = new BoundingBox();
         gridTile.getScene().modelInstance.calculateBoundingBox(boundingBox);
-        var modelDimensions = new Vector3();
+        var modelDimensions = new com.badlogic.gdx.math.Vector3();
         boundingBox.getDimensions(modelDimensions);
         modelDimensions.scl(0.5f);
         gridTile.rePositionAndRotate(

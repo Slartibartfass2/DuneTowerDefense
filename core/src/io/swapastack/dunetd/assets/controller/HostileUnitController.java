@@ -1,12 +1,11 @@
 package io.swapastack.dunetd.assets.controller;
 
-import com.badlogic.gdx.math.Vector3;
-
 import io.swapastack.dunetd.assets.AssetLoader;
 import io.swapastack.dunetd.assets.GameModelSingle;
 import io.swapastack.dunetd.game.GameModelData;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.HostileUnitEnum;
+import io.swapastack.dunetd.vectors.Vector3;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -20,8 +19,11 @@ public final class HostileUnitController implements PropertyChangeListener {
 
     // Event names
     public static final String CREATE_EVENT_NAME = "create";
+
     public static final String SHOW_EVENT_NAME = "show";
+
     public static final String UPDATE_EVENT_NAME = "update";
+
     public static final String DESTROY_EVENT_NAME = "destroy";
 
     // Exception messages
@@ -31,7 +33,9 @@ public final class HostileUnitController implements PropertyChangeListener {
     private static final float SECONDS_TO_MILLISECONDS_RATIO = 1000f;
 
     private final SceneManager sceneManager;
+
     private final AssetLoader assetLoader;
+
     private final HashMap<UUID, GameModelSingle> hostileUnitModelMap;
 
     public HostileUnitController(@NonNull SceneManager sceneManager, @NonNull AssetLoader assetLoader) {
@@ -82,7 +86,7 @@ public final class HostileUnitController implements PropertyChangeListener {
 
         // Set game models initial position and store both hostile unit and game model in the hashMap
         var gameModel = assetLoader.getHostileUnitGameModel(HostileUnitEnum.fromHostileUnit(hostileUnit));
-        var newHostileUnitPosition = new Vector3(newHostileUnitData.position().x, 0f, newHostileUnitData.position().y);
+        var newHostileUnitPosition = Vector3.fromVector2(newHostileUnitData.position(), 0);
         gameModel.rePosition(newHostileUnitPosition);
         gameModel.setAnimation(animationName, -1);
         hostileUnitModelMap.put(hostileUnit.getUuid(), gameModel);
@@ -113,7 +117,7 @@ public final class HostileUnitController implements PropertyChangeListener {
 
         // Update game models position, rotation and animation
         var gameModel = hostileUnitModelMap.get(hostileUnit.getUuid());
-        var newHostileUnitPosition = new Vector3(newGameModelData.position().x, 0f, newGameModelData.position().y);
+        var newHostileUnitPosition = Vector3.fromVector2(newGameModelData.position(), 0);
         gameModel.rePositionAndRotate(newHostileUnitPosition, newGameModelData.rotation());
         gameModel.updateAnimation(deltaTimeInMilliseconds / SECONDS_TO_MILLISECONDS_RATIO);
         hostileUnitModelMap.put(hostileUnit.getUuid(), gameModel);

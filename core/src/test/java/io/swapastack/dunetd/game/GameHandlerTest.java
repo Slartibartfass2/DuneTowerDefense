@@ -1,12 +1,11 @@
 package io.swapastack.dunetd.game;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.DamageTower;
 import io.swapastack.dunetd.entities.towers.TowerEnum;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 
@@ -19,7 +18,9 @@ import lombok.NonNull;
 class GameHandlerTest {
 
     private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
+
     private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
+
     private static final int GAME_BUILD_PHASE_DURATION_IN_MS = Configuration.getInstance()
             .getIntProperty("GAME_BUILD_PHASE_DURATION_IN_MILLISECONDS");
 
@@ -38,8 +39,8 @@ class GameHandlerTest {
                 for (int x = 0; x < width; x++) {
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
-                        if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
-                                || gameHandler.getEndPortal().getGridPosition2d().equals(position)) {
+                        if (gameHandler.getStartPortal().getPosition().equals(position)
+                                || gameHandler.getEndPortal().getPosition().equals(position)) {
                             Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
                             continue;
                         }
@@ -203,8 +204,8 @@ class GameHandlerTest {
                 for (int x = 0; x < width; x++) {
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
-                        if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
-                                || gameHandler.getEndPortal().getGridPosition2d().equals(position)) {
+                        if (gameHandler.getStartPortal().getPosition().equals(position)
+                                || gameHandler.getEndPortal().getPosition().equals(position)) {
                             continue;
                         }
 
@@ -237,10 +238,10 @@ class GameHandlerTest {
             for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
                 var gameHandler = new GameHandler(width, height);
 
-                Assertions.assertFalse(gameHandler.tearDownTower(gameHandler.getStartPortal().getX(),
-                        gameHandler.getStartPortal().getY()));
-                Assertions.assertFalse(gameHandler.tearDownTower(gameHandler.getEndPortal().getX(),
-                        gameHandler.getEndPortal().getY()));
+                Assertions.assertFalse(gameHandler.tearDownTower((int) gameHandler.getStartPortal().getPosition().x(),
+                        (int) gameHandler.getStartPortal().getPosition().y()));
+                Assertions.assertFalse(gameHandler.tearDownTower((int) gameHandler.getEndPortal().getPosition().x(),
+                        (int) gameHandler.getEndPortal().getPosition().y()));
             }
         }
     }
@@ -275,8 +276,8 @@ class GameHandlerTest {
                 for (int x = 0; x < width; x++) {
                     for (int y = 0; y < height; y++) {
                         var position = new Vector2(x, y);
-                        if (gameHandler.getStartPortal().getGridPosition2d().equals(position)
-                                || gameHandler.getEndPortal().getGridPosition2d().equals(position)) {
+                        if (gameHandler.getStartPortal().getPosition().equals(position)
+                                || gameHandler.getEndPortal().getPosition().equals(position)) {
                             continue;
                         }
 

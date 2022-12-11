@@ -1,7 +1,6 @@
 package io.swapastack.dunetd.pathfinding;
 
 import com.badlogic.gdx.ai.pfa.Heuristic;
-import com.badlogic.gdx.math.Vector2;
 
 import lombok.NonNull;
 
@@ -25,6 +24,6 @@ public final class EntityHeuristic implements Heuristic<EntityNode> {
     @Override
     public float estimate(@NonNull EntityNode node, @NonNull EntityNode endNode) {
         // Heuristic value is squared distance between nodes
-        return Vector2.dst2(node.getX(), node.getY(), endNode.getX(), endNode.getY());
+        return node.getPosition().getDistanceSquared(endNode.getPosition());
     }
 }

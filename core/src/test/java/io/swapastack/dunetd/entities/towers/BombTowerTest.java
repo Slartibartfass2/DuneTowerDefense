@@ -1,13 +1,12 @@
 package io.swapastack.dunetd.entities.towers;
 
-import com.badlogic.gdx.math.Vector2;
-
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.BossUnit;
 import io.swapastack.dunetd.hostileunits.Harvester;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.hostileunits.Infantry;
+import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,11 +20,15 @@ class BombTowerTest {
 
     private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
             .getIntProperty("INFANTRY_INITIAL_HEALTH");
+
     private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance()
             .getIntProperty("HARVESTER_INITIAL_HEALTH");
+
     private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance()
             .getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
+
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
+
     private static final float BOMB_TOWER_AREA_DAMAGE_RANGE = Configuration.getInstance()
             .getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
 
@@ -42,11 +45,11 @@ class BombTowerTest {
 
     @Test
     void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
-        var bombTower = new BombTower(0, 0);
+        var bombTower = new BombTower(Vector2.ZERO, null);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.Zero),
-            new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero),
+            new Infantry(Vector2.ZERO),
+            new Harvester(Vector2.ZERO),
+            new BossUnit(Vector2.ZERO),
         }).toList();
 
         Assertions.assertFalse(bombTower.target(hostileUnits, false));
@@ -58,11 +61,11 @@ class BombTowerTest {
 
     @Test
     void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
-        var bombTower = new BombTower(0, 0);
+        var bombTower = new BombTower(Vector2.ZERO, null);
         var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.Zero),
-            new Harvester(Vector2.Zero),
-            new BossUnit(Vector2.Zero),
+            new Infantry(Vector2.ZERO),
+            new Harvester(Vector2.ZERO),
+            new BossUnit(Vector2.ZERO),
             new Infantry(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
             new Harvester(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
             new BossUnit(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
@@ -85,7 +88,7 @@ class BombTowerTest {
     }
 
     BombTower getNewRandomBombTower() {
-        return new BombTower(new Random().nextInt(), new Random().nextInt());
+        return new BombTower(new Vector2(new Random().nextInt(), new Random().nextInt()), null);
     }
 
     int getHealth(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {
