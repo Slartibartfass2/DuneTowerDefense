@@ -129,7 +129,6 @@
         </module>
 
         <!-- Class Design -->
-<!--        <module name="DesignForExtension"/>-->
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="InnerTypeLast"/>
