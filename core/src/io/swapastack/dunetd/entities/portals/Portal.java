@@ -31,8 +31,6 @@ public final class Portal extends Entity {
     public Portal(@NonNull Vector2 position, PortalType type, @Nullable EntityController entityController) {
         super(position, entityController, 0f);
         this.type = type;
-        if (entityController != null) {
-            support.firePropertyChange(EntityController.SHOW_EVENT_NAME, null, null);
-        }
+        firePropertyChange(EntityController.SHOW_EVENT_NAME, null);
     }
 }

@@ -137,7 +137,7 @@
         <module name="MutableException"/>
         <module name="OneTopLevelClass"/>
         <module name="ThrowsCount"/>
-<!--        <module name="VisibilityModifier"/>-->
+        <module name="VisibilityModifier"/>
 
         <!-- Coding -->
         <module name="ArrayTrailingComma"/>

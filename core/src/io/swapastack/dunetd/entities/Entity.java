@@ -25,7 +25,7 @@ public abstract class Entity {
     /**
      * Property change support to update game model of this entity
      */
-    protected final PropertyChangeSupport support;
+    private final PropertyChangeSupport support;
 
     /**
      * Position of this entity
@@ -68,6 +68,18 @@ public abstract class Entity {
             support.firePropertyChange(EntityController.CREATE_EVENT_NAME, null, gameModelData);
         } else {
             support = null;
+        }
+    }
+
+    /**
+     * Calls {@link PropertyChangeSupport#firePropertyChange(String, Object, Object)}.
+     *
+     * @param eventName Name of event
+     * @param newValue  New value
+     */
+    protected void firePropertyChange(@NonNull String eventName, @Nullable Object newValue) {
+        if (support != null) {
+            support.firePropertyChange(eventName, null, newValue);
         }
     }
 }

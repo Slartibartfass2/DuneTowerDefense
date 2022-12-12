@@ -18,23 +18,23 @@ import lombok.NonNull;
 public final class GuardTower extends DamageTower {
 
     /**
-     * @see Tower#range
+     * @see Tower#getRange()
      */
     private static final float GUARD_TOWER_RANGE = Configuration.getInstance().getFloatProperty("GUARD_TOWER_RANGE");
 
     /**
-     * @see Tower#buildCost
+     * @see Tower#getBuildCost()
      */
     private static final int GUARD_TOWER_BUILD_COST = Configuration.getInstance()
             .getIntProperty("GUARD_TOWER_BUILD_COST");
 
     /**
-     * @see DamageTower#damage
+     * @see DamageTower#getDamage()
      */
     private static final int GUARD_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("GUARD_TOWER_DAMAGE");
 
     /**
-     * @see Tower#reloadTimeInMilliseconds
+     * @see Tower#getReloadTimeInMilliseconds()
      */
     private static final int GUARD_TOWER_RELOAD_TIME_IN_MILLISECONDS = Configuration.getInstance()
             .getIntProperty("GUARD_TOWER_RELOAD_TIME_IN_MILLISECONDS");
@@ -68,7 +68,7 @@ public final class GuardTower extends DamageTower {
             rotateToHostileUnit(hostileUnitInRange);
 
             if (killOrder) {
-                hostileUnitInRange.dealDamage(damage);
+                hostileUnitInRange.dealDamage(getDamage());
                 return true;
             }
         }

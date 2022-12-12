@@ -30,34 +30,35 @@ public abstract class Tower extends Entity {
      * Range of this tower, in which it attacks hostile units
      */
     @Getter
-    protected final float range;
+    private final float range;
 
     /**
      * Range of this tower squared for faster calculation purposes
      */
-    protected final float rangeSquared;
+    private final float rangeSquared;
 
     /**
      * Costs to build this tower
      */
     @Getter
-    protected final int buildCost;
+    private final int buildCost;
 
     /**
      * Time in milliseconds needed to reload
      */
-    protected final int reloadTimeInMilliseconds;
+    @Getter
+    private final int reloadTimeInMilliseconds;
 
     /**
      * Current reload time in milliseconds
      */
-    protected int currentReloadTimeInMilliseconds;
+    private int currentReloadTimeInMilliseconds;
 
     /**
      * True if this tower is a debris (if getting destroyed by the shai hulud)
      */
     @Getter
-    protected boolean isDebris;
+    private boolean isDebris;
 
     /**
      * Creates a new tower with a specified position, range, build cost and reload time.
@@ -85,9 +86,7 @@ public abstract class Tower extends Entity {
      * Adds game model of this tower to the scene manager.
      */
     public void show() {
-        if (support != null) {
-            support.firePropertyChange(EntityController.SHOW_EVENT_NAME, null, null);
-        }
+        firePropertyChange(EntityController.SHOW_EVENT_NAME, null);
     }
 
     /**
@@ -172,13 +171,9 @@ public abstract class Tower extends Entity {
      * @param hostileUnit Hostile unit to rotate to
      */
     protected final void rotateToHostileUnit(@NonNull HostileUnit hostileUnit) {
-        if (support == null) {
-            return;
-        }
-
         float rotation = DuneTDMath.getAngle(hostileUnit.getPosition(), getPosition());
         var gameModelData = new GameModelData(rotation, getPosition());
-        support.firePropertyChange(EntityController.UPDATE_EVENT_NAME, null, gameModelData);
+        firePropertyChange(EntityController.UPDATE_EVENT_NAME, gameModelData);
     }
 
     /**
@@ -186,17 +181,13 @@ public abstract class Tower extends Entity {
      */
     public final void setToDebris() {
         isDebris = true;
-        if (support != null) {
-            support.firePropertyChange(EntityController.TO_DEBRIS_EVENT_NAME, null, true);
-        }
+        firePropertyChange(EntityController.TO_DEBRIS_EVENT_NAME, true);
     }
 
     /**
      * Removes game model of this tower from scene manager.
      */
     public void destroy() {
-        if (support != null) {
-            support.firePropertyChange(EntityController.DESTROY_EVENT_NAME, null, null);
-        }
+        firePropertyChange(EntityController.DESTROY_EVENT_NAME, null);
     }
 }
