@@ -32,8 +32,8 @@ class HarvesterTest {
             var slowingEffectMultiplier = 0.1f * i;
             harvester.slowDown(slowingEffectMultiplier, 100);
             var tmp = MathUtils.clamp(slowingEffectMultiplier * SLOWING_EFFECT_RESISTANCE_MULTIPLIER, 0f, 1f);
-            Assertions.assertEquals(harvester.speed * tmp, harvester.currentSpeed, 0f);
-            Assertions.assertTrue(harvester.speed >= harvester.currentSpeed);
+            Assertions.assertEquals(harvester.getSpeed() * tmp, harvester.getCurrentSpeed(), 0f);
+            Assertions.assertTrue(harvester.getSpeed() >= harvester.getCurrentSpeed());
         }
     }
 

@@ -11,7 +11,7 @@ import io.swapastack.dunetd.screens.LoadGameScreen;
 import io.swapastack.dunetd.screens.LoadingScreen;
 import io.swapastack.dunetd.screens.MainMenuScreen;
 import io.swapastack.dunetd.screens.NewGameScreen;
-import io.swapastack.dunetd.screens.ScreenEnum;
+import io.swapastack.dunetd.screens.ScreenType;
 import io.swapastack.dunetd.screens.SettingsScreen;
 import io.swapastack.dunetd.screens.gamescreen.GameScreen;
 import io.swapastack.dunetd.settings.GameSettings;
@@ -39,7 +39,7 @@ public final class DuneTD extends Game {
         setPrimaryMonitor();
 
         // First show loading screen while loading all assets
-        changeScreen(ScreenEnum.LOADING_SCREEN);
+        changeScreen(ScreenType.LOADING_SCREEN);
     }
 
     @Override
@@ -59,9 +59,9 @@ public final class DuneTD extends Game {
     /**
      * This function can be used to switch screens.
      *
-     * @param screen {@link ScreenEnum}
+     * @param screen {@link ScreenType}
      */
-    public void changeScreen(@NonNull ScreenEnum screen) {
+    public void changeScreen(@NonNull ScreenType screen) {
         // Get reference to current screen object
         var currentScreen = this.screen;
         // set the screen to null

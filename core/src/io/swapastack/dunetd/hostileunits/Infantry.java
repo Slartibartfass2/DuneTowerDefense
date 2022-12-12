@@ -16,12 +16,12 @@ import lombok.NonNull;
 public final class Infantry extends HostileUnit {
 
     /**
-     * @see HostileUnit#speed
+     * @see HostileUnit#getSpeed()
      */
     private static final float INFANTRY_SPEED = Configuration.getInstance().getFloatProperty("INFANTRY_SPEED");
 
     /**
-     * @see HostileUnit#health
+     * @see HostileUnit#getHealth()
      */
     private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
             .getIntProperty("INFANTRY_INITIAL_HEALTH");
@@ -50,19 +50,6 @@ public final class Infantry extends HostileUnit {
      */
     public Infantry(@NonNull Vector2 position, @Nullable HostileUnitController hostileUnitController) {
         super(position, INFANTRY_SPEED, INFANTRY_INITIAL_HEALTH, hostileUnitController);
-    }
-
-    /**
-     * Slows down the infantry by decreasing the speed to the value of <code>speed * slowingEffectMultiplier</code>.
-     * The effect lasts as long as the specified slowingEffectDurationInMilliseconds.
-     *
-     * @param slowingEffectMultiplier                    Value to multiply with speed to set the new speed
-     * @param appliedSlowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
-     */
-    @Override
-    public void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds) {
-        currentSpeed = speed * slowingEffectMultiplier;
-        this.slowingEffectDurationInMilliseconds = appliedSlowingEffectDurationInMilliseconds;
     }
 
     /**

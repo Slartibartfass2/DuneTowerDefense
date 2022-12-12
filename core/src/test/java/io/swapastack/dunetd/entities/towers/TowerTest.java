@@ -83,27 +83,19 @@ class TowerTest {
     void testSetToDebris() {
         var tower = getNewRandomTower();
         tower.setToDebris();
-        Assertions.assertTrue(tower.isDebris);
-    }
-
-    @Test
-    void testGetRange() {
-        var range = new Random().nextFloat();
-        var tower = getNewTower(0, 0, range, 100, 100);
-        Assertions.assertEquals(range, tower.range, 0f);
-        Assertions.assertEquals(range, tower.getRange(), 0f);
+        Assertions.assertTrue(tower.isDebris());
     }
 
     @Test
     void testGetBuildCost() {
         var tower = getNewRandomTower();
-        Assertions.assertEquals(tower.buildCost, tower.getBuildCost());
+        Assertions.assertEquals(tower.getBuildCost(), tower.getBuildCost());
     }
 
     @Test
     void testIsDebris() {
         var tower = getNewRandomTower();
-        tower.isDebris = true;
+        tower.setToDebris();
         Assertions.assertTrue(tower.isDebris());
     }
 

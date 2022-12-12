@@ -1,52 +1,31 @@
 package io.swapastack.dunetd.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import io.swapastack.dunetd.DuneTD;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 
 import lombok.NonNull;
 
 public final class HighscoreScreen extends AbstractScreen {
 
     public HighscoreScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.MAIN_BACKGROUND);
     }
 
     /**
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
     @Override
-    public void show() {
+    public void showScreen() {
         var table = new VisTable(true);
         table.setFillParent(true);
 
         var backToMainMenuButton = new VisTextButton("Back");
+        backToMainMenuButton.addListener(createChangeScreenInputListener(ScreenType.MENU));
 
         table.add(backToMainMenuButton);
 
-        stage.addActor(table);
-
-        Gdx.input.setInputProcessor(stage);
-
-        // Add Listeners
-        backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
-    }
-
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
-                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
+        addMainActor(table);
     }
 }

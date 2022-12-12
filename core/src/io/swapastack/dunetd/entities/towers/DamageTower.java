@@ -8,6 +8,7 @@ import io.swapastack.dunetd.vectors.Vector2;
 import org.jetbrains.annotations.Nullable;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -24,7 +25,8 @@ public abstract class DamageTower extends Tower {
     /**
      * Amount of health decreased when this tower attacks a hostile unit
      */
-    protected final int damage;
+    @Getter
+    private final int damage;
 
     /**
      * Creates a new damage tower with a specified position, range, build cost, damage and reload time.

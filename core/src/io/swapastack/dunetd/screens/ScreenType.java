@@ -1,6 +1,6 @@
 package io.swapastack.dunetd.screens;
 
-public enum ScreenEnum {
+public enum ScreenType {
     LOADING_SCREEN,
     MENU,
     NEW_GAME,

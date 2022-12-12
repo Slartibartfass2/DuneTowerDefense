@@ -20,23 +20,23 @@ import lombok.NonNull;
 public final class BombTower extends DamageTower {
 
     /**
-     * @see Tower#range
+     * @see Tower#getRange()
      */
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
 
     /**
-     * @see Tower#buildCost
+     * @see Tower#getBuildCost()
      */
     private static final int BOMB_TOWER_BUILD_COST = Configuration.getInstance()
             .getIntProperty("BOMB_TOWER_BUILD_COST");
 
     /**
-     * @see DamageTower#damage
+     * @see DamageTower#getDamage()
      */
     private static final int BOMB_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("BOMB_TOWER_DAMAGE");
 
     /**
-     * @see Tower#reloadTimeInMilliseconds
+     * @see Tower#getReloadTimeInMilliseconds()
      */
     private static final int BOMB_TOWER_RELOAD_TIME_IN_MILLISECONDS = Configuration.getInstance()
             .getIntProperty("BOMB_TOWER_RELOAD_TIME_IN_MILLISECONDS");
@@ -83,7 +83,7 @@ public final class BombTower extends DamageTower {
 
                 // Deal damage to each hostile unit
                 for (var hostileUnit : hostileUnitsInAreaDamageRange) {
-                    hostileUnit.dealDamage(damage);
+                    hostileUnit.dealDamage(getDamage());
                 }
 
                 return true;

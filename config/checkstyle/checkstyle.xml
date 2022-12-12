@@ -129,15 +129,14 @@
         </module>
 
         <!-- Class Design -->
-<!--        <module name="DesignForExtension"/>-->
         <module name="FinalClass"/>
-<!--        <module name="HideUtilityClassConstructor"/>-->
-<!--        <module name="InnerTypeLast"/>-->
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InnerTypeLast"/>
         <module name="InterfaceIsType"/>
         <module name="MutableException"/>
         <module name="OneTopLevelClass"/>
         <module name="ThrowsCount"/>
-<!--        <module name="VisibilityModifier"/>-->
+        <module name="VisibilityModifier"/>
 
         <!-- Coding -->
         <module name="ArrayTrailingComma"/>

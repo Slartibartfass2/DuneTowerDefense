@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -16,7 +15,6 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import io.swapastack.dunetd.DuneTD;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 
 import lombok.NonNull;
@@ -31,55 +29,19 @@ public final class MainMenuScreen extends AbstractScreen {
 
     private static final float VOLUME_MULTIPLIER = 0.6f;
 
+    private final Image backgroundImage;
     private final FreeTypeFontGenerator bitmapFontGenerator;
     private final Music backgroundMusic;
 
     public MainMenuScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.BLACK);
 
-        var table = new VisTable(true);
-        table.setFillParent(true);
-        var stack = new Stack();
+        backgroundImage = new Image(game.getAssetLoader().getMainMenuBackgroundImage());
 
-        // Adding Image to the stack
-        var backgroundImage = new Image(game.getAssetLoader().getMainMenuBackgroundImage());
-        backgroundImage.setScaling(Scaling.fill);
-        stack.add(backgroundImage);
-
-        var menuTable = new VisTable(true);
-
-        // Create string for BitmapFont and Label creation
-        var duneTD = "Dune TD";
-
-        // Initialize FreeTypeFontGenerator for BitmapFont generation
         var fontFileHandle = Gdx.files.internal("fonts/NotoSansCJKtc_ttf/NotoSansCJKtc-Bold.ttf");
         bitmapFontGenerator = new FreeTypeFontGenerator(fontFileHandle);
-        var japaneseLatinLabelStyle = getLabelStyle(duneTD);
 
-        // Create a Label with the main menu title string
-        var duneTDLabel = new VisLabel(duneTD, japaneseLatinLabelStyle);
-        duneTDLabel.setFontScale(1, 1);
-        duneTDLabel.setPosition(Gdx.graphics.getWidth() / 2f - duneTDLabel.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - duneTDLabel.getHeight() / 2f + 230
-        );
-
-        // Add main menu title string Label to Stage
-        menuTable.addActor(duneTDLabel);
-
-        createMenuButtons(menuTable);
-
-        stack.add(menuTable);
-        table.add(stack);
-        stage.addActor(table);
-
-        // Load background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("piano/piano_loop.wav"));
-        var masterVolume = settings.getMasterVolume();
-        if (masterVolume > 0) {
-            backgroundMusic.setVolume(masterVolume * VOLUME_MULTIPLIER);
-            backgroundMusic.setLooping(true);
-            backgroundMusic.play();
-        }
     }
 
     private Label.LabelStyle getLabelStyle(String label) {
@@ -109,22 +71,46 @@ public final class MainMenuScreen extends AbstractScreen {
      * Called when this screen becomes the current screen for a {@link Game}.
      */
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-    }
+    public void showScreen() {
+        var table = new VisTable(true);
+        table.setFillParent(true);
+        var stack = new Stack();
 
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    @Override
-    public void render(float delta) {
-        // clear the client area (Screen) with the clear color (black)
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
+        // Adding Image to the stack
+        backgroundImage.setScaling(Scaling.fill);
+        stack.add(backgroundImage);
+
+        var menuTable = new VisTable(true);
+
+        // Create string for BitmapFont and Label creation
+        var duneTD = "Dune TD";
+
+        // Initialize FreeTypeFontGenerator for BitmapFont generation
+        var japaneseLatinLabelStyle = getLabelStyle(duneTD);
+
+        // Create a Label with the main menu title string
+        var duneTDLabel = new VisLabel(duneTD, japaneseLatinLabelStyle);
+        duneTDLabel.setFontScale(1, 1);
+        duneTDLabel.setPosition(Gdx.graphics.getWidth() / 2f - duneTDLabel.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - duneTDLabel.getHeight() / 2f + 230
+        );
+
+        // Add main menu title string Label to Stage
+        menuTable.addActor(duneTDLabel);
+
+        createMenuButtons(menuTable);
+
+        stack.add(menuTable);
+        table.add(stack);
+        addMainActor(table);
+
+        // Load background music
+        var masterVolume = getSettings().getMasterVolume();
+        if (masterVolume > 0) {
+            backgroundMusic.setVolume(masterVolume * VOLUME_MULTIPLIER);
+            backgroundMusic.setLooping(true);
+            backgroundMusic.play();
+        }
     }
 
     /**
@@ -151,23 +137,23 @@ public final class MainMenuScreen extends AbstractScreen {
     private void createMenuButtons(@NonNull Table table) {
         // Button to switch to NewGameScreen
         var showNewGameConfigButton = new VisTextButton("New game");
-        showNewGameConfigButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.NEW_GAME));
+        showNewGameConfigButton.addListener(createChangeScreenInputListener(ScreenType.NEW_GAME));
 
         // Button to switch to LoadGameScreen
         //var loadGameMenuButton = new VisTextButton("Load game");
-        //loadGameMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.LOAD_GAME));
+        //loadGameMenuButton.addListener(createChangeScreenInputListener(ScreenType.LOAD_GAME));
 
         // Button to switch to SettingsScreen
         var showSettingsButton = new VisTextButton("Settings");
-        showSettingsButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.SETTINGS));
+        showSettingsButton.addListener(createChangeScreenInputListener(ScreenType.SETTINGS));
 
         // Button to switch to HighscoreScreen
         //var showHighscoresButton = new VisTextButton("Highscores");
-        //showHighscoresButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.HIGHSCORE));
+        //showHighscoresButton.addListener(createChangeScreenInputListener(ScreenType.HIGHSCORE));
 
         // Button to switch to CreditsScreen
         var showCreditsButton = new VisTextButton("Credits");
-        showCreditsButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.CREDITS));
+        showCreditsButton.addListener(createChangeScreenInputListener(ScreenType.CREDITS));
 
         // Button to exit game
         var exitButton = new VisTextButton("Leave game");

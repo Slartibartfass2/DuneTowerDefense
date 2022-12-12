@@ -30,28 +30,30 @@ public abstract class HostileUnit {
      * Position of this hostile unit
      */
     @Getter
-    protected Vector2 position;
+    private Vector2 position;
 
     /**
      * Distance that this hostile unit can cover in one second
      */
-    protected final float speed;
+    @Getter
+    private final float speed;
 
     /**
      * Health of this hostile unit (if <= 0, the hostile unit is dead)
      */
     @Getter
-    protected int health;
+    private int health;
 
     /**
      * Current speed of hostile unit (can be influenced by a sound tower)
      */
-    protected float currentSpeed;
+    @Getter
+    private float currentSpeed;
 
     /**
      * Duration how long the slowing effect will last
      */
-    protected int slowingEffectDurationInMilliseconds;
+    private int slowingEffectDurationInMilliseconds;
 
     /**
      * Unique identifier for storing this hostile unit in a map
@@ -196,7 +198,10 @@ public abstract class HostileUnit {
      * @param slowingEffectMultiplier                    Value to multiply with speed to set the new speed
      * @param appliedSlowingEffectDurationInMilliseconds Duration of slowing effect in milliseconds.
      */
-    public abstract void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds);
+    public final void slowDown(float slowingEffectMultiplier, int appliedSlowingEffectDurationInMilliseconds) {
+        currentSpeed = speed * getSlowingEffect(slowingEffectMultiplier);
+        slowingEffectDurationInMilliseconds = appliedSlowingEffectDurationInMilliseconds;
+    }
 
     /**
      * Sets <code>health</code> of this hostile unit to zero and removes its game model.
@@ -224,4 +229,8 @@ public abstract class HostileUnit {
      * @return Spice reward for killing this hostile unit
      */
     public abstract int getSpiceReward();
+
+    protected float getSlowingEffect(float slowingEffectMultiplier) {
+        return slowingEffectMultiplier;
+    }
 }

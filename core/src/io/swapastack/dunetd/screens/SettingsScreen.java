@@ -2,7 +2,6 @@ package io.swapastack.dunetd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics.Lwjgl3DisplayMode;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.kotcrab.vis.ui.widget.VisCheckBox;
@@ -14,7 +13,6 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.math.PixelsConverter;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 import io.swapastack.dunetd.screens.listeners.ClickInputListener;
 import io.swapastack.dunetd.settings.MonitorSetting;
 
@@ -23,7 +21,7 @@ import lombok.NonNull;
 public final class SettingsScreen extends AbstractScreen {
 
     public SettingsScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.MAIN_BACKGROUND);
     }
 
     /*
@@ -39,7 +37,9 @@ public final class SettingsScreen extends AbstractScreen {
      * Called when this screen becomes the current screen for a {@link DuneTD}.
      */
     @Override
-    public void show() {
+    public void showScreen() {
+        var settings = getSettings();
+
         // VSync checkbox
         var vsyncCheckbox = new VisCheckBox("Wait for VSync");
         vsyncCheckbox.setChecked(settings.getVSync());
@@ -56,7 +56,7 @@ public final class SettingsScreen extends AbstractScreen {
         // Buttons
         var backToMainMenuButton = new VisTextButton("Back");
         backToMainMenuButton.setPosition(backToMainMenuButton.getWidth() + 100, backToMainMenuButton.getHeight() + 100);
-        backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
+        backToMainMenuButton.addListener(createChangeScreenInputListener(ScreenType.MENU));
 
         var saveSettingsButton = new VisTextButton("Apply settings");
         saveSettingsButton.setPosition(100f, 100f);
@@ -91,9 +91,7 @@ public final class SettingsScreen extends AbstractScreen {
         table.add(buttonsTable).growX();
 
         table.setPosition(PixelsConverter.getX(0.5f), PixelsConverter.getY(0.5f));
-        stage.addActor(table);
-
-        Gdx.input.setInputProcessor(stage);
+        addMainActor(table);
     }
 
     private void addMonitorSettings(@NonNull VisSelectBox<MonitorSetting> monitorSelectBox) {
@@ -103,11 +101,11 @@ public final class SettingsScreen extends AbstractScreen {
             monitorSettings[i] = new MonitorSetting(i, (Lwjgl3DisplayMode) Gdx.graphics.getDisplayMode(monitors[i]));
         }
         monitorSelectBox.setItems(monitorSettings);
-        monitorSelectBox.setSelectedIndex(settings.getMonitorIndex());
+        monitorSelectBox.setSelectedIndex(getSettings().getMonitorIndex());
     }
 
     private VisSlider createMasterVolumeSlider() {
-        float masterVolume = settings.getMasterVolume() * 100f;
+        float masterVolume = getSettings().getMasterVolume() * 100f;
         var masterVolumeSlider = new VisSlider(0f, 100f, 1f, false);
         masterVolumeSlider.setValue(masterVolume);
 
@@ -129,19 +127,5 @@ public final class SettingsScreen extends AbstractScreen {
         masterVolumeTable.add(masterVolumeSlider).grow().left();
         masterVolumeTable.add(masterVolumePercentage).left();
         return masterVolumeTable;
-    }
-
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
-                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
     }
 }

@@ -1,7 +1,5 @@
 package io.swapastack.dunetd.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -13,23 +11,31 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import io.swapastack.dunetd.DuneTD;
 import io.swapastack.dunetd.assets.AssetLoader;
-import io.swapastack.dunetd.screens.listeners.ChangeScreenInputListener;
 
 import lombok.NonNull;
 
 public class CreditsScreen extends AbstractScreen {
 
+    private final Drawable screenBackground;
+    private final Image backgroundImage;
+
     public CreditsScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.MAIN_BACKGROUND);
 
-        var background = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
+        screenBackground = game.getAssetLoader().getDrawable(AssetLoader.DRAWABLE_BACKGROUND_NAME);
+        backgroundImage = new Image(game.getAssetLoader().getMainMenuBackgroundImage());
+    }
 
+    /**
+     * Called when this screen becomes the current screen for a {@link DuneTD}.
+     */
+    @Override
+    public void showScreen() {
         var table = new VisTable(true);
         table.setFillParent(true);
         var stack = new Stack();
 
         // Adding Image to the stack
-        var backgroundImage = new Image(game.getAssetLoader().getMainMenuBackgroundImage());
         backgroundImage.setScaling(Scaling.fill);
         stack.add(backgroundImage);
 
@@ -38,35 +44,35 @@ public class CreditsScreen extends AbstractScreen {
         // Credits for infantry
         var infantryTable = getCreditsBox("Infantry:", "Low poly Cute Cyborg",
                 "https://sketchfab.com/3d-models/low-poly-cute-cyborg-d2046c1fa5c141c287971d6de62dc796",
-                "Shums", "https://sketchfab.com/starshums", background);
+                "Shums", "https://sketchfab.com/starshums", screenBackground);
         creditsTable.add(infantryTable).padBottom(10).row();
 
         // Credits for boss unit
         var bossUnitTable = getCreditsBox("Boss Unit:", "Faceted Character (Locomotion Animation)",
                 "https://sketchfab.com/3d-models/faceted-character-locomotion-animation-cf74a482394043c281efd56ad5484df4",
-                "Fabian Orrego", "https://sketchfab.com/fabian_orrego", background);
+                "Fabian Orrego", "https://sketchfab.com/fabian_orrego", screenBackground);
         creditsTable.add(bossUnitTable).padBottom(10).row();
 
         // Credits for harvester
         var harvesterTable = getCreditsBox("Harvester:", "Spaceship : Orion",
                 "https://sketchfab.com/3d-models/spaceship-orion-41de9d0d0eb74650b5fd98175d72fe71",
-                "Rishav Gupta", "https://sketchfab.com/Rishav_Gupta", background);
+                "Rishav Gupta", "https://sketchfab.com/Rishav_Gupta", screenBackground);
         creditsTable.add(harvesterTable).padBottom(10).row();
 
-        var kenneyTable = createKenneyTable(background);
+        var kenneyTable = createKenneyTable(screenBackground);
         creditsTable.add(kenneyTable).padBottom(10).row();
 
-        var kayKitTable = createKayKitTable(background);
+        var kayKitTable = createKayKitTable(screenBackground);
         creditsTable.add(kayKitTable).padBottom(10).row();
 
         // Button to get back to the main menu
         var backToMainMenuButton = new VisTextButton("Back");
-        backToMainMenuButton.addListener(new ChangeScreenInputListener(game, ScreenEnum.MENU));
+        backToMainMenuButton.addListener(createChangeScreenInputListener(ScreenType.MENU));
         creditsTable.add(backToMainMenuButton).padBottom(10);
 
         stack.add(creditsTable);
         table.add(stack);
-        stage.addActor(table);
+        addMainActor(table);
     }
 
     private VisTable createKenneyTable(@NonNull Drawable background) {
@@ -87,28 +93,6 @@ public class CreditsScreen extends AbstractScreen {
         kayKitTable.add(kayKitLabel);
         kayKitTable.add(kayKitLinkLabel);
         return kayKitTable;
-    }
-
-    /**
-     * Called when this screen becomes the current screen for a {@link DuneTD}.
-     */
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-    }
-
-    /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(ScreenColors.BACKGROUND_COLOR_RED, ScreenColors.BACKGROUND_COLOR_GREEN,
-                ScreenColors.BACKGROUND_COLOR_BLUE, ScreenColors.BACKGROUND_COLOR_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
     }
 
     private VisTable getCreditsBox(@NonNull String title, @NonNull String originalName, @NonNull String urlToModel,

@@ -21,6 +21,7 @@ import io.swapastack.dunetd.game.GamePhase;
 import io.swapastack.dunetd.hud.Hud;
 import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.screens.AbstractScreen;
+import io.swapastack.dunetd.screens.ScreenColor;
 import io.swapastack.dunetd.vectors.Vector2;
 import io.swapastack.dunetd.vectors.Vector3;
 
@@ -84,11 +85,11 @@ public final class GameScreen extends AbstractScreen {
     private boolean freezeInput;
 
     public GameScreen(@NonNull DuneTD game) {
-        super(game);
+        super(game, ScreenColor.BLACK);
 
         // Load game settings
-        gridWidth = settings.getGridWidth();
-        gridHeight = settings.getGridHeight();
+        gridWidth = getSettings().getGridWidth();
+        gridHeight = getSettings().getGridHeight();
 
         // GDX GLTF - Scene Manager
         sceneManager = new SceneManager(MAX_BONES);
@@ -104,7 +105,7 @@ public final class GameScreen extends AbstractScreen {
                 shaiHuludController);
         grid = gameHandler.getGrid();
 
-        hud = new Hud(this, gameHandler, stage);
+        hud = new Hud(this, gameHandler, getStage());
         freezeInput = false;
     }
 
@@ -112,14 +113,14 @@ public final class GameScreen extends AbstractScreen {
      * Called when this screen becomes the current screen for a {@link Game}.
      */
     @Override
-    public void show() {
+    public void showScreen() {
         setUpEnvironment();
 
         var cameraFocusPosition = new Vector3(gridWidth / 2f, 0, gridHeight / 2f);
         var cameraPosition = new Vector3(gridWidth / 2f, Math.max(gridHeight, gridWidth) * 0.85f, 0);
 
         // Camera
-        camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, stage.getWidth(), stage.getHeight());
+        camera = new PerspectiveCamera(CAMERA_FIELD_OF_VIEW, getStageWidth(), getStageHeight());
         camera.position.set(cameraPosition.toLibGdx());
         camera.lookAt(cameraFocusPosition.toLibGdx());
         camera.near = NEAR_PLANE_DISTANCE;
@@ -132,11 +133,11 @@ public final class GameScreen extends AbstractScreen {
 
         var inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(hud.getEscapeMenuStage());
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(getStage());
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         // Create ground tiles
-        gameGround = new GameGround(gridWidth, gridHeight, groundSceneManager, game.getAssetLoader());
+        gameGround = new GameGround(gridWidth, gridHeight, groundSceneManager, getGame().getAssetLoader());
     }
 
     private void setUpEnvironment() {
@@ -178,7 +179,7 @@ public final class GameScreen extends AbstractScreen {
      * @param deltaTimeInSeconds The time in seconds since the last render.
      */
     @Override
-    public void render(float deltaTimeInSeconds) {
+    public void renderScreen(float deltaTimeInSeconds) {
         var deltaInMilliseconds = deltaTimeInSeconds * 1000;
         // Run game logic
         gameHandler.update(deltaInMilliseconds);
@@ -194,10 +195,6 @@ public final class GameScreen extends AbstractScreen {
         }
 
         camera.update();
-
-        // Clear Screen
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         var selectedTile3d = getSelectedTile();
         var selectedTile2d = new Vector2(selectedTile3d.x(), selectedTile3d.z());

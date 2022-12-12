@@ -19,18 +19,18 @@ import lombok.NonNull;
 public final class SoundTower extends Tower {
 
     /**
-     * @see Tower#range
+     * @see Tower#getRange()
      */
     private static final float SOUND_TOWER_RANGE = Configuration.getInstance().getFloatProperty("SOUND_TOWER_RANGE");
 
     /**
-     * @see Tower#buildCost
+     * @see Tower#getBuildCost()
      */
     private static final int SOUND_TOWER_BUILD_COST = Configuration.getInstance()
             .getIntProperty("SOUND_TOWER_BUILD_COST");
 
     /**
-     * @see Tower#reloadTimeInMilliseconds
+     * @see Tower#getReloadTimeInMilliseconds()
      */
     private static final int SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS = Configuration.getInstance()
             .getIntProperty("SOUND_TOWER_RELOAD_TIME_IN_MILLISECONDS");
