@@ -5,8 +5,6 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.vectors.Vector2;
 
-import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
 
 import lombok.NonNull;
@@ -66,7 +64,7 @@ public final class SoundTower extends Tower {
      * @return True if attack was successful (tower attacked at least one hostile unit)
      */
     @Override
-    protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
+    protected boolean target(boolean killOrder, @NonNull HostileUnit... hostileUnits) {
         var hostileUnitsInRange = getHostileUnitsInRange(hostileUnits);
 
         // If there are no hostile units in range the attack wasn't successful
