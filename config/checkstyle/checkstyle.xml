@@ -219,8 +219,13 @@
 
         <!-- Metrics -->
         <module name="BooleanExpressionComplexity"/>
-<!--        <module name="ClassDataAbstractionCoupling"/>-->
-<!--        <module name="ClassFanOutComplexity"/>-->
+<!--        <module name="ClassDataAbstractionCoupling">-->
+<!--            <property name="excludeClassesRegexps" value="DuneTD.java"/>-->
+<!--            <property name="excludedPackages" value="io.swapastack.dunetd.screens"/>-->
+<!--        </module>-->
+        <module name="ClassFanOutComplexity">
+            <property name="excludeClassesRegexps" value="(Vector2|Vector3)"/>
+        </module>
 <!--        <module name="CyclomaticComplexity"/>-->
         <module name="JavaNCSS"/>
 <!--        <module name="NPathComplexity"/>-->

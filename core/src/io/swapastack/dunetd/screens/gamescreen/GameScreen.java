@@ -4,10 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.swapastack.dunetd.DuneTD;
@@ -27,12 +25,7 @@ import io.swapastack.dunetd.vectors.Vector3;
 
 import lombok.NonNull;
 import lombok.Setter;
-import net.mgsx.gltf.scene3d.attributes.PBRCubemapAttribute;
-import net.mgsx.gltf.scene3d.attributes.PBRTextureAttribute;
-import net.mgsx.gltf.scene3d.lights.DirectionalLightEx;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
-import net.mgsx.gltf.scene3d.scene.SceneSkybox;
-import net.mgsx.gltf.scene3d.utils.IBLBuilder;
 
 /**
  * The GameScreen class.
@@ -50,10 +43,7 @@ public final class GameScreen extends AbstractScreen {
     private static final float THUMPER_Y_OFFSET = 0.25f;
     private static final float THUMPER_OUTER_RADIUS = 0.5f;
     private static final float THUMPER_INNER_RADIUS = 0.3f;
-    private static final int ENVIRONMENT_MAP_BASE_SIZE = 1024;
     private static final int CAMERA_FIELD_OF_VIEW = 60;
-    private static final int IRRADIANCE_MAP_BASE_SIZE = 256;
-    private static final int RADIANCE_MIP_MAP_LEVELS = 10;
 
     private final GameHandler gameHandler;
     private final EntityController entityController;
@@ -69,11 +59,7 @@ public final class GameScreen extends AbstractScreen {
     // GDX GLTF
     private final SceneManager sceneManager;
     private final SceneManager groundSceneManager;
-    private Cubemap diffuseCubemap;
-    private Cubemap environmentCubemap;
-    private Cubemap specularCubemap;
-    private Texture brdfLUT;
-    private SceneSkybox skybox;
+
     private final ShapeRenderer shapeRenderer;
 
     // libGDX
@@ -83,6 +69,8 @@ public final class GameScreen extends AbstractScreen {
     private final Hud hud;
     @Setter
     private boolean freezeInput;
+
+    private final GameEnvironment environment;
 
     public GameScreen(@NonNull DuneTD game) {
         super(game, ScreenColor.BLACK);
@@ -107,6 +95,8 @@ public final class GameScreen extends AbstractScreen {
 
         hud = new Hud(this, gameHandler, getStage());
         freezeInput = false;
+
+        environment = new GameEnvironment();
     }
 
     /**
@@ -141,36 +131,15 @@ public final class GameScreen extends AbstractScreen {
     }
 
     private void setUpEnvironment() {
-        // GDX GLTF - Light
-        var light = new DirectionalLightEx();
-        light.direction.set(1, -3, 1).nor();
-        light.color.set(Color.WHITE);
-        sceneManager.environment.add(light);
-        groundSceneManager.environment.add(light);
+        sceneManager.environment.add(environment.getLight());
+        groundSceneManager.environment.add(environment.getLight());
 
-        // GDX GLTF - Image Based Lighting
-        var iblBuilder = IBLBuilder.createOutdoor(light);
-        environmentCubemap = iblBuilder.buildEnvMap(ENVIRONMENT_MAP_BASE_SIZE);
-        diffuseCubemap = iblBuilder.buildIrradianceMap(IRRADIANCE_MAP_BASE_SIZE);
-        specularCubemap = iblBuilder.buildRadianceMap(RADIANCE_MIP_MAP_LEVELS);
-        iblBuilder.dispose();
+        sceneManager.setAmbientLight(GameEnvironment.AMBIENT_LIGHT);
+        sceneManager.environment.set(environment.getAttributes());
+        groundSceneManager.setAmbientLight(GameEnvironment.AMBIENT_LIGHT);
+        groundSceneManager.environment.set(environment.getAttributes());
 
-        // GDX GLTF - This texture is provided by the library, no need to have it in your assets.
-        brdfLUT = new Texture(Gdx.files.classpath("net/mgsx/gltf/shaders/brdfLUT.png"));
-
-        // GDX GLTF - Cubemaps
-        sceneManager.setAmbientLight(1f);
-        sceneManager.environment.set(new PBRTextureAttribute(PBRTextureAttribute.BRDFLUTTexture, brdfLUT));
-        sceneManager.environment.set(PBRCubemapAttribute.createSpecularEnv(specularCubemap));
-        sceneManager.environment.set(PBRCubemapAttribute.createDiffuseEnv(diffuseCubemap));
-        groundSceneManager.setAmbientLight(1f);
-        groundSceneManager.environment.set(new PBRTextureAttribute(PBRTextureAttribute.BRDFLUTTexture, brdfLUT));
-        groundSceneManager.environment.set(PBRCubemapAttribute.createSpecularEnv(specularCubemap));
-        groundSceneManager.environment.set(PBRCubemapAttribute.createDiffuseEnv(diffuseCubemap));
-
-        // GDX GLTF - Skybox
-        skybox = new SceneSkybox(environmentCubemap);
-        sceneManager.setSkyBox(skybox);
+        sceneManager.setSkyBox(environment.getSkybox());
     }
 
     /**
@@ -282,15 +251,11 @@ public final class GameScreen extends AbstractScreen {
         super.dispose();
         sceneManager.dispose();
         groundSceneManager.dispose();
-        environmentCubemap.dispose();
-        diffuseCubemap.dispose();
-        specularCubemap.dispose();
-        brdfLUT.dispose();
-        skybox.dispose();
         entityController.dispose();
         hostileUnitController.dispose();
         shaiHuludController.dispose();
         hud.dispose();
+        environment.dispose();
     }
 
     public Vector3 getSelectedTile() {
