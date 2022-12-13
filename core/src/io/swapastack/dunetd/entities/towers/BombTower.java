@@ -5,8 +5,6 @@ import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.hostileunits.HostileUnit;
 import io.swapastack.dunetd.vectors.Vector2;
 
-import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
 
 import lombok.NonNull;
@@ -62,14 +60,15 @@ public final class BombTower extends DamageTower {
      * Searches for at least one hostile unit in range of this bomb tower and searches for every other hostile unit in a
      * range around its position and applies its damage to every hostile unit found in this area.
      *
-     * @param hostileUnits Hostile units available to target
      * @param killOrder    If this bomb tower should also shoot the target
+     * @param hostileUnits Hostile units available to target
      * @return True if attack was successful (tower attacked at least one hostile unit)
      */
     @Override
-    protected boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder) {
+    protected boolean target(boolean killOrder, @NonNull HostileUnit... hostileUnits) {
         var hostileUnitsInRange = getHostileUnitsInRange(hostileUnits);
 
+        // TODO: use guard case
         // If there's at least one hostile unit, search for more in the area damage range around the one in normal range
         if (!hostileUnitsInRange.isEmpty()) {
             var hostileUnitInRange = hostileUnitsInRange.get(0);
