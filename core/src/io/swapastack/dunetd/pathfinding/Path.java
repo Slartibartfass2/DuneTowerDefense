@@ -3,6 +3,8 @@ package io.swapastack.dunetd.pathfinding;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.vectors.Vector2;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,36 +70,16 @@ public final class Path {
      */
     public @Nullable Vector2 getNextWaypoint(@NonNull Vector2 position) {
         for (int i = 0; i < waypoints.length - 1; i++) {
-            var firstPoint = waypoints[i];
-            var secondPoint = waypoints[i + 1];
-
-            // Check if position is first waypoint and return the second waypoint if true
-            // Otherwise check if position is second waypoint and return waypoint after that if there's one
-            if (position.equals(firstPoint)) {
-                return secondPoint;
-            } else if (position.equals(secondPoint)) {
-                if (i < waypoints.length - 2) {
-                    // just get 'third point' (point after secondPoint)
-                    return waypoints[i + 2];
-                } else {
-                    // reached end
-                    return secondPoint;
-                }
+            // When the position is equal to a waypoint return the subsequent waypoint
+            var waypointOptional = getWaypointWhenPositionIsOnWaypoint(position, i);
+            if (waypointOptional.isPresent()) {
+                return waypointOptional.orElseThrow();
             }
 
-            // Vertical connection
-            if (firstPoint.x() == secondPoint.x() && firstPoint.x() == position.x()
-                    && isValueInBetween(firstPoint.y(), secondPoint.y(), position.y())) {
-                return secondPoint;
-
-            // Horizontal connection
-            } else if (firstPoint.y() == secondPoint.y() && firstPoint.y() == position.y()
-                    && isValueInBetween(firstPoint.x(), secondPoint.x(), position.x())) {
-                return secondPoint;
-
-            // Diagonal connection
-            } else if (firstPoint.x() != secondPoint.x() && firstPoint.y() != secondPoint.y()) {
-                throw new IllegalStateException("Waypoints can't have a diagonal connection");
+            // When the position is between two waypoint between the subsequent waypoint
+            waypointOptional = getWaypointWhenPositionIsBetweenWaypoints(position, i);
+            if (waypointOptional.isPresent()) {
+                return waypointOptional.orElseThrow();
             }
 
             // The position is not on the connection between the two points -> check other connections
@@ -107,8 +89,47 @@ public final class Path {
         return null;
     }
 
+    private Optional<Vector2> getWaypointWhenPositionIsOnWaypoint(@NonNull Vector2 position, int index) {
+        var firstPoint = waypoints[index];
+        var secondPoint = waypoints[index + 1];
+
+        // Check whether position is first waypoint and if so return the second waypoint
+        // Otherwise check whether position is second waypoint and return waypoint after that if there's one
+        if (position.equals(firstPoint)) {
+            return Optional.of(secondPoint);
+        } else if (position.equals(secondPoint)) {
+            if (index < waypoints.length - 2) {
+                // just get 'third point' (point after second point)
+                return Optional.of(waypoints[index + 2]);
+            } else {
+                // reached end
+                return Optional.of(secondPoint);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private Optional<Vector2> getWaypointWhenPositionIsBetweenWaypoints(@NonNull Vector2 position, int index) {
+        var firstPoint = waypoints[index];
+        var secondPoint = waypoints[index + 1];
+
+        var havePositionsSameXValue = firstPoint.x() == secondPoint.x() && firstPoint.x() == position.x();
+        var havePositionsSameYValue = firstPoint.y() == secondPoint.y() && firstPoint.y() == position.y();
+        var isPositionInBetweenPointsOnX = isValueInBetween(firstPoint.x(), secondPoint.x(), position.x());
+        var isPositionInBetweenPointsOnY = isValueInBetween(firstPoint.y(), secondPoint.y(), position.y());
+
+        // Vertical connection
+        if (havePositionsSameXValue && isPositionInBetweenPointsOnY
+                || havePositionsSameYValue && isPositionInBetweenPointsOnX) {
+            return Optional.of(secondPoint);
+        } else {
+            return Optional.empty();
+        }
+    }
+
     /**
-     * Checks if testValue is in between the two limit values.
+     * Checks whether testValue is in between the two limit values.
      *
      * @param value1    First limit value
      * @param value2    Second limit value

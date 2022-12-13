@@ -226,7 +226,7 @@
         <module name="ClassFanOutComplexity">
             <property name="excludeClassesRegexps" value="(Vector2|Vector3)"/>
         </module>
-<!--        <module name="CyclomaticComplexity"/>-->
+        <module name="CyclomaticComplexity"/>
         <module name="JavaNCSS"/>
 <!--        <module name="NPathComplexity"/>-->
 
