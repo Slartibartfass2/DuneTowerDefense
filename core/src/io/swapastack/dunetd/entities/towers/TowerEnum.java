@@ -54,30 +54,4 @@ public enum TowerEnum {
             case SOUND_TOWER -> new SoundTower(position, entityController);
         };
     }
-
-    /**
-     * Returns next tower enum.
-     *
-     * @return Next tower enum
-     */
-    public TowerEnum next() {
-        return switch (this) {
-            case GUARD_TOWER -> BOMB_TOWER;
-            case BOMB_TOWER -> SOUND_TOWER;
-            case SOUND_TOWER -> GUARD_TOWER;
-        };
-    }
-
-    /**
-     * Returns previous tower enum.
-     *
-     * @return Previous tower enum
-     */
-    public TowerEnum previous() {
-        return switch (this) {
-            case GUARD_TOWER -> SOUND_TOWER;
-            case BOMB_TOWER -> GUARD_TOWER;
-            case SOUND_TOWER -> BOMB_TOWER;
-        };
-    }
 }
