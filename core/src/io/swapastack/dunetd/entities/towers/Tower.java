@@ -8,11 +8,11 @@ import io.swapastack.dunetd.math.DuneTDMath;
 import io.swapastack.dunetd.vectors.Vector2;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -52,6 +52,7 @@ public abstract class Tower extends Entity {
     /**
      * Current reload time in milliseconds
      */
+    @Getter(AccessLevel.PROTECTED)
     private int currentReloadTimeInMilliseconds;
 
     /**
@@ -96,7 +97,7 @@ public abstract class Tower extends Entity {
      * @param hostileUnits            Hostile units available on the grid
      * @param deltaTimeInMilliseconds The time in milliseconds since the last update
      */
-    public final void update(@NonNull List<HostileUnit> hostileUnits, float deltaTimeInMilliseconds) {
+    public final void update(float deltaTimeInMilliseconds, @NonNull HostileUnit... hostileUnits) {
         if (isDebris) {
             return;
         }
@@ -107,7 +108,7 @@ public abstract class Tower extends Entity {
         }
 
         // Attack as long as current reload time is less than or equal to zero (if delta time > reload time)
-        while (target(hostileUnits, currentReloadTimeInMilliseconds <= 0)) {
+        while (target(currentReloadTimeInMilliseconds <= 0, hostileUnits)) {
             currentReloadTimeInMilliseconds += reloadTimeInMilliseconds;
         }
     }
@@ -116,11 +117,11 @@ public abstract class Tower extends Entity {
      * Rotates to a hostile unit in range and attacks one or more hostile units in {@code hostileUnits} if possible
      * and allowed by {@code killOrder}.
      *
-     * @param hostileUnits Hostile units available to target
      * @param killOrder    If this tower should also shoot the target
+     * @param hostileUnits Hostile units available to target
      * @return True if attack was successful (tower attacked at least one hostile unit)
      */
-    protected abstract boolean target(@NonNull List<HostileUnit> hostileUnits, boolean killOrder);
+    protected abstract boolean target(boolean killOrder, @NonNull HostileUnit... hostileUnits);
 
     /**
      * Checks if there are hostile units in {@code hostileUnits}, which are in range of this tower and returns them.
@@ -129,8 +130,8 @@ public abstract class Tower extends Entity {
      * @return Hostile units, which are in range of the tower
      */
     @NotNull
-    protected final ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull List<HostileUnit> hostileUnits) {
-        return getHostileUnitsInRange(hostileUnits, getPosition(), rangeSquared);
+    protected final ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull HostileUnit... hostileUnits) {
+        return getHostileUnitsInRange(getPosition(), rangeSquared, hostileUnits);
     }
 
     /**
@@ -143,8 +144,8 @@ public abstract class Tower extends Entity {
      * @return Hostile units, which are in range of the position
      */
     @NotNull
-    protected static ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull List<HostileUnit> hostileUnits,
-                                                                   @NonNull Vector2 position, float rangeSquared) {
+    protected static ArrayList<HostileUnit> getHostileUnitsInRange(@NonNull Vector2 position, float rangeSquared,
+                                                                   @NonNull HostileUnit... hostileUnits) {
         var hostileUnitsInRange = new ArrayList<HostileUnit>();
 
         // Check if hostile unit is in range, if so add it to list

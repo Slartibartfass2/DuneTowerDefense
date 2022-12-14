@@ -77,8 +77,8 @@ public final class BombTower extends DamageTower {
 
             if (killOrder) {
                 // Get hostile units in area damage range around found hostile unit
-                var hostileUnitsInAreaDamageRange = getHostileUnitsInRange(hostileUnits,
-                        hostileUnitInRange.getPosition(), AREA_DAMAGE_RANGE);
+                var hostileUnitsInAreaDamageRange = getHostileUnitsInRange(hostileUnitInRange.getPosition(),
+                        AREA_DAMAGE_RANGE, hostileUnits);
 
                 // Deal damage to each hostile unit
                 for (var hostileUnit : hostileUnitsInAreaDamageRange) {

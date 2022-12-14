@@ -511,7 +511,7 @@ public final class GameHandler {
         for (var entities : grid) {
             for (var entity : entities) {
                 if (entity instanceof Tower tower && !tower.isDebris()) {
-                    tower.update(hostileUnitsOnGrid, deltaTimeInMilliseconds);
+                    tower.update(deltaTimeInMilliseconds, hostileUnitsOnGrid.toArray(HostileUnit[]::new));
                 }
             }
         }

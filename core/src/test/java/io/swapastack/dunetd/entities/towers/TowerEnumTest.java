@@ -17,7 +17,7 @@ class TowerEnumTest {
     }
 
     @Test
-    void whenFromTowerIsCalledWithValidTowers_ThenCorrectEnumIsReturned() {
+    void whenFromTowerIsCalledWithValidTowers_thenCorrectEnumIsReturned() {
         var guardTower = new GuardTower(Vector2.ZERO, null);
         Assertions.assertEquals(TowerEnum.GUARD_TOWER, TowerEnum.fromTower(guardTower));
 
@@ -29,14 +29,14 @@ class TowerEnumTest {
     }
 
     @Test
-    void whenFromTowerIsCalledWithAnonymousTower_ThenExceptionIsThrown() {
+    void whenFromTowerIsCalledWithAnonymousTower_thenExceptionIsThrown() {
         var tower = TowerTestHelper.createDummyTower();
 
         Assertions.assertThrows(IllegalStateException.class, () -> TowerEnum.fromTower(tower));
     }
 
     @Test
-    void whenToTowerIsCalled_ThenCorrectTowerIsCreated() {
+    void whenToTowerIsCalled_thenCorrectTowerIsCreated() {
         var guardTowerEnum = TowerEnum.GUARD_TOWER;
         var guardTower = guardTowerEnum.toTower(Vector2.ZERO, null);
         Assertions.assertInstanceOf(GuardTower.class, guardTower);
