@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class CardinalDirectionTest {
 
     @Test
-    void testFromDirectionWithValidArguments() {
+    void whenFromDirectionIsCalledWithValidDirections_thenCorrectEnumIsReturned() {
         var northVector = new Vector2(0f, 1f);
         Assertions.assertEquals(CardinalDirection.NORTH, CardinalDirection.fromDirection(northVector));
 
@@ -23,30 +23,9 @@ class CardinalDirectionTest {
     }
 
     @Test
-    void testFromDirectionWithInvalidArguments() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> CardinalDirection.fromDirection(null));
-    }
+    void whenFromDirectionIsCalledWithInvalidDirection_thenExceptionIsThrown() {
+        var direction = new Vector2(3, 4);
 
-    @Test
-    void testGetDirection() {
-        var northVector = new Vector2(0f, 1f);
-        Assertions.assertEquals(CardinalDirection.NORTH.getDirection(), northVector);
-
-        var eastVector = new Vector2(1f, 0f);
-        Assertions.assertEquals(CardinalDirection.EAST.getDirection(), eastVector);
-
-        var southVector = new Vector2(0f, -1f);
-        Assertions.assertEquals(CardinalDirection.SOUTH.getDirection(), southVector);
-
-        var westVector = new Vector2(-1f, 0f);
-        Assertions.assertEquals(CardinalDirection.WEST.getDirection(), westVector);
-    }
-
-    @Test
-    void testGetDegrees() {
-        Assertions.assertEquals(0f, CardinalDirection.NORTH.getDegrees(), 0f);
-        Assertions.assertEquals(90f, CardinalDirection.EAST.getDegrees(), 0f);
-        Assertions.assertEquals(180f, CardinalDirection.SOUTH.getDegrees(), 0f);
-        Assertions.assertEquals(270f, CardinalDirection.WEST.getDegrees(), 0f);
+        Assertions.assertThrows(IllegalStateException.class, () -> CardinalDirection.fromDirection(direction));
     }
 }

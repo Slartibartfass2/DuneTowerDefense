@@ -2,6 +2,8 @@ package io.swapastack.dunetd.game;
 
 import io.swapastack.dunetd.vectors.Vector2;
 
+import java.util.Arrays;
+
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -14,10 +16,10 @@ import lombok.NonNull;
  * WEST(270°, [-1, 0])
  */
 public enum CardinalDirection {
-    NORTH(0f, new Vector2(0, 1)),
-    EAST(90f, new Vector2(1, 0)),
-    SOUTH(180f, new Vector2(0, -1)),
-    WEST(270f, new Vector2(-1, 0));
+    NORTH(0, new Vector2(0, 1)),
+    EAST(90, new Vector2(1, 0)),
+    SOUTH(180, new Vector2(0, -1)),
+    WEST(270, new Vector2(-1, 0));
 
     @Getter
     private final float degrees;
@@ -38,16 +40,9 @@ public enum CardinalDirection {
      * @throws IllegalStateException If the direction vector doesn't match any of the cardinal directions vectors
      */
     public static CardinalDirection fromDirection(@NonNull Vector2 direction) throws IllegalStateException {
-        if (direction.equals(NORTH.direction)) {
-            return NORTH;
-        } else if (direction.equals(EAST.direction)) {
-            return EAST;
-        } else if (direction.equals(SOUTH.direction)) {
-            return SOUTH;
-        } else if (direction.equals(WEST.direction)) {
-            return WEST;
-        } else {
-            throw new IllegalStateException("direction shouldn't be " + direction);
-        }
+        return Arrays.stream(CardinalDirection.values())
+                .filter(cardinalDirection -> cardinalDirection.direction.equals(direction))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Passed direction didn't match any cardinal direction"));
     }
 }
