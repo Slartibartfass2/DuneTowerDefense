@@ -43,6 +43,10 @@ jobs:
           java-version: '16'
           cache: 'gradle'
 
+      - run: gradle wrapper --gradle-version 7.3.3
+
+      - run: gradle --version
+
       - name: Test with coverage
         run: gradle jacocoAggregatedReport --warning-mode all
 
