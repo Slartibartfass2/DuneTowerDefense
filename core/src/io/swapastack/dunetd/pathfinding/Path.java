@@ -6,7 +6,6 @@ import io.swapastack.dunetd.vectors.Vector2;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -68,25 +67,25 @@ public final class Path {
      * @return The next waypoint on the path (could be same position -> end of path) or null if the position is not
      * on the path
      */
-    public @Nullable Vector2 getNextWaypoint(@NonNull Vector2 position) {
+    public Optional<Vector2> getNextWaypoint(@NonNull Vector2 position) {
         for (int i = 0; i < waypoints.length - 1; i++) {
             // When the position is equal to a waypoint return the subsequent waypoint
             var waypointOptional = getWaypointWhenPositionIsOnWaypoint(position, i);
             if (waypointOptional.isPresent()) {
-                return waypointOptional.orElseThrow();
+                return waypointOptional;
             }
 
             // When the position is between two waypoint between the subsequent waypoint
             waypointOptional = getWaypointWhenPositionIsBetweenWaypoints(position, i);
             if (waypointOptional.isPresent()) {
-                return waypointOptional.orElseThrow();
+                return waypointOptional;
             }
 
             // The position is not on the connection between the two points -> check other connections
         }
 
         // Couldn't find next waypoint -> position is not on the path
-        return null;
+        return Optional.empty();
     }
 
     private Optional<Vector2> getWaypointWhenPositionIsOnWaypoint(@NonNull Vector2 position, int index) {

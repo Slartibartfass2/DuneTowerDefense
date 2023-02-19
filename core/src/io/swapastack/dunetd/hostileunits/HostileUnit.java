@@ -134,12 +134,13 @@ public abstract class HostileUnit {
 
         // Move hostile unit as long as moveDistance > 0
         do {
-            var nextWaypoint = path.getNextWaypoint(positionTmp);
+            var nextWaypointOptional = path.getNextWaypoint(positionTmp);
 
             // If next waypoint is null, the position of the hostile unit is not on the path
-            if (nextWaypoint == null) {
+            if (nextWaypointOptional.isEmpty()) {
                 throw new IllegalStateException("Hostile unit must be on the path");
             }
+            var nextWaypoint = nextWaypointOptional.orElseThrow();
 
             // If hostile unit reached the end of the path stop moving
             if (nextWaypoint.equals(positionTmp)) {
