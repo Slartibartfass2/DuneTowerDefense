@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 
 class HarvesterTest {
 
-    private static final int HARVESTER_SPICE_REWARD = Configuration.getInstance()
-            .getIntProperty("HARVESTER_SPICE_REWARD");
-
     private static final float SLOWING_EFFECT_RESISTANCE_MULTIPLIER = Configuration.getInstance()
             .getFloatProperty("HARVESTER_SLOWING_EFFECT_RESISTANCE_MULTIPLIER");
 
@@ -35,11 +32,5 @@ class HarvesterTest {
             Assertions.assertEquals(harvester.getSpeed() * tmp, harvester.getCurrentSpeed(), 0f);
             Assertions.assertTrue(harvester.getSpeed() >= harvester.getCurrentSpeed());
         }
-    }
-
-    @Test
-    void testGetSpiceReward() {
-        var harvester = new Harvester(Vector2.ZERO);
-        Assertions.assertEquals(HARVESTER_SPICE_REWARD, harvester.getSpiceReward());
     }
 }

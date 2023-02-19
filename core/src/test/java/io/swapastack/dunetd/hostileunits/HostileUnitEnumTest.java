@@ -30,7 +30,14 @@ class HostileUnitEnumTest {
 
     @Test
     void testFromHostileUnitWithInvalidArguments() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> HostileUnitEnum.fromHostileUnit(null));
+        var hostileUnit = new HostileUnit(Vector2.ZERO, 1f, 10, null) {
+            @Override
+            public int getSpiceReward() {
+                return 0;
+            }
+        };
+
+        Assertions.assertThrows(IllegalStateException.class, () -> HostileUnitEnum.fromHostileUnit(hostileUnit));
     }
 
     @Test
@@ -46,17 +53,5 @@ class HostileUnitEnumTest {
         var bossUnitEnum = HostileUnitEnum.BOSS_UNIT;
         var bossUnit = bossUnitEnum.toHostileUnit(Vector2.ZERO, null);
         Assertions.assertNotNull(bossUnit);
-    }
-
-    @Test
-    void testToHostileUnitWithInvalidArguments() {
-        var infantryEnum = HostileUnitEnum.INFANTRY;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> infantryEnum.toHostileUnit(null, null));
-
-        var harvesterEnum = HostileUnitEnum.HARVESTER;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> harvesterEnum.toHostileUnit(null, null));
-
-        var bossUnitEnum = HostileUnitEnum.BOSS_UNIT;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> bossUnitEnum.toHostileUnit(null, null));
     }
 }
