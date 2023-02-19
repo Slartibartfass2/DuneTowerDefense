@@ -18,6 +18,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '16'
+          cache: 'gradle'
 
       - name: Build
         run: gradle --build-cache assemble
@@ -40,6 +41,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '16'
+          cache: 'gradle'
 
       - name: Test with coverage
         run: gradle jacocoAggregatedReport --warning-mode all
@@ -71,6 +73,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '16'
+          cache: 'gradle'
 
       - name: Run checkstyleMain
         run: gradle checkstyleMain
