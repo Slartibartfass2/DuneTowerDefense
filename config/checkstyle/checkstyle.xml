@@ -219,10 +219,24 @@
 
         <!-- Metrics -->
         <module name="BooleanExpressionComplexity"/>
-<!--        <module name="ClassDataAbstractionCoupling">-->
-<!--            <property name="excludeClassesRegexps" value="DuneTD.java"/>-->
-<!--            <property name="excludedPackages" value="io.swapastack.dunetd.screens"/>-->
-<!--        </module>-->
+        <module name="ClassDataAbstractionCoupling">
+            <property name="excludedPackages"
+                      value="io.swapastack.dunetd.screens,
+                      io.swapastack.dunetd.screens.gamescreen,
+                      io.swapastack.dunetd.screens.listeners,
+                      com.badlogic.gdx.utils,
+                      com.badlogic.gdx.graphics.g2d,
+                      com.badlogic.gdx.graphics.glutils,
+                      com.badlogic.gdx.scenes.scene2d,
+                      com.badlogic.gdx.utils.viewport,
+                      net.mgsx.gltf.loaders.glb,
+                      net.mgsx.gltf.loaders.gltf,
+                      net.mgsx.gltf.scene3d.scene,
+                      io.swapastack.dunetd.vectors,
+                      io.swapastack.dunetd.assets.controller,
+                      com.kotcrab.vis.ui.widget"/>
+            <!-- TODO: try to reduce this -->
+        </module>
         <module name="ClassFanOutComplexity">
             <property name="excludeClassesRegexps" value="(Vector2|Vector3)"/>
         </module>
