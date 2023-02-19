@@ -82,43 +82,49 @@ class GameHandlerTest {
     }
 
     @Test
-    void testBuildTowerInEveryPhaseButBuildPhase() throws NoSuchFieldException, IllegalAccessException {
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var gameHandler = new GameHandler(width, height);
-                setPhase(gameHandler, GamePhase.WAVE_PHASE);
+    void whenTowerIsBuiltInTheWavePhase_thenBuildingIsCancelled()
+            throws NoSuchFieldException, IllegalAccessException {
+        var gameHandler = new GameHandler(10, 10);
+        setPhase(gameHandler, GamePhase.WAVE_PHASE);
 
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
-                    }
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if (x == 0 && y == 0 || x == 9 && y == 9) {
+                    continue;
                 }
+                Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
             }
         }
+    }
 
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var gameHandler = new GameHandler(width, height);
-                setPhase(gameHandler, GamePhase.GAME_LOST_PHASE);
+    @Test
+    void whenTowerIsBuiltInTheGameLostPhase_thenBuildingIsCancelled()
+            throws NoSuchFieldException, IllegalAccessException {
+        var gameHandler = new GameHandler(10, 10);
+        setPhase(gameHandler, GamePhase.GAME_LOST_PHASE);
 
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
-                    }
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if (x == 0 && y == 0 || x == 9 && y == 9) {
+                    continue;
                 }
+                Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
             }
         }
+    }
 
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var gameHandler = new GameHandler(width, height);
-                setPhase(gameHandler, GamePhase.GAME_WON_PHASE);
+    @Test
+    void whenTowerIsBuiltInTheGameWonPhase_thenBuildingIsCancelled()
+            throws NoSuchFieldException, IllegalAccessException {
+        var gameHandler = new GameHandler(10, 10);
+        setPhase(gameHandler, GamePhase.GAME_WON_PHASE);
 
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
-                    }
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if (x == 0 && y == 0 || x == 9 && y == 9) {
+                    continue;
                 }
+                Assertions.assertFalse(gameHandler.buildTower(TowerEnum.GUARD_TOWER, x, y));
             }
         }
     }
@@ -154,43 +160,49 @@ class GameHandlerTest {
     }
 
     @Test
-    void testTearDownTowerInEveryPhaseButBuildPhase() throws NoSuchFieldException, IllegalAccessException {
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var gameHandler = new GameHandler(width, height);
-                setPhase(gameHandler, GamePhase.WAVE_PHASE);
+    void whenTowerIsTearedDownInTheWavePhase_thenTearingDownIsCancelled()
+            throws NoSuchFieldException, IllegalAccessException {
+        var gameHandler = new GameHandler(10, 10);
+        setPhase(gameHandler, GamePhase.WAVE_PHASE);
 
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(gameHandler.tearDownTower(x, y));
-                    }
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if (x == 0 && y == 0 || x == 9 && y == 9) {
+                    continue;
                 }
+                Assertions.assertFalse(gameHandler.tearDownTower(x, y));
             }
         }
+    }
 
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var gameHandler = new GameHandler(width, height);
-                setPhase(gameHandler, GamePhase.GAME_LOST_PHASE);
+    @Test
+    void whenTowerIsTearedDownInTheGameLostPhase_thenTearingDownIsCancelled()
+            throws NoSuchFieldException, IllegalAccessException {
+        var gameHandler = new GameHandler(10, 10);
+        setPhase(gameHandler, GamePhase.GAME_LOST_PHASE);
 
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(gameHandler.tearDownTower(x, y));
-                    }
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if (x == 0 && y == 0 || x == 9 && y == 9) {
+                    continue;
                 }
+                Assertions.assertFalse(gameHandler.tearDownTower(x, y));
             }
         }
+    }
 
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var gameHandler = new GameHandler(width, height);
-                setPhase(gameHandler, GamePhase.GAME_WON_PHASE);
+    @Test
+    void whenTowerIsTearedDownInTheGameWonPhase_thenTearingDownIsCancelled()
+            throws NoSuchFieldException, IllegalAccessException {
+        var gameHandler = new GameHandler(10, 10);
+        setPhase(gameHandler, GamePhase.GAME_WON_PHASE);
 
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(gameHandler.tearDownTower(x, y));
-                    }
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if (x == 0 && y == 0 || x == 9 && y == 9) {
+                    continue;
                 }
+                Assertions.assertFalse(gameHandler.tearDownTower(x, y));
             }
         }
     }

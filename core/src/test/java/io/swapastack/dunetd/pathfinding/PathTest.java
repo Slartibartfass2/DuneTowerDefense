@@ -55,7 +55,7 @@ class PathTest {
         var wayPoints = path.getWaypoints();
         for (int i = 0; i < wayPoints.length; i++) {
             // Test exact next waypoint
-            var nextWaypoint = path.getNextWaypoint(wayPoints[i]);
+            var nextWaypoint = path.getNextWaypoint(wayPoints[i]).orElseThrow();
             if (i < wayPoints.length - 1) {
                 Assertions.assertEquals(wayPoints[i + 1], nextWaypoint);
             } else {
@@ -68,7 +68,7 @@ class PathTest {
                 var scalar = new Random().nextFloat();
                 var multipliedVector = Vector2.multiply(direction, scalar);
                 var positionInBetween = Vector2.add(wayPoints[i], multipliedVector);
-                var nextWaypoint1 = path.getNextWaypoint(positionInBetween);
+                var nextWaypoint1 = path.getNextWaypoint(positionInBetween).orElseThrow();
                 Assertions.assertEquals(nextWaypoint, nextWaypoint1);
             }
         }
@@ -80,7 +80,8 @@ class PathTest {
         var path = Path.calculatePath(grid, Vector2.ZERO, new Vector2(9, 9));
         var wayPoints = path.getWaypoints();
         for (var wayPoint : wayPoints) {
-            Assertions.assertNull(path.getNextWaypoint(Vector2.add(wayPoint, 10000, 10000)));
+            var nextWaypointOptional = path.getNextWaypoint(Vector2.add(wayPoint, 10000, 10000));
+            Assertions.assertTrue(nextWaypointOptional.isEmpty());
         }
     }
 
@@ -88,7 +89,8 @@ class PathTest {
     void testGetNextWaypointWithDiagonalPath() {
         var path = new Path(new Vector2[]{Vector2.ZERO, new Vector2(1, 1)});
         var position = new Vector2(0.5f, 0.5f);
-        Assertions.assertThrows(IllegalStateException.class, () -> path.getNextWaypoint(position));
+        var waypointOptional = path.getNextWaypoint(position);
+        Assertions.assertTrue(waypointOptional.isEmpty());
     }
 
     @Test
