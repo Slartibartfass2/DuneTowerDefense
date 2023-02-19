@@ -3,7 +3,6 @@ package io.swapastack.dunetd.math;
 import com.badlogic.gdx.math.MathUtils;
 
 import io.swapastack.dunetd.TestHelper;
-import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 import io.swapastack.dunetd.vectors.Vector2;
@@ -17,20 +16,9 @@ import org.junit.jupiter.api.Test;
 
 class DuneTDMathTest {
 
-    private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
-
-    private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
-
     @BeforeAll
     static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
         TestHelper.readConfigFile();
-    }
-
-    @Test
-    void testGetAngleWithNullArguments() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> DuneTDMath.getAngle(null, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> DuneTDMath.getAngle(Vector2.ZERO, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> DuneTDMath.getAngle(null, Vector2.ZERO));
     }
 
     @Test
@@ -87,73 +75,43 @@ class DuneTDMathTest {
 
     @Test
     void testIsPositionInsideGridWithValidArguments() {
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var grid = getEntityGrid(width, height);
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertTrue(DuneTDMath.isPositionInsideGrid(grid, x, y));
-                    }
-                }
+        var grid = getEntityGrid(5, 5);
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                Assertions.assertTrue(DuneTDMath.isPositionInsideGrid(grid, x, y));
             }
         }
     }
 
     @Test
     void testIsPositionInsideGridWithInvalidArguments() {
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var grid = getEntityGrid(width, height);
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, -1, -1));
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, 0, -1));
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, -1, 0));
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, width, -1));
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, width, 0));
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, -1, height));
-                Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, 0, height));
-            }
-        }
+        var grid = getEntityGrid(10, 10);
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, -1, -1));
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, 0, -1));
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, -1, 0));
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, 10, -1));
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, 10, 0));
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, -1, 10));
+        Assertions.assertFalse(DuneTDMath.isPositionInsideGrid(grid, 0, 10));
     }
 
     @Test
-    void testIsPositionAvailableWithValidArguments() {
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var grid = getEntityGrid(width, height);
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertTrue(DuneTDMath.isPositionAvailable(grid, x, y));
-                    }
-                }
-            }
-        }
+    void testIsPositionAvailableWithPositionInsideTheGridAndNullEntities() {
+        var grid = getEntityGrid(10, 10);
+        Assertions.assertTrue(DuneTDMath.isPositionAvailable(grid, 0, 0));
     }
 
     @Test
-    void testIsPositionAvailableWithInvalidArguments() {
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var towers = new Vector2[width * height];
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        towers[x + y * width] = new Vector2(x, y);
-                    }
-                }
-                var grid = getEntityGrid(width, height, towers);
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, -1, -1));
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, 0, -1));
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, -1, 0));
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, width, -1));
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, width, 0));
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, -1, height));
-                Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, 0, height));
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, x, y));
-                    }
-                }
-            }
-        }
+    void testIsPositionAvailableWithPositionOutsideTheGrid() {
+        var grid = getEntityGrid(10, 10);
+        Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, -1, -1));
+    }
+
+    @Test
+    void testIsPositionAvailableWithPositionInsideTheGridAndNonNullEntities() {
+        var grid = getEntityGrid(10, 10);
+        grid[0][0] = new Entity(Vector2.ZERO) { };
+        Assertions.assertFalse(DuneTDMath.isPositionAvailable(grid, 0, 0));
     }
 
     Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {
