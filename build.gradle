@@ -217,7 +217,7 @@ checkstyle {
 
 tasks.withType(Checkstyle).configureEach {
     reports {
-        xml.enabled(false)
-        html.enabled(true)
+        xml.required.set(false)
+        html.required.set(true)
     }
 }
