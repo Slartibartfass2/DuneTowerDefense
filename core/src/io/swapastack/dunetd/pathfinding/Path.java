@@ -26,7 +26,7 @@ public final class Path {
      *
      * @param waypoints Waypoints of path
      */
-    private Path(@NonNull Vector2[] waypoints) {
+    Path(@NonNull Vector2[] waypoints) {
         this.waypoints = waypoints;
     }
 
