@@ -127,7 +127,7 @@ public abstract class HostileUnit {
             currentSpeed = speed;
         }
 
-        var positionTmp = new Vector2(position.x(), position.y());
+        var positionTmp = position;
 
         // Distance which the hostile unit can go in this iteration
         var maxMoveDistance = currentSpeed * deltaTimeInMilliseconds;
@@ -174,12 +174,13 @@ public abstract class HostileUnit {
      * Decreases the <code>health</code> of this hostile unit by the specified <code>damage</code>.
      *
      * @param damage Amount of health to subtract from this hostile units <code>health</code>
-     * @throws IllegalArgumentException If the damage is less than or equal to zero
+     * @throws IllegalArgumentException If the damage is less than zero
      */
     public final void dealDamage(int damage) throws IllegalArgumentException {
-        if (damage <= 0) {
-            throw new IllegalArgumentException("Damage must be greater than zero");
+        if (damage < 0) {
+            throw new IllegalArgumentException("Damage must be greater than or equal to zero");
         }
+
         if (isDead()) {
             return;
         }

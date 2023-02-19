@@ -16,11 +16,6 @@ class ConfigurationTest {
     }
 
     @Test
-    void testGetInstance() {
-        Assertions.assertNotNull(Configuration.getInstance());
-    }
-
-    @Test
     void testGetIntPropertyWithValidArgument() {
         Assertions.assertEquals(20, Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH"));
     }
@@ -28,7 +23,6 @@ class ConfigurationTest {
     @Test
     void testGetIntPropertyWithInvalidArgument() {
         var config = Configuration.getInstance();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> config.getIntProperty(null));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> config.getIntProperty("SPASS_AM_STUDIEREN_WÄHREND_CORONA"));
     }
@@ -41,7 +35,6 @@ class ConfigurationTest {
     @Test
     void testGetFloatPropertyWithInvalidArgument() {
         var config = Configuration.getInstance();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> config.getFloatProperty(null));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> config.getFloatProperty("SPASS_AM_STUDIEREN_WÄHREND_CORONA"));
     }

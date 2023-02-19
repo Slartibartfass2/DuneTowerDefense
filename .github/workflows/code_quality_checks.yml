@@ -21,7 +21,7 @@ jobs:
           cache: 'gradle'
 
       - name: Build
-        run: gradle --build-cache assemble
+        run: ./gradlew --build-cache assemble
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
@@ -44,7 +44,7 @@ jobs:
           cache: 'gradle'
 
       - name: Test with coverage
-        run: gradle jacocoAggregatedReport --warning-mode all
+        run: ./gradlew jacocoAggregatedReport --warning-mode all
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
@@ -76,10 +76,10 @@ jobs:
           cache: 'gradle'
 
       - name: Run checkstyleMain
-        run: gradle checkstyleMain
+        run: ./gradlew checkstyleMain
 
       - name: Run checkstyleTest
-        run: gradle checkstyleTest
+        run: ./gradlew checkstyleTest
 
       - name: Archive report
         uses: actions/upload-artifact@v3

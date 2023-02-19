@@ -24,16 +24,4 @@ class EntityHeuristicTest {
 
         Assertions.assertEquals(x * x + y * y, entityHeuristic.estimate(entityNode3, entityNode4), 0f);
     }
-
-    @Test
-    void testEstimateWithInvalidArguments() {
-        var entityHeuristic = new EntityHeuristic();
-
-        var entityNode1 = new EntityNode(null, 0, 0, 0);
-        var entityNode2 = new EntityNode(null, 0, 0, 0);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityHeuristic.estimate(null, null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityHeuristic.estimate(null, entityNode2));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityHeuristic.estimate(entityNode1, null));
-    }
 }

@@ -2,98 +2,90 @@ package io.swapastack.dunetd.entities.towers;
 
 import io.swapastack.dunetd.TestHelper;
 import io.swapastack.dunetd.config.Configuration;
-import io.swapastack.dunetd.hostileunits.BossUnit;
-import io.swapastack.dunetd.hostileunits.Harvester;
-import io.swapastack.dunetd.hostileunits.HostileUnit;
-import io.swapastack.dunetd.hostileunits.Infantry;
 import io.swapastack.dunetd.vectors.Vector2;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class BombTowerTest {
 
-    private static final int INFANTRY_INITIAL_HEALTH = Configuration.getInstance()
-            .getIntProperty("INFANTRY_INITIAL_HEALTH");
-
-    private static final int HARVESTER_INITIAL_HEALTH = Configuration.getInstance()
-            .getIntProperty("HARVESTER_INITIAL_HEALTH");
-
-    private static final int BOSS_UNIT_INITIAL_HEALTH = Configuration.getInstance()
-            .getIntProperty("BOSS_UNIT_INITIAL_HEALTH");
-
     private static final float BOMB_TOWER_RANGE = Configuration.getInstance().getFloatProperty("BOMB_TOWER_RANGE");
+
+    private static final int BOMB_TOWER_DAMAGE = Configuration.getInstance().getIntProperty("BOMB_TOWER_DAMAGE");
 
     private static final float BOMB_TOWER_AREA_DAMAGE_RANGE = Configuration.getInstance()
             .getFloatProperty("BOMB_TOWER_AREA_DAMAGE_RANGE");
 
+    private BombTower bombTower;
+
+    private Vector2 inRangePosition;
+
+    private Vector2 outOfRangePosition;
+
+    private Vector2 justInRangePosition;
+
     @BeforeAll
-    static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
+    static void setUpBeforeAll() throws IOException, NoSuchFieldException, IllegalAccessException {
         TestHelper.readConfigFile();
     }
 
-    @Test
-    void testTargetWithInvalidArguments() {
-        var bombTower = getNewRandomBombTower();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> bombTower.target(null, false));
+    @BeforeEach
+    void setUp() {
+        bombTower = new BombTower(Vector2.ZERO, null);
+        inRangePosition = Vector2.ZERO;
+        outOfRangePosition = new Vector2(BOMB_TOWER_RANGE + 1, 0);
+        justInRangePosition = new Vector2(BOMB_TOWER_RANGE, 0);
     }
 
     @Test
-    void testTargetWithoutKillOrder() throws NoSuchFieldException, IllegalAccessException {
-        var bombTower = new BombTower(Vector2.ZERO, null);
-        var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.ZERO),
-            new Harvester(Vector2.ZERO),
-            new BossUnit(Vector2.ZERO),
-        }).toList();
+    void whenTowerTargetsHostileUnitInRangeAndNoKillOrder_thenHostileUnitIsNotDamaged() {
+        var hostileUnit = TowerTestHelper.createHostileUnitWithHealth(inRangePosition, 100);
 
-        Assertions.assertFalse(bombTower.target(hostileUnits, false));
+        Assertions.assertFalse(bombTower.target(false, hostileUnit));
 
-        Assertions.assertEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(0)), 0f);
-        Assertions.assertEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(1)), 0f);
-        Assertions.assertEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(2)), 0f);
+        Assertions.assertEquals(100, hostileUnit.getHealth());
     }
 
     @Test
-    void testTargetWithKillOrder() throws NoSuchFieldException, IllegalAccessException {
-        var bombTower = new BombTower(Vector2.ZERO, null);
-        var hostileUnits = Arrays.stream(new HostileUnit[]{
-            new Infantry(Vector2.ZERO),
-            new Harvester(Vector2.ZERO),
-            new BossUnit(Vector2.ZERO),
-            new Infantry(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
-            new Harvester(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
-            new BossUnit(new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0f)),
-            new Infantry(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-            new Harvester(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-            new BossUnit(new Vector2(BOMB_TOWER_RANGE + 1, 0f)),
-        }).toList();
+    void whenTowerTargetsHostileUnitInRangeAndKillOrder_thenHostileUnitIsDamaged() {
+        var hostileUnit = TowerTestHelper.createHostileUnitWithHealth(inRangePosition, 100);
 
-        Assertions.assertTrue(bombTower.target(hostileUnits, true));
+        Assertions.assertTrue(bombTower.target(true, hostileUnit));
 
-        Assertions.assertNotEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(0)), 0f);
-        Assertions.assertNotEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(1)), 0f);
-        Assertions.assertNotEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(2)), 0f);
-        Assertions.assertNotEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(3)), 0f);
-        Assertions.assertNotEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(4)), 0f);
-        Assertions.assertNotEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(5)), 0f);
-        Assertions.assertEquals(INFANTRY_INITIAL_HEALTH, getHealth(hostileUnits.get(6)), 0f);
-        Assertions.assertEquals(HARVESTER_INITIAL_HEALTH, getHealth(hostileUnits.get(7)), 0f);
-        Assertions.assertEquals(BOSS_UNIT_INITIAL_HEALTH, getHealth(hostileUnits.get(8)), 0f);
+        Assertions.assertEquals(100 - BOMB_TOWER_DAMAGE, hostileUnit.getHealth());
     }
 
-    BombTower getNewRandomBombTower() {
-        return new BombTower(new Vector2(new Random().nextInt(), new Random().nextInt()), null);
+    @Test
+    void whenTowerTargetsHostileUnitOutOfRangeAndNoKillOrder_thenHostileUnitIsNotDamaged() {
+        var hostileUnit = TowerTestHelper.createHostileUnitWithHealth(outOfRangePosition, 100);
+
+        Assertions.assertFalse(bombTower.target(false, hostileUnit));
+
+        Assertions.assertEquals(100, hostileUnit.getHealth());
     }
 
-    int getHealth(HostileUnit hostileUnit) throws NoSuchFieldException, IllegalAccessException {
-        var field = HostileUnit.class.getDeclaredField("health");
-        field.setAccessible(true);
-        return (int) field.get(hostileUnit);
+    @Test
+    void whenTowerTargetsHostileUnitOutOfRangeAndKillOrder_thenHostileUnitIsNotDamaged() {
+        var hostileUnit = TowerTestHelper.createHostileUnitWithHealth(outOfRangePosition, 100);
+
+        Assertions.assertFalse(bombTower.target(true, hostileUnit));
+
+        Assertions.assertEquals(100, hostileUnit.getHealth());
+    }
+
+    @Test
+    void whenTowerTargetsHostileUnitInRangeAndOtherHostileUnitInAreaRangeAndKillOrder_thenBothHostileUnitsAreDamaged() {
+        var hostileUnit = TowerTestHelper.createHostileUnitWithHealth(justInRangePosition, 100);
+        var inAreDamageRange = Vector2.add(justInRangePosition, new Vector2(BOMB_TOWER_AREA_DAMAGE_RANGE, 0));
+        var hostileUnitInAreDamageRange = TowerTestHelper.createHostileUnitWithHealth(inAreDamageRange, 100);
+
+        Assertions.assertTrue(bombTower.target(true, hostileUnit, hostileUnitInAreDamageRange));
+
+        Assertions.assertEquals(100 - BOMB_TOWER_DAMAGE, hostileUnit.getHealth());
+        Assertions.assertEquals(100 - BOMB_TOWER_DAMAGE, hostileUnitInAreDamageRange.getHealth());
     }
 }

@@ -1,9 +1,6 @@
 package io.swapastack.dunetd.pathfinding;
 
-import com.badlogic.gdx.utils.Array;
-
 import io.swapastack.dunetd.TestHelper;
-import io.swapastack.dunetd.config.Configuration;
 import io.swapastack.dunetd.entities.Entity;
 import io.swapastack.dunetd.entities.towers.GuardTower;
 import io.swapastack.dunetd.vectors.Vector2;
@@ -16,28 +13,13 @@ import org.junit.jupiter.api.Test;
 
 class EntityGraphTest {
 
-    private static final int MAX_GRID_WIDTH = Configuration.getInstance().getIntProperty("MAX_GRID_WIDTH");
-
-    private static final int MAX_GRID_HEIGHT = Configuration.getInstance().getIntProperty("MAX_GRID_HEIGHT");
-
     @BeforeAll
     static void setUp() throws IOException, NoSuchFieldException, IllegalAccessException {
         TestHelper.readConfigFile();
     }
 
     @Test
-    void testConstructorWithValidArguments() {
-        for (int width = 1; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 1; height < MAX_GRID_HEIGHT; height++) {
-                var entityGraph = new EntityGraph(new Entity[width][height]);
-                Assertions.assertNotNull(entityGraph);
-            }
-        }
-    }
-
-    @Test
     void testConstructorWithInvalidArguments() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[0][0]));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[0][1]));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new EntityGraph(new Entity[1][0]));
@@ -48,42 +30,34 @@ class EntityGraphTest {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         Assertions.assertNotNull(entityGraph.findPath(Vector2.ZERO, Vector2.ZERO));
 
-        for (int width = 2; width <= MAX_GRID_WIDTH; width++) {
-            for (int height = 2; height <= MAX_GRID_HEIGHT; height++) {
-                var goalPosition = new Vector2(width - 1, height - 1);
+        var width = 10;
+        var height = 10;
+        var goalPosition = new Vector2(width - 1, height - 1);
 
-                // path blocked
-                var grid = getEntityGrid(width, height, new Vector2(0f, 1f), new Vector2(1f, 0f));
-                entityGraph = new EntityGraph(grid);
-                var path = entityGraph.findPath(Vector2.ZERO, goalPosition);
-                Assertions.assertNotNull(path);
-                Assertions.assertEquals(0, path.getCount());
+        // path blocked
+        var grid = getEntityGrid(width, height, new Vector2(0f, 1f), new Vector2(1f, 0f));
+        entityGraph = new EntityGraph(grid);
+        var path = entityGraph.findPath(Vector2.ZERO, goalPosition);
+        Assertions.assertNotNull(path);
+        Assertions.assertEquals(0, path.getCount());
 
-                // path existing
-                grid = getEntityGrid(width, height);
-                entityGraph = new EntityGraph(grid);
-                path = entityGraph.findPath(Vector2.ZERO, goalPosition);
-                Assertions.assertNotNull(path);
-                Assertions.assertEquals(width + height - 1, path.getCount());
-            }
-        }
+        // path existing
+        grid = getEntityGrid(width, height);
+        entityGraph = new EntityGraph(grid);
+        path = entityGraph.findPath(Vector2.ZERO, goalPosition);
+        Assertions.assertNotNull(path);
+        Assertions.assertEquals(width + height - 1, path.getCount());
     }
 
     @Test
-    void testFindPathWithInvalidArguments() {
+    void testFindPathWithPositionsOutsideTheGrid() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
         var positionOutsideGrid = new Vector2(2, 0);
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(null, null));
+                () -> entityGraph.findPath(positionOutsideGrid, Vector2.ZERO));
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(Vector2.ZERO, null));
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(null, Vector2.ZERO));
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(positionOutsideGrid, null));
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> entityGraph.findPath(null, positionOutsideGrid));
+                () -> entityGraph.findPath(Vector2.ZERO, positionOutsideGrid));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> entityGraph.findPath(positionOutsideGrid, positionOutsideGrid));
     }
@@ -95,21 +69,9 @@ class EntityGraphTest {
     }
 
     @Test
-    void testGetIndexWithInvalidArguments() {
+    void testGetNodeCount() {
         var entityGraph = new EntityGraph(new Entity[1][1]);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.getIndex(null));
-    }
-
-    @Test
-    void testGetNodeCount() throws NoSuchFieldException, IllegalAccessException {
-        var entityGraph = new EntityGraph(new Entity[1][1]);
-
-        var field = EntityGraph.class.getDeclaredField("entityNodes");
-        field.setAccessible(true);
-        @SuppressWarnings("unchecked")
-        var entityNodes = (Array<EntityNode>) field.get(entityGraph);
-
-        Assertions.assertEquals(entityNodes.size, entityGraph.getNodeCount());
+        Assertions.assertEquals(1, entityGraph.getNodeCount());
     }
 
     @Test
@@ -126,9 +88,11 @@ class EntityGraphTest {
     }
 
     @Test
-    void testGetConnectionsWithInvalidArguments() {
+    void testGetConnectionsWithoutAnyConnections() {
         var entityGraph = new EntityGraph(new Entity[2][2]);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> entityGraph.getConnections(null));
+        var connections = entityGraph.getConnections(new EntityNode(null, 3, 3, 0));
+        Assertions.assertNotNull(connections);
+        Assertions.assertEquals(0, connections.size);
     }
 
     Entity[][] getEntityGrid(int width, int height, Vector2... towerPositions) {

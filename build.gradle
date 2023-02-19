@@ -156,16 +156,16 @@ project(":core") {
     }
 
     jacoco {
-        toolVersion = "0.8.6"
+        toolVersion = "0.8.8"
     }
 
     jacocoTestReport {
         dependsOn test
 
         reports {
-            xml.required = true
-            csv.required = false
-            html.required = true
+            xml.required.set(true)
+            csv.required.set(false)
+            html.required.set(true)
         }
 
         afterEvaluate {
@@ -217,7 +217,7 @@ checkstyle {
 
 tasks.withType(Checkstyle).configureEach {
     reports {
-        xml.enabled false
-        html.enabled true
+        xml.required.set(false)
+        html.required.set(true)
     }
 }
