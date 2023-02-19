@@ -228,7 +228,7 @@
         </module>
         <module name="CyclomaticComplexity"/>
         <module name="JavaNCSS"/>
-<!--        <module name="NPathComplexity"/>-->
+        <module name="NPathComplexity"/>
 
         <!-- Miscellaneous -->
         <module name="ArrayTypeStyle"/>
